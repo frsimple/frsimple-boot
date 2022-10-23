@@ -47,7 +47,7 @@ redis版本： 5.0.14
 
 #### 目录结构
 
-├─ simple-boot //父级工程 
-│ │ ├─ simple-base //基础公共模块 
-│ │ ├─ simple-center //系统管理业务功能 
+├─ simple-boot //父级工程  
+│ │ ├─ simple-base //基础公共模块  
+│ │ ├─ simple-center //系统管理业务功能  
 │ │ ├─ simple-start //springboot启动模块
