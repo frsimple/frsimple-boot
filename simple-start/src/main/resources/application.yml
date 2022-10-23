@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: admin
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true #  false 禁止大写变小写时自动添加下划线 true 驼峰字段自动添加下划线
+logging:
+  config: classpath:logback.xml

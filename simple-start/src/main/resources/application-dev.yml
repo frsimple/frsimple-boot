@@ -1,0 +1,88 @@
+server:
+  tomcat:
+    uri-encoding: utf-8
+  port: 40000
+
+spring:
+  #多数据库配置
+  datasource:
+    dynamic:
+      p6spy: false
+      lazy: false
+      primary: base
+      strict: false
+      druid:
+        #定时执行数据链接检测语句 防止数据库闲时超时断开链接
+        validation-query: select 1 from dual #执行语句
+        test-while-idle: true #空闲时执行
+        time-between-eviction-runs-millis: 60000 #执行间隔
+      datasource:
+        #基础数据库-mysql
+        base:
+          poolName: base
+          username: root
+          password: 123456.zxc
+          url: jdbc:mysql://xxx:3306/admin_base?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+  #redis配置
+  redis:
+    # redis数据库索引(默认为0)，我们使用索引为3的数据库，避免和其他数据库冲突
+    database: 3
+    # redis服务器地址（默认为127.0.01）
+    host: xxx
+    # redis端口（默认为6379）
+    port: 6379
+    # redis访问密码（默认为空）
+    password: xxx
+    # redis连接超时时间（单位毫秒）
+    timeout: 3000
+    # redis连接池配置
+    jedis:
+      pool:
+        # 最大可用连接数（默认为8，负数表示无限）
+        max-active: 8
+        # 最大空闲连接数（默认为8，负数表示无限）
+        max-idle: 8
+        # 最小空闲连接数（默认为0，该值只有为正数才有用）
+        min-idle: 0
+        # 从连接池中获取连接最大等待时间（默认为-1，单位为毫秒，负数表示无限）
+        max-wait: -1
+
+config:
+  minio:
+    endpoint: https://xxx:9090
+    accessKey: minioAdmin
+    secretKey: minioAdmin
+    fileHost: https://xxx:9090
+  jwt:
+    expTime: 20
+    tokenCode: Authorization
+    secretKey: 123.zxc
+  druid:
+    enabled: true
+    loginUsername: admin
+    loginPassword: 123456
+    allow:
+    deny:
+    exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+  snowflake:
+    workerId: 1
+  springdoc:
+    title: API接口文档
+    description: 在线swagger
+    version: 3.0
+    name: xxx
+    url:
+    email: xxx@qq.com
+
+app:
+  auth:
+    lockTime: 10
+    errorNumber: 3
+    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBT2vr+dhZElF73FJ6xiP181txKWUSNLPQQlid6DUJhGAOZblluafIdLmnUyKE8mMHhT3R+Ib3ssZcJku6Hn72yHYj/qPkCGFv0eFo7G+GJfDIUeDyalBN0QsuiE/XzPHJBuJDfRArOiWvH0BXOv5kpeXSXM8yTt5Na1jAYSiQ/wIDAQAB
+    privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMFPa+v52FkSUXvcUnrGI/XzW3EpZRI0s9BCWJ3oNQmEYA5luWW5p8h0uadTIoTyYweFPdH4hveyxlwmS7oefvbIdiP+o+QIYW/R4Wjsb4Yl8MhR4PJqUE3RCy6IT9fM8ckG4kN9ECs6Ja8fQFc6/mSl5dJczzJO3k1rWMBhKJD/AgMBAAECgYEAucMakH9dWeryhrYoRHcXo4giPVJsH9ypVt4KzmOQY/7jV7KFQK3x//27UoHfUCak51sxFw9ek7UmTPM4HjikA9LkYeE7S381b4QRvFuf3L6IbMP3ywJnJ8pPr2l5SqQ00W+oKv+w/VmEsyUHr+k4Z+4ik+FheTkVWp566WbqFsECQQDjYaMcaKw3j2Zecl8T6eUe7fdaRMIzp/gcpPMfT/9rDzIQk+7ORvm1NI9AUmFv/FAlfpuAMrdL2n7p9uznWb7RAkEA2aP934kbXg5bdV0R313MrL+7WTK/qdcYxATUbMsMuWWQBoS5irrt80WCZbG48hpocJavLNjbtrjmUX3CuJBmzwJAOJg8uP10n/+ZQzjEYXh+BszEHDuw+pp8LuT/fnOy5zrJA0dO0RjpXijO3vuiNPVgHXT9z1LQPJkNrb5ACPVVgQJBALPeb4uV0bNrJDUb5RB4ghZnIxv18CcaqNIft7vuGCcFBAIPIRTBprR+RuVq+xHDt3sNXdsvom4h49+Hky1b0ksCQBBwUtVaqH6ztCtwUF1j2c/Zcrt5P/uN7IHAd44K0gIJc1+Csr3qPG+G2yoqRM8KVqLI8Z2ZYn9c+AvEE+L9OQY=
+
+logging:
+  level:
+    com.admin: debug # debug 可以查看打印的sql
+    com.baomidou.dynamic: debug
