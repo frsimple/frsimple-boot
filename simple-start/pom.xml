@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>org.simple</groupId>
-            <artifactId>simple-common</artifactId>
+            <artifactId>simple-base</artifactId>
             <version>${simple.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -1,6 +1,5 @@
 package org.simple.exception;
 
-import org.simple.enums.system.ErrorCodesEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

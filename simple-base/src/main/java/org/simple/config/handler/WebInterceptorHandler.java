@@ -4,15 +4,11 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTUtil;
-import org.simple.config.jwt.JwtProperties;
 import org.simple.constant.CacheConst;
-import org.simple.enums.system.ErrorCodesEnum;
-import org.simple.model.ActionResult;
-import org.simple.util.JwtUtil;
-import org.simple.util.RedisUtil;
-import org.simple.util.ServletUtil;
+import org.simple.utils.CommonResult;
+import org.simple.utils.JwtUtil;
+import org.simple.utils.RedisUtil;
+import org.simple.utils.ServletUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,17 +67,17 @@ public class WebInterceptorHandler implements HandlerInterceptor {
         /* 获取token */
         String token = request.getHeader(jwtProperties.getTokenCode());
         String realToken = JwtUtil.getRealToken(token);
-        JWT jwt = JWTUtil.parseToken(realToken);
+
         DateTime expTime = DateUtil.date(Long.parseLong(jwt.getPayload("exp").toString()));
         String userId = String.valueOf(jwt.getPayload("userId"));
         /* 检查token是否过期 */
         if (!redisUtil.hasKey(CacheConst.CACHE_TOKEN + userId)) {
-            ActionResult<?> result = ActionResult.fail(ErrorCodesEnum.A402.getKey(), ErrorCodesEnum.A402.getValue());
+            CommonResult<?> result = CommonResult.fail(ErrorCodesEnum.A402.getKey(), ErrorCodesEnum.A402.getValue());
             ServletUtil.renderString(response, JSONUtil.toJsonStr(result));
             return false;
         }
         if (StrUtil.isEmpty(realToken) || expTime.isBefore(DateTime.now())) {
-            ActionResult<?> result = ActionResult.fail(ErrorCodesEnum.A402.getKey(), ErrorCodesEnum.A402.getValue());
+            CommonResult<?> result = CommonResult.fail(ErrorCodesEnum.A402.getKey(), ErrorCodesEnum.A402.getValue());
             ServletUtil.renderString(response, JSONUtil.toJsonStr(result));
             return false;
         } else {

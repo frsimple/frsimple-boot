@@ -1,7 +1,5 @@
 package org.simple.exception;
 
-import org.simple.enums.system.ErrorCodesEnum;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 

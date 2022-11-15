@@ -3,7 +3,7 @@ package org.simple.config.handler;
 import org.simple.exception.CustomException;
 import org.simple.exception.FileException;
 import org.simple.exception.WorkFlowException;
-import org.simple.model.ActionResult;
+import org.simple.utils.CommonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,13 +23,13 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = WorkFlowException.class)
-    public ActionResult<?> workFlowExceptionHandler(WorkFlowException ex) {
-        ActionResult<?> actionResult;
+    public CommonResult<?> workFlowExceptionHandler(WorkFlowException ex) {
+        CommonResult<?> commonResult;
         if (ex != null) {
-            actionResult = ActionResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
-            return actionResult;
+            commonResult = CommonResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
+            return commonResult;
         }
-        return ActionResult.fail("0", "未知异常");
+        return CommonResult.fail("0", "未知异常");
     }
 
     /**
@@ -39,13 +39,13 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = CustomException.class)
-    public ActionResult<?> customExceptionHandler(CustomException ex) {
-        ActionResult<?> actionResult;
+    public CommonResult<?> customExceptionHandler(CustomException ex) {
+        CommonResult<?> commonResult;
         if (ex != null) {
-            actionResult = ActionResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
-            return actionResult;
+            commonResult = CommonResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
+            return commonResult;
         }
-        return ActionResult.fail("0", "未知异常");
+        return CommonResult.fail("0", "未知异常");
     }
 
 
@@ -56,12 +56,12 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = FileException.class)
-    public ActionResult<?> fileExceptionHandler(FileException ex) {
-        ActionResult<?> actionResult;
+    public CommonResult<?> fileExceptionHandler(FileException ex) {
+        CommonResult<?> commonResult;
         if (ex != null) {
-            actionResult = ActionResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
-            return actionResult;
+            commonResult = CommonResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
+            return commonResult;
         }
-        return ActionResult.fail("0", "未知异常");
+        return CommonResult.fail("0", "未知异常");
     }
 }

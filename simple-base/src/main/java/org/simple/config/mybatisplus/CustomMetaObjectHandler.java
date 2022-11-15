@@ -2,8 +2,7 @@ package org.simple.config.mybatisplus;
 
 import org.simple.constant.CurrentConst;
 import org.simple.enums.system.IsDeletedEnum;
-import org.simple.model.UserInfo;
-import org.simple.util.CurrentUtil;
+import org.simple.dto.UserInfo;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.reflection.MetaObject;
