@@ -1,8 +1,8 @@
 package org.simple.utils;
 
 import cn.hutool.core.util.ObjectUtil;
-import org.simple.dto.UserInfo;
 import dm.jdbc.util.StringUtil;
+import org.simple.dto.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
