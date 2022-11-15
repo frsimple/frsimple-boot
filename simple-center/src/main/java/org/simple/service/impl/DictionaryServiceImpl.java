@@ -7,13 +7,12 @@ import org.simple.service.DictionaryService;
 import org.springframework.stereotype.Service;
 
 /**
- * 角色管理
+ * DictionaryServiceImpl
  *
  * @author frsimple
  * @version v1.0
  * @since 2022/11/13
  */
-
 @Service
 public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
 

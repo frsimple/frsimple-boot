@@ -4,7 +4,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * Logs
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Data
 public class Logs {
     private static final long serialVersionUID = 1L;

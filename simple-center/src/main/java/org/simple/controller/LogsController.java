@@ -1,14 +1,16 @@
 package org.simple.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.dto.LogsDto;
 import org.simple.service.LogsService;
-import org.simple.utils.CommonResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 日志列表
@@ -26,8 +28,7 @@ public class LogsController {
     private final LogsService logsService;
 
     @GetMapping("list")
-    public CommonResult logsList(Page page, LogsDto logs) {
-        return CommonResult.success(logsService.logsList(page, logs));
+    public IPage<List<LogsDto>> logsList(Page page, LogsDto logs) {
+        return logsService.logsList(page, logs);
     }
-
 }

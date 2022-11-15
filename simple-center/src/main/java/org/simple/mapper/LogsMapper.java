@@ -9,7 +9,13 @@ import org.simple.entity.Logs;
 
 import java.util.List;
 
+/**
+ * LogsMapper
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 public interface LogsMapper extends BaseMapper<Logs> {
-
-    IPage<List<LogsDto>>  logsList(Page page, @Param("obj")LogsDto logs);
+    IPage<List<LogsDto>> logsList(Page page, @Param("obj") LogsDto logs);
 }

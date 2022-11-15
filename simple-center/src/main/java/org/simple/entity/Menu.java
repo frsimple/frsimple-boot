@@ -12,6 +12,13 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
+/**
+ * Menu
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Data
 @Accessors(chain = true)
 @TableName(value = "center_menu", autoResultMap = true)

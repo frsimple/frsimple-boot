@@ -7,10 +7,16 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * Logs
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Data
 @TableName(value = "center_logs")
-public class Logs{
+public class Logs {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.ASSIGN_ID)

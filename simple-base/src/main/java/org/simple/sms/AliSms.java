@@ -11,6 +11,13 @@ import org.simple.dto.SmsDto;
 import org.simple.utils.CommonResult;
 import org.springframework.data.redis.core.RedisTemplate;
 
+/**
+ * sms
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 public class AliSms {
 
     private static AliSms aliSms = null;

@@ -10,16 +10,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.simple.entity.Menu;
 import org.simple.mapper.MenuMapper;
 import org.simple.service.MenuService;
-import org.simple.utils.CommonResult;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MenuServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Service
-public class MenuSerivceImpl
-        extends ServiceImpl<MenuMapper, Menu>
-        implements MenuService {
+public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
     @Override
     public List<Tree<String>> getTreeMenuAll() {
         List<Menu> menus = baseMapper.getTreeMenuAll();
@@ -74,7 +78,7 @@ public class MenuSerivceImpl
     }
 
     @Override
-    public CommonResult delMenu(String id) {
+    public Boolean delMenu(String id) {
         //先查询到所有子节点
         List<Menu> menuList =
                 baseMapper.selectList(Wrappers.query(new Menu().setParentid(id)));
@@ -88,16 +92,16 @@ public class MenuSerivceImpl
         baseMapper.delRoleMenuByMenu(menus);
         //删除所有子节点数据
         baseMapper.deleteBatchIds(menus);
-        return CommonResult.success("删除成功");
+        return true;
     }
 
     @Override
-    public CommonResult delBtnMenu(String id) {
+    public Boolean delBtnMenu(String id) {
         List<String> menus = new ArrayList<>();
         menus.add(id);
         baseMapper.delRoleMenuByMenu(menus);
         //删除所有子节点数据
         baseMapper.deleteBatchIds(menus);
-        return CommonResult.success("删除成功");
+        return true;
     }
 }

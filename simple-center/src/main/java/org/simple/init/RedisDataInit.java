@@ -1,6 +1,5 @@
 package org.simple.init;
 
-
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.AllArgsConstructor;
@@ -21,9 +20,12 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  * redis数据初始化
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
  */
 @Configuration
 @AllArgsConstructor

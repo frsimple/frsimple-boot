@@ -1,5 +1,6 @@
 package org.simple.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,10 +8,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.entity.OauthClientDetails;
 import org.simple.service.OauthClientService;
-import org.simple.utils.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 权限用户
@@ -29,40 +30,40 @@ public class OauthClientController {
 
     @GetMapping("list")
     @Operation(summary = "查询客户端用户")
-    public CommonResult list(Page page, OauthClientDetails oauthClientDetails) {
+    public IPage<List<OauthClientDetails>> list(Page page, OauthClientDetails oauthClientDetails) {
         String clientId = oauthClientDetails.getClientId();
         oauthClientDetails.setClientId(null);
-        return CommonResult.success(oauthClientService.page(page,
-                Wrappers.query(oauthClientDetails).like("client_id", clientId)));
+        return oauthClientService.page(page,
+                Wrappers.query(oauthClientDetails).like("client_id", clientId));
     }
 
     @PostMapping("addClient")
     @Operation(summary = "新增客户端用户")
-    public CommonResult addClient(@RequestBody OauthClientDetails oauthClientDetails) {
+    public Boolean addClient(@RequestBody OauthClientDetails oauthClientDetails) {
         oauthClientDetails.setCreateTime(new Timestamp(System.currentTimeMillis()));
         oauthClientDetails.setArchived(0);
         oauthClientDetails.setTrusted(0);
         oauthClientDetails.setAutoapprove("false");
-        return CommonResult.success(oauthClientService.save(oauthClientDetails));
+        return oauthClientService.save(oauthClientDetails);
     }
 
     @PostMapping("editClient")
     @Operation(summary = "修改客户端用户")
-    public CommonResult editClient(@RequestBody OauthClientDetails oauthClientDetails) {
+    public Boolean editClient(@RequestBody OauthClientDetails oauthClientDetails) {
         oauthClientDetails.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        return CommonResult.success(oauthClientService.updateById(oauthClientDetails));
+        return oauthClientService.updateById(oauthClientDetails);
     }
 
     @DeleteMapping("delClient")
     @Operation(summary = "删除客户端用户")
-    public CommonResult delClient(@RequestParam("clientId") String clientId) {
-        return CommonResult.success(oauthClientService.removeById(clientId));
+    public Boolean delClient(@RequestParam("clientId") String clientId) {
+        return oauthClientService.removeById(clientId);
     }
 
     @GetMapping("getClient/{id}")
     @Operation(summary = "根据id查询客户端用户")
-    public CommonResult getOne(@PathVariable("id") String clientId) {
-        return CommonResult.success(oauthClientService.getById(clientId));
+    public OauthClientDetails getOne(@PathVariable("id") String clientId) {
+        return oauthClientService.getById(clientId);
     }
 
 }

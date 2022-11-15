@@ -13,9 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * RoleServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
-
 
     @Override
     public CommonResult delRole(String id) {

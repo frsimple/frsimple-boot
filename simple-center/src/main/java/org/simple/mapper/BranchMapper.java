@@ -15,8 +15,7 @@ import java.util.List;
  */
 
 
-public interface BranchMapper
-        extends BaseMapper<Branch> {
+public interface BranchMapper extends BaseMapper<Branch> {
 
     @Select("select id,parentid,(select t1.name from (select id,name from center_branch  union  select id,name from center_tenant )t1 where t1.id = parentid) as parentname,name,(select name from center_tenant where tenantid = id) as tenantname,tenantid," +
             "sort,createtime from center_branch  UNION  " +

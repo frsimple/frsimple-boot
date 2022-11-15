@@ -21,17 +21,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * UserServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Service
-public class UserServiceImpl
-        extends ServiceImpl<UserMapper, User>
-        implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Override
     public List<Tree<String>> getUserMenu(String userId) {
         List<Menu> menus = baseMapper.getUserMenu(userId);
         if (CollectionUtils.isNotEmpty(menus)) {
             TreeNodeConfig config = new TreeNodeConfig();
-            //config.setParentIdKey("parentid");
             List<Tree<String>> treeNodes = TreeUtil.build(menus, "999999", config,
                     (object, tree) -> {
                         tree.setName(object.getName());

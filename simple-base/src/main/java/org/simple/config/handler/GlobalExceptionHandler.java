@@ -1,5 +1,6 @@
 package org.simple.config.handler;
 
+import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
 import org.simple.exception.FileException;
 import org.simple.exception.WorkFlowException;
@@ -26,10 +27,10 @@ public class GlobalExceptionHandler {
     public CommonResult<?> workFlowExceptionHandler(WorkFlowException ex) {
         CommonResult<?> commonResult;
         if (ex != null) {
-            commonResult = CommonResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
+            commonResult = CommonResult.failed(ex.getErrorCode(), ex.getErrorMessage());
             return commonResult;
         }
-        return CommonResult.fail("0", "未知异常");
+        return CommonResult.failed(ResultCode.FAILED, "未知异常");
     }
 
     /**
@@ -42,12 +43,11 @@ public class GlobalExceptionHandler {
     public CommonResult<?> customExceptionHandler(CustomException ex) {
         CommonResult<?> commonResult;
         if (ex != null) {
-            commonResult = CommonResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
+            commonResult = CommonResult.failed(ex.getErrorCode(), ex.getErrorMessage());
             return commonResult;
         }
-        return CommonResult.fail("0", "未知异常");
+        return CommonResult.failed(ResultCode.FAILED, "未知异常");
     }
-
 
     /**
      * 文件操作异常捕捉处理
@@ -59,9 +59,9 @@ public class GlobalExceptionHandler {
     public CommonResult<?> fileExceptionHandler(FileException ex) {
         CommonResult<?> commonResult;
         if (ex != null) {
-            commonResult = CommonResult.fail(ex.getErrorCode().toString(), ex.getErrorMessage());
+            commonResult = CommonResult.failed(ex.getErrorCode(), ex.getErrorMessage());
             return commonResult;
         }
-        return CommonResult.fail("0", "未知异常");
+        return CommonResult.failed(ResultCode.FAILED, "未知异常");
     }
 }

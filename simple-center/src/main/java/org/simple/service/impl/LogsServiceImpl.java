@@ -11,6 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * LogsServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Service
 public class LogsServiceImpl extends ServiceImpl<LogsMapper, Logs> implements LogsService {
 

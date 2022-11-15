@@ -6,11 +6,18 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * Sms
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Data
 @Accessors(chain = true)
-@TableName(value = "center_sms",autoResultMap = true)
+@TableName(value = "center_sms", autoResultMap = true)
 public class Sms {
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.ASSIGN_ID)
     private String id;

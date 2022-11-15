@@ -8,7 +8,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.internal.OSSHeaders;
 import com.aliyun.oss.model.*;
 import org.simple.constant.RedisConstant;
-import org.simple.dto.FIleDto;
+import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.utils.ComUtil;
 import org.simple.utils.CommonResult;
@@ -21,6 +21,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+/**
+ * Oss
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 
 public class AliOss {
     private static AliOss aliOss = null;
@@ -112,11 +120,11 @@ public class AliOss {
      *
      * @param filepath
      */
-    public FIleDto downLoad(String filepath) throws IOException {
+    public FileDto downLoad(String filepath) throws IOException {
         OSS ossClient = getOssClient();
         OSSObject ossObject = ossClient.getObject(ossDto.getWorkspace(), filepath);
         ossClient.shutdown();
-        FIleDto f = new FIleDto();
+        FileDto f = new FileDto();
         f.setFileName(ossObject.getKey());
         f.setFileBytes(ComUtil.toByteArray(ossObject.getObjectContent()));
         ossObject.close();
@@ -126,7 +134,7 @@ public class AliOss {
     /**
      * 查询文件列表
      */
-    public FIleDto listFiles(Integer size, String marker, String prefix) {
+    public FileDto listFiles(Integer size, String marker, String prefix) {
         OSS ossClient = getOssClient();
         ListObjectsRequest request = new ListObjectsRequest(ossDto.getWorkspace());
         if (StrUtil.isNotEmpty(marker)) {
@@ -146,7 +154,7 @@ public class AliOss {
                 listfile.add(f);
             });
         }
-        FIleDto fIleDto = new FIleDto();
+        FileDto fIleDto = new FileDto();
         fIleDto.setFileList(listfile);
         fIleDto.setNextMarker(objectListing.getNextMarker());
         return fIleDto;

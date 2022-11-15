@@ -7,7 +7,7 @@ import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.Item;
 import org.simple.constant.RedisConstant;
-import org.simple.dto.FIleDto;
+import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.utils.ComUtil;
 import org.simple.utils.CommonResult;
@@ -26,6 +26,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * MinioOss
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 public class MinioOss {
     private static MinioOss minioOss = null;
     private static OssDto ossDto;
@@ -107,9 +114,9 @@ public class MinioOss {
      *
      * @param filepath
      */
-    public FIleDto downLoad(String filepath) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public FileDto downLoad(String filepath) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         MinioClient minioClient = getMinioClient();
-        FIleDto fIleDto = new FIleDto();
+        FileDto fIleDto = new FileDto();
         try (InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
                         .bucket(ossDto.getWorkspace())
@@ -125,7 +132,7 @@ public class MinioOss {
     /**
      * 查询文件列表
      */
-    public FIleDto listFiles(Integer size, String marker, String prefix) {
+    public FileDto listFiles(Integer size, String marker, String prefix) {
         MinioClient minioClient = getMinioClient();
         Iterable<Result<Item>> results = minioClient.listObjects(
                 ListObjectsArgs.builder()
@@ -149,7 +156,7 @@ public class MinioOss {
                 e1.printStackTrace();
             }
         });
-        FIleDto fIleDto = new FIleDto();
+        FileDto fIleDto = new FileDto();
         fIleDto.setFileList(listfile);
         return fIleDto;
     }

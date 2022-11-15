@@ -8,7 +8,7 @@ import io.minio.errors.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
-import org.simple.dto.FIleDto;
+import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.entity.Oss;
 import org.simple.service.OssService;
@@ -44,14 +44,14 @@ public class OssController {
     private final OssService ossService;
 
     @GetMapping("{type}")
-    public CommonResult getOss(@PathVariable("type") String type) {
+    public Oss getOss(@PathVariable("type") String type) {
         Oss o = new Oss();
         o.setType(type);
-        return CommonResult.success(ossService.getOne(Wrappers.query(o)));
+        return ossService.getOne(Wrappers.query(o));
     }
 
     @PostMapping("saveOrUpdate")
-    public CommonResult saveOrUpdate(@RequestBody Oss oss) {
+    public Boolean saveOrUpdate(@RequestBody Oss oss) {
         Oss query = new Oss();
         query.setType(oss.getType());
         query = ossService.getOne(Wrappers.query(query));
@@ -82,13 +82,13 @@ public class OssController {
             redisTemplate.opsForHash().putAll(RedisConstant.MINIO_PIX, BeanUtil.beanToMap(ossDto));
             redisTemplate.expire(RedisConstant.MINIO_PIX, 300000000, TimeUnit.DAYS);
         }
-        return CommonResult.successNodata("保存成功");
+        return ossService.saveOrUpdate(oss);
     }
 
     @GetMapping("listFiles/{type}")
-    public CommonResult listFiles(@PathVariable("type") String type,
-                                  @RequestParam("prefix") String prefix,
-                                  @RequestParam(value = "nextmarker", required = false) String nextmarker) {
+    public CommonResult<?> listFiles(@PathVariable("type") String type,
+                                     @RequestParam("prefix") String prefix,
+                                     @RequestParam(value = "nextmarker", required = false) String nextmarker) {
         if (type.equals("ALIOSS")) {
             return CommonResult.success(OssUtil.getAliOss(redisTemplate).listFiles(50, nextmarker, prefix));
         } else if (type.equals("TENCENTCOS")) {
@@ -102,7 +102,7 @@ public class OssController {
     @GetMapping("downloadFile/{type}")
     public void downloadFile(@PathVariable("type") String type,
                              @RequestParam("key") String key, HttpServletResponse response) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        FIleDto fIleDto = new FIleDto();
+        FileDto fIleDto = new FileDto();
         if (type.equals("ALIOSS")) {
             fIleDto = OssUtil.getAliOss(redisTemplate).downLoad(key);
         } else if (type.equals("TENCENTCOS")) {
@@ -123,8 +123,8 @@ public class OssController {
     }
 
     @GetMapping("downloadFileLink/{type}")
-    public CommonResult downloadFileLink(@PathVariable("type") String type,
-                                         @RequestParam("key") String key) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public String downloadFileLink(@PathVariable("type") String type,
+                                   @RequestParam("key") String key) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         String result = "";
         if (type.equals("ALIOSS")) {
             result = OssUtil.getAliOss(redisTemplate).downLoadLink(key, 100L);
@@ -133,6 +133,6 @@ public class OssController {
         } else if (type.equals("MINIO")) {
             result = OssUtil.getMinioOss(redisTemplate).downLoadLink(key, 100);
         }
-        return CommonResult.success(result);
+        return result;
     }
 }

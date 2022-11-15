@@ -7,7 +7,11 @@ import org.simple.service.EmailService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author 22699
+ * EmailServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
  */
 @Service
 public class EmailServiceImpl extends ServiceImpl<EmailMapper, Email> implements EmailService {

@@ -1,5 +1,12 @@
 package org.simple.constant;
 
+/**
+ * RedisConstant
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 public interface RedisConstant {
 
     String CODE_STR = "code_str_";

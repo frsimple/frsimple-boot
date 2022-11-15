@@ -13,7 +13,7 @@ import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.model.*;
 import com.qcloud.cos.region.Region;
 import org.simple.constant.RedisConstant;
-import org.simple.dto.FIleDto;
+import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.utils.ComUtil;
 import org.simple.utils.CommonResult;
@@ -27,6 +27,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * TencentOss
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 public class TencentOss {
 
     private static TencentOss tencentOss = null;
@@ -104,7 +111,7 @@ public class TencentOss {
      */
     public String downLoadLink(String filepath, Long expir) {
         COSClient cosClient = getCosClient();
-        Date expiration = new Date(new Date().getTime() + expir * 1000);
+        Date expiration = new Date(System.currentTimeMillis() + expir * 1000);
         URL url = cosClient.generatePresignedUrl(ossDto.getWorkspace(), filepath, expiration);
         cosClient.shutdown();
         if (url.toString().indexOf("https") == -1) {
@@ -120,13 +127,13 @@ public class TencentOss {
      *
      * @param filepath
      */
-    public FIleDto downLoad(String filepath) throws IOException {
+    public FileDto downLoad(String filepath) throws IOException {
         COSClient cosClient = getCosClient();
         GetObjectRequest getObjectRequest = new GetObjectRequest(ossDto.getWorkspace(), filepath);
         COSObject cosObject = cosClient.getObject(getObjectRequest);
         COSObjectInputStream cosObjectInput = cosObject.getObjectContent();
         cosClient.shutdown();
-        FIleDto fIleDto = new FIleDto();
+        FileDto fIleDto = new FileDto();
         fIleDto.setFileName(cosObject.getKey());
         fIleDto.setFileBytes(ComUtil.toByteArray(cosObjectInput));
         cosObject.close();
@@ -137,7 +144,7 @@ public class TencentOss {
     /**
      * 查询文件列表
      */
-    public FIleDto listFiles(Integer size, String marker, String prefix) {
+    public FileDto listFiles(Integer size, String marker, String prefix) {
         COSClient cosClient = getCosClient();
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
         listObjectsRequest.setBucketName(ossDto.getWorkspace());
@@ -162,7 +169,7 @@ public class TencentOss {
                 listfile.add(f);
             });
         }
-        FIleDto fIleDto = new FIleDto();
+        FileDto fIleDto = new FileDto();
         fIleDto.setFileList(listfile);
         fIleDto.setNextMarker(objectListing.getNextMarker());
         return fIleDto;

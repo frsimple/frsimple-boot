@@ -1,14 +1,6 @@
 package org.simple.config.handler;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
-import org.simple.constant.CacheConst;
-import org.simple.utils.CommonResult;
-import org.simple.utils.JwtUtil;
-import org.simple.utils.RedisUtil;
-import org.simple.utils.ServletUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,15 +30,6 @@ public class WebInterceptorHandler implements HandlerInterceptor {
      * 拦截器常量
      */
     public static final String ADD_SESSION = "/addSession";
-    /**
-     * jwt属性实体
-     */
-    private final JwtProperties jwtProperties;
-
-    /**
-     * redis工具类
-     */
-    private final RedisUtil redisUtil;
 
     /**
      * 目标方法执行前，执行
@@ -61,28 +44,8 @@ public class WebInterceptorHandler implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
         log.info(DateUtil.now() + " 调用方式:" + request.getMethod() + " 调用URL:" + request.getRequestURI());
         request.setAttribute("startTime", DateUtil.current());
-        if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
-            return true;
-        }
-        /* 获取token */
-        String token = request.getHeader(jwtProperties.getTokenCode());
-        String realToken = JwtUtil.getRealToken(token);
-
-        DateTime expTime = DateUtil.date(Long.parseLong(jwt.getPayload("exp").toString()));
-        String userId = String.valueOf(jwt.getPayload("userId"));
-        /* 检查token是否过期 */
-        if (!redisUtil.hasKey(CacheConst.CACHE_TOKEN + userId)) {
-            CommonResult<?> result = CommonResult.fail(ErrorCodesEnum.A402.getKey(), ErrorCodesEnum.A402.getValue());
-            ServletUtil.renderString(response, JSONUtil.toJsonStr(result));
-            return false;
-        }
-        if (StrUtil.isEmpty(realToken) || expTime.isBefore(DateTime.now())) {
-            CommonResult<?> result = CommonResult.fail(ErrorCodesEnum.A402.getKey(), ErrorCodesEnum.A402.getValue());
-            ServletUtil.renderString(response, JSONUtil.toJsonStr(result));
-            return false;
-        } else {
-            tokenTimeout(userId);
-        }
+        HttpMethod.OPTIONS.toString();
+        request.getMethod();
         return true;
     }
 
@@ -118,18 +81,5 @@ public class WebInterceptorHandler implements HandlerInterceptor {
         long time = System.currentTimeMillis() - (long) request.getAttribute("startTime");
         DynamicDataSourceContextHolder.clear();
         log.info("消耗总时长：" + time);
-    }
-
-    /**
-     * 重新给redis中的token设置有效时间
-     *
-     * @param userId 用户id
-     */
-    private void tokenTimeout(String userId) {
-        String tokenKey = CacheConst.CACHE_TOKEN + userId;
-        String userInfoKey = CacheConst.CACHE_USERINFO + userId;
-        long expTime = DateUtil.offsetMinute(DateUtil.date(), jwtProperties.getExpTime()).getTime();
-        redisUtil.expire(tokenKey, expTime);
-        redisUtil.expire(userInfoKey, expTime);
     }
 }

@@ -2,20 +2,20 @@ package org.simple.service;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.simple.center.entity.Branch;
 import org.simple.entity.Branch;
 
 import java.util.List;
 
 
 /**
- * @Copyright: simple
- * @Desc: <br/>
- * @Date: 2022-08-03 21:47:58
- * @Author: frsimple
+ * 组织管理
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
  */
 public interface BranchService extends IService<Branch> {
 
-    public List<Tree<String>> queryOrganTree(String tenantName);
+    List<Tree<String>> queryOrganTree(String tenantName);
 
 }

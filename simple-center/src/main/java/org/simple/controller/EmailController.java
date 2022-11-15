@@ -9,9 +9,8 @@ import org.simple.constant.RedisConstant;
 import org.simple.dto.EmailDto;
 import org.simple.dto.EmailParams;
 import org.simple.entity.Email;
-import org.simple.sms.EmailUtil;
-import org.simple.utils.CommonResult;
 import org.simple.service.EmailService;
+import org.simple.sms.EmailUtil;
 import org.simple.utils.RedomUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,16 +39,15 @@ public class EmailController {
     private final RedisTemplate redisTemplate;
 
     @GetMapping("emailCfg")
-    public CommonResult getEmailCfg() {
-        return CommonResult.success(emailService.list());
+    public List<Email> getEmailCfg() {
+        return emailService.list();
     }
 
     @PostMapping("saveOrUpdate")
-    public CommonResult saveOrUpdate(@RequestBody Email email) {
+    public Boolean saveOrUpdate(@RequestBody Email email) {
         if (StrUtil.isEmpty(email.getId())) {
             email.setId(RedomUtil.getEmailCfgId());
         }
-        emailService.saveOrUpdate(email);
         //初始化缓存
         EmailDto emailDto = new EmailDto();
         emailDto.setHost(email.getHost());
@@ -59,12 +58,11 @@ public class EmailController {
         emailDto.setIsssl(email.getIsssl());
         redisTemplate.opsForHash().putAll(RedisConstant.EMIAL_PIX, BeanUtil.beanToMap(emailDto));
         redisTemplate.expire(RedisConstant.EMIAL_PIX, 300000000, TimeUnit.DAYS);
-        return CommonResult.successNodata("修改成功");
+        return emailService.saveOrUpdate(email);
     }
 
     @PostMapping("sendEmail")
-    public CommonResult sendEmail(EmailParams emailParams,
-                                  @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
+    public Boolean sendEmail(EmailParams emailParams, @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
         File[] fileList = new File[files.length];
         if (null != files && files.length != 0) {
             for (int i = 0; i < files.length; i++) {

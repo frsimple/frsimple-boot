@@ -10,8 +10,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
-@Component
+/**
+ * SimpleXxlJob
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
+
 @Slf4j
+@Component
 public class SimpleXxlJob {
 
     /**
@@ -34,14 +42,9 @@ public class SimpleXxlJob {
      */
     @XxlJob("shardingJobHandler")
     public void shardingJobHandler() throws Exception {
-
-        // 分片参数
         int shardIndex = XxlJobHelper.getShardIndex();
         int shardTotal = XxlJobHelper.getShardTotal();
 
-        //XxlJobHelper.log("分片参数：当前分片序号 = {}, 总分片数 = {}", shardIndex, shardTotal);
-
-        // 业务逻辑
         for (int i = 0; i < shardTotal; i++) {
             if (i == shardIndex) {
                 XxlJobHelper.log("第 {} 片, 命中分片开始处理", i);
@@ -49,7 +52,6 @@ public class SimpleXxlJob {
                 XxlJobHelper.log("第 {} 片, 忽略", i);
             }
         }
-
     }
 
 
@@ -63,18 +65,14 @@ public class SimpleXxlJob {
 
         BufferedReader bufferedReader = null;
         try {
-            // command process
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command(command);
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
-            //Process process = Runtime.getRuntime().exec(command);
-
             BufferedInputStream bufferedInputStream = new BufferedInputStream(process.getInputStream());
             bufferedReader = new BufferedReader(new InputStreamReader(bufferedInputStream));
 
-            // command log
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 XxlJobHelper.log(line);
@@ -94,7 +92,7 @@ public class SimpleXxlJob {
         if (exitValue == 0) {
             // default success
         } else {
-            XxlJobHelper.handleFail("command exit value("+exitValue+") is failed");
+            XxlJobHelper.handleFail("command exit value(" + exitValue + ") is failed");
         }
 
     }

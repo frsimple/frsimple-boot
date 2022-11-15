@@ -1,6 +1,5 @@
 package org.simple.utils;
 
-
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;

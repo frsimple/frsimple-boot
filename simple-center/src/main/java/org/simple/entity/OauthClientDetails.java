@@ -7,6 +7,13 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 
+/**
+ * OauthClientDetails
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Data
 @TableName(value = "oauth_client_details")
 public class OauthClientDetails {

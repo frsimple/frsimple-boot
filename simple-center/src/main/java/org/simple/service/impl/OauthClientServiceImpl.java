@@ -6,6 +6,13 @@ import org.simple.mapper.OauthClientMapper;
 import org.simple.service.OauthClientService;
 import org.springframework.stereotype.Service;
 
+/**
+ * OauthClientServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Service
 public class OauthClientServiceImpl extends ServiceImpl<OauthClientMapper, OauthClientDetails> implements OauthClientService {
 }

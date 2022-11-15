@@ -7,7 +7,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * User
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Data
 @TableName("center_user")
 public class User {

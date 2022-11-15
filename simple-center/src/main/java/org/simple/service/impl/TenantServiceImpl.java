@@ -6,6 +6,13 @@ import org.simple.mapper.TenantMapper;
 import org.simple.service.TenantService;
 import org.springframework.stereotype.Service;
 
+/**
+ * TenantServiceImpl
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 @Service
 public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> implements TenantService {
     @Override

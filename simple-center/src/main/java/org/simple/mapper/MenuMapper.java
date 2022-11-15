@@ -10,14 +10,19 @@ import org.simple.entity.Menu;
 
 import java.util.List;
 
+/**
+ * MenuMapper
+ *
+ * @author frsimple
+ * @version v1.0
+ * @since 2022/11/13
+ */
 public interface MenuMapper extends BaseMapper<Menu> {
-
     @Select("select t1.* from center_menu t1 where t1.type = 'c' order by t1.sort asc")
     @Results({
             @Result(column = "meta", property = "meta", typeHandler = JacksonTypeHandler.class)
     })
     List<Menu> getTreeMenuAll();
-
 
     @Select("select t1.* from center_menu t1 order by t1.sort asc")
     @Results({

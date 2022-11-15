@@ -2,6 +2,7 @@ package org.simple.controller;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,7 @@ import org.simple.utils.RedomUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 角色管理
@@ -33,15 +35,15 @@ public class RoleController {
 
     @GetMapping("list")
     @Operation(summary = "查询角色列表")
-    public CommonResult list(Page page, Role role) {
+    public IPage<List<Role>> list(Page page, Role role) {
         String r = StrUtil.isEmpty(role.getName()) ? "" : role.getName();
         role.setName(null);
-        return CommonResult.success(roleService.page(page, Wrappers.query(role).like("name", r)));
+        return roleService.page(page, Wrappers.query(role).like("name", r));
     }
 
     @PostMapping("addRole")
     @Operation(summary = "新增角色信息")
-    public CommonResult addRole(@RequestBody Role role) {
+    public Boolean addRole(@RequestBody Role role) {
         //清洗重新定义对象
         Role r = new Role();
         r.setId(RedomUtil.getRoleId());
@@ -50,20 +52,18 @@ public class RoleController {
         r.setName(role.getName());
         r.setStatus("0");
         r.setType("01");
-        roleService.save(r);
-        return CommonResult.successNodata("新增成功");
+        return roleService.save(r);
     }
 
     @PostMapping("editRole")
     @Operation(summary = "修改角色信息")
-    public CommonResult editRole(@RequestBody Role role) {
+    public Boolean editRole(@RequestBody Role role) {
         //清洗重新定义对象
         Role r = new Role();
         r.setId(role.getId());
         r.setRemark(role.getRemark());
         r.setName(role.getName());
-        roleService.save(r);
-        return CommonResult.successNodata("修改成功");
+        return roleService.save(r);
     }
 
     @DeleteMapping("delRole")

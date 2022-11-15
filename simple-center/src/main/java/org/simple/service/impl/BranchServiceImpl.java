@@ -14,13 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 组织管理
+ * BranchServiceImpl
  *
  * @author frsimple
  * @version v1.0
  * @since 2022/11/13
  */
-
 @Service
 public class BranchServiceImpl extends ServiceImpl<BranchMapper, Branch> implements BranchService {
 

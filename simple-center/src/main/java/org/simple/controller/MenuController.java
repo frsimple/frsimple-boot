@@ -1,5 +1,7 @@
 package org.simple.controller;
 
+import cn.hutool.core.lang.tree.Tree;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,11 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.entity.Menu;
 import org.simple.service.MenuService;
-import org.simple.utils.CommonResult;
 import org.simple.utils.RedomUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 菜单管理
@@ -30,37 +32,37 @@ public class MenuController {
 
     @GetMapping("treeAll")
     @Operation(summary = "查询菜单树")
-    public CommonResult getTreeMenuAll() {
-        return CommonResult.success(menuService.getTreeMenuAll());
+    public List<Tree<String>> getTreeMenuAll() {
+        return menuService.getTreeMenuAll();
     }
 
     @GetMapping("roleTreeAll")
     @Operation(summary = "查询权限菜单树")
-    public CommonResult getRoleTreeAll() {
-        return CommonResult.success(menuService.getRoleMenuAll());
+    public List<Tree<String>> getRoleTreeAll() {
+        return menuService.getRoleMenuAll();
     }
 
     @GetMapping("menuList")
     @Operation(summary = "根据条件查询菜单")
-    public CommonResult getMenuList(Page page, Menu menu) {
+    public IPage<List<Menu>> getMenuList(Page page, Menu menu) {
         String name = menu.getName();
         menu.setName("");
-        return CommonResult.success(menuService.page(page, Wrappers.query(menu).orderByAsc("sort")
-                .like("name", name)));
+        return menuService.page(page, Wrappers.query(menu).orderByAsc("sort")
+                .like("name", name));
     }
 
     @GetMapping("btnList")
     @Operation(summary = "查询菜单权限列表")
-    public CommonResult getbtnList(@RequestParam("id") String id) {
+    public List<Menu> getBtnList(@RequestParam("id") String id) {
         Menu m = new Menu();
         m.setParentid(id);
         m.setType("b");
-        return CommonResult.success(menuService.list(Wrappers.query(m)));
+        return menuService.list(Wrappers.query(m));
     }
 
     @PostMapping("addMenu")
     @Operation(summary = "新增菜单信息")
-    public CommonResult addMenu(@RequestBody Menu menu) {
+    public Boolean addMenu(@RequestBody Menu menu) {
         //重新组装菜单信息表
         Menu menu1 = new Menu();
         menu1.setCreatetime(LocalDateTime.now());
@@ -74,13 +76,12 @@ public class MenuController {
         menu1.setPath(menu.getPath());
         menu1.setSort(menu.getSort());
         menu1.setStatus("0");
-        menuService.save(menu1);
-        return CommonResult.success("添加成功");
+        return menuService.save(menu1);
     }
 
     @PostMapping("editMenu")
     @Operation(summary = "修改菜单信息")
-    public CommonResult editMenu(@RequestBody Menu menu) {
+    public Boolean editMenu(@RequestBody Menu menu) {
         //重新组装菜单信息表
         Menu menu1 = new Menu();
         menu1.setUpdatetime(LocalDateTime.now());
@@ -90,19 +91,18 @@ public class MenuController {
         menu1.setMeta(menu.getMeta());
         menu1.setPath(menu.getPath());
         menu1.setSort(menu.getSort());
-        menuService.updateById(menu1);
-        return CommonResult.success("修改成功");
+        return menuService.updateById(menu1);
     }
 
     @DeleteMapping("delMenu")
     @Operation(summary = "删除菜单信息")
-    public CommonResult delMenu(@RequestParam("id") String id) {
+    public Boolean delMenu(@RequestParam("id") String id) {
         return menuService.delMenu(id);
     }
 
     @PostMapping("addBtnMenu")
     @Operation(summary = "新增菜单权限信息")
-    public CommonResult addBtnMenu(@RequestBody Menu menu) {
+    public Boolean addBtnMenu(@RequestBody Menu menu) {
         Menu m = new Menu();
         m.setId(RedomUtil.getMenuBtnId());
         m.setStatus("0");
@@ -112,25 +112,24 @@ public class MenuController {
         m.setParentid(menu.getParentid());
         m.setCreatetime(LocalDateTime.now());
         m.setUpdatetime(LocalDateTime.now());
-        menuService.save(m);
-        return CommonResult.successNodata("保存成功");
+        return menuService.save(m);
+
     }
 
     @PostMapping("editBtnMenu")
     @Operation(summary = "修改菜单权限信息")
-    public CommonResult editBtnMenu(@RequestBody Menu menu) {
+    public Boolean editBtnMenu(@RequestBody Menu menu) {
         Menu m = new Menu();
         m.setId(menu.getId());
         m.setName(menu.getName());
         m.setAuthcode(menu.getAuthcode());
         m.setUpdatetime(LocalDateTime.now());
-        menuService.updateById(m);
-        return CommonResult.successNodata("保存成功");
+        return menuService.updateById(m);
     }
 
     @DeleteMapping("delBtnMenu")
     @Operation(summary = "删除菜单权限信息")
-    public CommonResult delBtnMenu(@RequestParam("id") String id) {
+    public Boolean delBtnMenu(@RequestParam("id") String id) {
         return menuService.delBtnMenu(id);
     }
 }
