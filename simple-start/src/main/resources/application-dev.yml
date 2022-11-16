@@ -9,7 +9,7 @@ spring:
     dynamic:
       p6spy: false
       lazy: false
-      primary: base
+      primary: master
       strict: false
       druid:
         #定时执行数据链接检测语句 防止数据库闲时超时断开链接
@@ -18,11 +18,11 @@ spring:
         time-between-eviction-runs-millis: 60000 #执行间隔
       datasource:
         #基础数据库-mysql
-        base:
-          poolName: base
+        master:
+          poolName: master
           username: root
           password: 123456.zxc
-          url: jdbc:mysql://xxx:3306/admin_base?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://47.101.200.106:3306/simple_center?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
           driver-class-name: com.mysql.cj.jdbc.Driver
   #redis配置
   redis:

@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.entity.Dictionary;
 import org.simple.service.DictionaryService;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -80,7 +80,7 @@ public class DictController {
     @PostMapping("addDict")
     @Operation(summary = "新增字典")
     public Boolean addDict(@RequestBody Dictionary dictionary) {
-        dictionary.setId(RedomUtil.getDictId());
+        dictionary.setId(RandomUtil.getDictId());
         dictionary.setCreatetime(LocalDateTime.now());
         return dictionaryService.save(dictionary);
     }
@@ -90,7 +90,7 @@ public class DictController {
     public Boolean editDict(@RequestBody Dictionary dictionary) {
         //清洗对象
         Dictionary d = dictionaryService.getById(dictionary.getId());
-        if (d.getValue().equals("#")) {
+        if ("#".equals(d.getValue())) {
             Dictionary d1 = new Dictionary();
             d1.setCode(d.getCode());
             List<Dictionary> list = dictionaryService.
@@ -103,19 +103,18 @@ public class DictController {
             }
             d.setLabel(dictionary.getLabel());
             d.setCode(dictionary.getCode());
-            return dictionaryService.updateById(d);
         } else {
             d.setLabel(dictionary.getLabel());
             d.setValue(dictionary.getValue());
-            return dictionaryService.updateById(d);
         }
+        return dictionaryService.updateById(d);
     }
 
     @DeleteMapping("delDict")
     @Operation(summary = "删除字典")
     public Boolean delDict(@RequestParam("id") String id) {
         Dictionary d = dictionaryService.getById(id);
-        if (d.getValue().equals("#")) {
+        if ("#".equals(d.getValue())) {
             Dictionary dic = new Dictionary();
             dic.setCode(d.getCode());
             return dictionaryService.remove(Wrappers.query(dic));

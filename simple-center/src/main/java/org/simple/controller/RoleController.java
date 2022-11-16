@@ -12,7 +12,7 @@ import org.simple.entity.Role;
 import org.simple.entity.RoleMenu;
 import org.simple.service.RoleService;
 import org.simple.utils.CommonResult;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -46,7 +46,7 @@ public class RoleController {
     public Boolean addRole(@RequestBody Role role) {
         //清洗重新定义对象
         Role r = new Role();
-        r.setId(RedomUtil.getRoleId());
+        r.setId(RandomUtil.getRoleId());
         r.setCreatetime(LocalDateTime.now());
         r.setRemark(role.getRemark());
         r.setName(role.getName());

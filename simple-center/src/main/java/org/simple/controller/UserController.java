@@ -12,6 +12,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * 用户管理
  *
@@ -26,8 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private final UserService userService;
-    private RedisTemplate redisTemplate;
-
+    private final RedisTemplate redisTemplate;
 
     @GetMapping("info")
     @Operation(summary = "查询当前用户信息")
@@ -50,10 +51,10 @@ public class UserController {
 
     @GetMapping("list1")
     @Operation(summary = "根据条件查询用户")
-    public CommonResult list1(User user) {
+    public List<User> list1(User user) {
         String id = user.getId();
         user.setId(null);
-        return CommonResult.success(userService.list(Wrappers.query(user).notIn("id", id)));
+        return userService.list(Wrappers.query(user).notIn("id", id));
     }
 
     @PostMapping("addUser")

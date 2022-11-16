@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.entity.Menu;
 import org.simple.service.MenuService;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -67,7 +67,7 @@ public class MenuController {
         Menu menu1 = new Menu();
         menu1.setCreatetime(LocalDateTime.now());
         menu1.setUpdatetime(LocalDateTime.now());
-        menu1.setId(RedomUtil.getMenuId());
+        menu1.setId(RandomUtil.getMenuId());
         menu1.setType("c");
         menu1.setParentid(menu.getParentid());
         menu1.setComponent(menu.getComponent());
@@ -104,7 +104,7 @@ public class MenuController {
     @Operation(summary = "新增菜单权限信息")
     public Boolean addBtnMenu(@RequestBody Menu menu) {
         Menu m = new Menu();
-        m.setId(RedomUtil.getMenuBtnId());
+        m.setId(RandomUtil.getMenuBtnId());
         m.setStatus("0");
         m.setName(menu.getName());
         m.setType("b");

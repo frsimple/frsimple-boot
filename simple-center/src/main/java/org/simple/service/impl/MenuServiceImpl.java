@@ -73,7 +73,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                     });
             return treeNodes;
         } else {
-            return new ArrayList<Tree<String>>();
+            return new ArrayList<>();
         }
     }
 

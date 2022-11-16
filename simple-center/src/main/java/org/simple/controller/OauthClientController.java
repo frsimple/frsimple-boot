@@ -65,5 +65,4 @@ public class OauthClientController {
     public OauthClientDetails getOne(@PathVariable("id") String clientId) {
         return oauthClientService.getById(clientId);
     }
-
 }

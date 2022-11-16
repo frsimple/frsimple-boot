@@ -9,7 +9,7 @@ import org.simple.entity.Branch;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
 import org.simple.service.BranchService;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -45,7 +45,7 @@ public class BranchController {
     @PostMapping("addOrgan")
     @Operation(summary = "新增组织机构信息")
     public Boolean addOrgan(@RequestBody Branch branch) {
-        branch.setId(RedomUtil.getOrganId());
+        branch.setId(RandomUtil.getOrganId());
         branch.setCreatetime(LocalDateTime.now());
         return branchService.save(branch);
     }

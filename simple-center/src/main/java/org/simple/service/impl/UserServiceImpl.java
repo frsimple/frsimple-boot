@@ -14,7 +14,7 @@ import org.simple.entity.User;
 import org.simple.mapper.UserMapper;
 import org.simple.service.UserService;
 import org.simple.utils.CommonResult;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,11 +35,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<Menu> menus = baseMapper.getUserMenu(userId);
         if (CollectionUtils.isNotEmpty(menus)) {
             TreeNodeConfig config = new TreeNodeConfig();
-            List<Tree<String>> treeNodes = TreeUtil.build(menus, "999999", config,
+            return TreeUtil.build(menus, "999999", config,
                     (object, tree) -> {
                         tree.setName(object.getName());
                         tree.setId(object.getId());
-                        tree.setWeight(StrUtil.isEmpty(object.getSort()) ? 0 : Integer.valueOf(object.getSort()));
+                        tree.setWeight(StrUtil.isEmpty(object.getSort()) ? 0 : Integer.parseInt(object.getSort()));
                         tree.setParentId(object.getParentid());
                         tree.putExtra("component", object.getComponent());
                         tree.putExtra("path", object.getPath());
@@ -50,9 +50,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                         tree.putExtra("meta", object.getMeta());
                         tree.putExtra("redirect", "");
                     });
-            return treeNodes;
         } else {
-            return new ArrayList<Tree<String>>();
+            return new ArrayList<>();
         }
     }
 
@@ -98,10 +97,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         baseMapper.delRoleUser(userDto.getId());
 
         //重新插入用户角色和用户机构关联关系
-        baseMapper.insertUserTenant(RedomUtil.getUserTenantId(), userDto.getTenant(), userDto.getId());
+        baseMapper.insertUserTenant(RandomUtil.getUserTenantId(), userDto.getTenant(), userDto.getId());
         String[] roles = userDto.getRoles().split(",");
         for (String role : roles) {
-            baseMapper.insertRoleUser(RedomUtil.getRoleUserId(), role, userDto.getId());
+            baseMapper.insertRoleUser(RandomUtil.getRoleUserId(), role, userDto.getId());
         }
         return CommonResult.successNodata("修改成功");
     }

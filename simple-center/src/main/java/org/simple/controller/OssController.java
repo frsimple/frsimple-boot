@@ -14,7 +14,7 @@ import org.simple.entity.Oss;
 import org.simple.service.OssService;
 import org.simple.storage.OssUtil;
 import org.simple.utils.CommonResult;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +59,7 @@ public class OssController {
             oss.setId(query.getId());
             oss.setUpdatetime(LocalDateTime.now());
         } else {
-            oss.setId(RedomUtil.getOssId());
+            oss.setId(RandomUtil.getOssId());
             oss.setCreatetime(LocalDateTime.now());
             oss.setUpdatetime(LocalDateTime.now());
         }

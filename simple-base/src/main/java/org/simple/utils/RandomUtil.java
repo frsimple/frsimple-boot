@@ -1,7 +1,5 @@
 package org.simple.utils;
 
-import cn.hutool.core.util.RandomUtil;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +9,7 @@ import java.util.Date;
  * @since 2022-7-24
  */
 
-public class RedomUtil {
+public class RandomUtil {
 
     /**
      * 获取应用id
@@ -19,7 +17,7 @@ public class RedomUtil {
     public static String getAppid() {
         String str = "2019";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -29,7 +27,7 @@ public class RedomUtil {
     public static String getStoreId() {
         String str = "2022";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -39,7 +37,7 @@ public class RedomUtil {
     public static String getAuthId() {
         String str = "3000";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -49,7 +47,7 @@ public class RedomUtil {
     public static String getSignId() {
         String str = "3001";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -59,7 +57,7 @@ public class RedomUtil {
     public static String getStoreSubId() {
         String str = "3022";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -69,7 +67,7 @@ public class RedomUtil {
     public static String getOrderId() {
         String str = "5200";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -79,7 +77,7 @@ public class RedomUtil {
     public static String getThirUserid() {
         String str = "TU22";
         str += String.valueOf(System.currentTimeMillis());
-        str += String.valueOf(RandomUtil.randomNumbers(5));
+        str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
         return str;
     }
 
@@ -90,7 +88,7 @@ public class RedomUtil {
         String str = "A";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(10).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(10).toUpperCase();
         return str;
     }
 
@@ -101,7 +99,7 @@ public class RedomUtil {
         String str = "W";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(10).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(10).toUpperCase();
         return str;
     }
 
@@ -112,7 +110,7 @@ public class RedomUtil {
         String str = "LOG";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -123,7 +121,7 @@ public class RedomUtil {
         String str = "MENU";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -134,7 +132,7 @@ public class RedomUtil {
         String str = "BTN";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -145,7 +143,7 @@ public class RedomUtil {
         String str = "ROLE";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -156,7 +154,7 @@ public class RedomUtil {
         String str = "RM";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -167,7 +165,7 @@ public class RedomUtil {
         String str = "RU";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -178,7 +176,7 @@ public class RedomUtil {
         String str = "D";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -189,7 +187,7 @@ public class RedomUtil {
         String str = "T";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -200,7 +198,7 @@ public class RedomUtil {
         String str = "U";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -211,7 +209,7 @@ public class RedomUtil {
         String str = "UT";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -222,7 +220,7 @@ public class RedomUtil {
         String str = "OSS";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -233,7 +231,7 @@ public class RedomUtil {
         String str = "EM";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -244,7 +242,7 @@ public class RedomUtil {
         String str = "SMS";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(5).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
         return str;
     }
 
@@ -252,7 +250,7 @@ public class RedomUtil {
      * 生成小程序授权码
      */
     public static String getQrcode() {
-        return RandomUtil.randomString(12);
+        return cn.hutool.core.util.RandomUtil.randomString(12);
     }
 
     /**
@@ -283,7 +281,7 @@ public class RedomUtil {
         String str = "OR";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -295,7 +293,7 @@ public class RedomUtil {
         String str = "CA";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -303,7 +301,7 @@ public class RedomUtil {
         String str = "ST";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -311,7 +309,7 @@ public class RedomUtil {
         String str = "WX";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         str += sdf.format(new Date());
-        str += RandomUtil.randomString(8).toUpperCase();
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 

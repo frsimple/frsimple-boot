@@ -12,7 +12,7 @@ import org.simple.dto.SmsDto;
 import org.simple.entity.Sms;
 import org.simple.service.SmsService;
 import org.simple.utils.CommonResult;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +49,7 @@ public class SmsController {
             s1 = smsList.get(0);
             sms.setId(s1.getId());
         } else {
-            sms.setId(RedomUtil.getSmsCfgId());
+            sms.setId(RandomUtil.getSmsCfgId());
         }
         smsService.saveOrUpdate(sms);
         //同步修改缓存数据

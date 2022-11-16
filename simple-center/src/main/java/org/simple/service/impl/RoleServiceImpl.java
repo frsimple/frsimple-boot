@@ -6,7 +6,7 @@ import org.simple.entity.RoleMenu;
 import org.simple.mapper.RoleMapper;
 import org.simple.service.RoleService;
 import org.simple.utils.CommonResult;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +50,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         List<String> menus = Arrays.asList(roleMenu.getMenu().split(","));
         String role = roleMenu.getRole();
         menus.forEach(menu -> {
-            baseMapper.insetRoleMenu(RedomUtil.getRoleMenuId(), role, menu);
+            baseMapper.insetRoleMenu(RandomUtil.getRoleMenuId(), role, menu);
         });
         return CommonResult.successNodata("保存成功");
     }

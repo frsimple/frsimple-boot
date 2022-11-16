@@ -11,7 +11,7 @@ import org.simple.dto.EmailParams;
 import org.simple.entity.Email;
 import org.simple.service.EmailService;
 import org.simple.sms.EmailUtil;
-import org.simple.utils.RedomUtil;
+import org.simple.utils.RandomUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +46,7 @@ public class EmailController {
     @PostMapping("saveOrUpdate")
     public Boolean saveOrUpdate(@RequestBody Email email) {
         if (StrUtil.isEmpty(email.getId())) {
-            email.setId(RedomUtil.getEmailCfgId());
+            email.setId(RandomUtil.getEmailCfgId());
         }
         //初始化缓存
         EmailDto emailDto = new EmailDto();
