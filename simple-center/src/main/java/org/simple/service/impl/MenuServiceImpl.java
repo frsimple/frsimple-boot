@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.simple.entity.Menu;
 import org.simple.mapper.MenuMapper;
-import org.simple.service.MenuService;
+import org.simple.service.IMenuService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2022/11/13
  */
 @Service
-public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
     @Override
     public List<Tree<String>> getTreeMenuAll() {
         List<Menu> menus = baseMapper.getTreeMenuAll();

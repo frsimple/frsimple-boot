@@ -13,7 +13,7 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-public interface MenuService extends IService<Menu> {
+public interface IMenuService extends IService<Menu> {
     List<Tree<String>> getTreeMenuAll();
 
     List<Tree<String>> getRoleMenuAll();

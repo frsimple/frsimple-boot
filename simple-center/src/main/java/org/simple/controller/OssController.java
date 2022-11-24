@@ -1,20 +1,19 @@
 package org.simple.controller;
 
-
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.minio.errors.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.entity.Oss;
-import org.simple.service.OssService;
+import org.simple.service.IOssService;
 import org.simple.storage.OssUtil;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,12 +35,14 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/oss")
 @Tag(name = "oss", description = "oss管理")
 public class OssController {
-    private final RedisTemplate redisTemplate;
-    private final OssService ossService;
+
+    @Autowired
+    private  RedisTemplate redisTemplate;
+    @Autowired
+    private  IOssService ossService;
 
     @GetMapping("{type}")
     public Oss getOss(@PathVariable("type") String type) {

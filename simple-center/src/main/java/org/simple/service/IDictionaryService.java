@@ -1,14 +1,15 @@
 package org.simple.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.simple.entity.Email;
+import org.simple.entity.Dictionary;
 
 /**
- * EmailService
+ * DictionaryService
  *
  * @author frsimple
  * @version v1.0
  * @since 2022/11/13
  */
-public interface EmailService extends IService<Email> {
+public interface IDictionaryService extends IService<Dictionary> {
+
 }

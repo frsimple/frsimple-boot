@@ -1,18 +1,17 @@
 package org.simple.controller;
 
-
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.entity.Role;
 import org.simple.entity.RoleMenu;
-import org.simple.service.RoleService;
+import org.simple.service.IRoleService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,13 +24,13 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
-@AllArgsConstructor
 @RequestMapping("/role")
 @Tag(name = "role", description = "角色管理")
 public class RoleController {
-    private final RoleService roleService;
+
+    @Autowired
+    private IRoleService roleService;
 
     @GetMapping("list")
     @Operation(summary = "查询角色列表")

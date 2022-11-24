@@ -10,7 +10,7 @@ import org.simple.entity.Tenant;
  * @version v1.0
  * @since 2022/11/13
  */
-public interface TenantService extends IService<Tenant> {
+public interface ITenantService extends IService<Tenant> {
 
     Integer  selectCount(String id);
 }

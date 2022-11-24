@@ -12,7 +12,7 @@ import org.simple.dto.UserDto;
 import org.simple.entity.Menu;
 import org.simple.entity.User;
 import org.simple.mapper.UserMapper;
-import org.simple.service.UserService;
+import org.simple.service.IUserService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2022/11/13
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Override
     public List<Tree<String>> getUserMenu(String userId) {
         List<Menu> menus = baseMapper.getUserMenu(userId);

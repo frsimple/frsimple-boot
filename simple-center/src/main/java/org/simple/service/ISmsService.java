@@ -1,14 +1,15 @@
 package org.simple.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.simple.entity.OauthClientDetails;
+import org.simple.entity.Sms;
 
 /**
- * OauthClientService
+ * SmsService
  *
  * @author frsimple
  * @version v1.0
  * @since 2022/11/13
  */
-public interface OauthClientService extends IService<OauthClientDetails> {
+
+public interface ISmsService extends IService<Sms> {
 }

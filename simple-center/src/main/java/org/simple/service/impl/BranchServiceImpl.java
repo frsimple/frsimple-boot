@@ -8,7 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.simple.dto.OrganTreeDto;
 import org.simple.entity.Branch;
 import org.simple.mapper.BranchMapper;
-import org.simple.service.BranchService;
+import org.simple.service.IBranchService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,15 +22,18 @@ import java.util.List;
  * @since 2022/11/13
  */
 @Service
-public class BranchServiceImpl extends ServiceImpl<BranchMapper, Branch> implements BranchService {
+public class BranchServiceImpl extends ServiceImpl<BranchMapper, Branch> implements IBranchService {
+
+    @Autowired
+    private BranchMapper branchMapper;
 
     @Override
-    public List<Tree<String>> queryOrganTree(String tenantId) {
+    public List<Tree<String>> queryTree(String tenantId) {
         List<OrganTreeDto> treeDtoList;
         if (StrUtil.isEmpty(tenantId)) {
-            treeDtoList = baseMapper.queryOrganTree();
+            treeDtoList = branchMapper.queryOrganTree();
         } else {
-            treeDtoList = baseMapper.queryOrganTreeByName(tenantId);
+            treeDtoList = branchMapper.queryOrganTreeByName(tenantId);
         }
         TreeNodeConfig config = new TreeNodeConfig();
         config.setWeightKey("sort");

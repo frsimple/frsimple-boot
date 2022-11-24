@@ -4,12 +4,12 @@ import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.entity.Branch;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
-import org.simple.service.BranchService;
+import org.simple.service.IBranchService;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,16 +23,17 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
-@AllArgsConstructor
 @RequestMapping("/branch")
 @Tag(name = "branch", description = "组织管理")
 public class BranchController {
-    private final BranchService branchService;
+
+    @Autowired
+    private IBranchService branchService;
 
     @GetMapping("queryOrganTree")
     @Operation(summary = "查询组织机构树形列表")
     public List<Tree<String>> queryOrganTree(@RequestParam(required = false, name = "tenantId") String tenantId) {
-        return branchService.queryOrganTree(tenantId);
+        return branchService.queryTree(tenantId);
     }
 
 

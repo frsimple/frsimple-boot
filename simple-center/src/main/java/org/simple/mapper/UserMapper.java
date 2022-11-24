@@ -18,6 +18,7 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
+@Mapper
 public interface UserMapper extends BaseMapper<User> {
 
     @Select("select t1.* from center_rolemenu t join center_menu t1 on t1.id = t.menu" +

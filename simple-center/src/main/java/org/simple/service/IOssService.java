@@ -1,15 +1,14 @@
 package org.simple.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.simple.entity.Dictionary;
+import org.simple.entity.Oss;
 
 /**
- * DictionaryService
+ * OssService
  *
  * @author frsimple
  * @version v1.0
  * @since 2022/11/13
  */
-public interface DictionaryService extends IService<Dictionary> {
-
+public interface IOssService extends IService<Oss> {
 }

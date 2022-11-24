@@ -14,8 +14,8 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-public interface BranchService extends IService<Branch> {
+public interface IBranchService extends IService<Branch> {
 
-    List<Tree<String>> queryOrganTree(String tenantName);
+    List<Tree<String>> queryTree(String tenantName);
 
 }

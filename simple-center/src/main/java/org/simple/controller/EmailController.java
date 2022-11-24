@@ -4,14 +4,14 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.EmailDto;
 import org.simple.dto.EmailParams;
 import org.simple.entity.Email;
-import org.simple.service.EmailService;
+import org.simple.service.IEmailService;
 import org.simple.sms.EmailUtil;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,12 +31,13 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/email")
 @Tag(name = "dict", description = "邮件管理")
 public class EmailController {
-    private final EmailService emailService;
-    private final RedisTemplate redisTemplate;
+    @Autowired
+    private IEmailService emailService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @GetMapping("emailCfg")
     public List<Email> getEmailCfg() {

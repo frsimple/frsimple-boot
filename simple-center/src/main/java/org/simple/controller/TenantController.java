@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
 import org.simple.entity.Tenant;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
-import org.simple.service.TenantService;
+import org.simple.service.ITenantService;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,12 +23,11 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
-@AllArgsConstructor
 @RequestMapping("/tenant")
 public class TenantController {
-    private final TenantService tenantService;
+    @Autowired
+    private ITenantService tenantService;
 
     @GetMapping("list")
     @Operation(summary = "查询机构信息列表")

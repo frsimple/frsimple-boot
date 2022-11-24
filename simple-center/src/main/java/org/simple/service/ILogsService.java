@@ -15,7 +15,7 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-public interface LogsService extends IService<Logs> {
+public interface ILogsService extends IService<Logs> {
 
     IPage<List<LogsDto>> logsList(Page page, LogsDto logs);
 }

@@ -3,10 +3,10 @@ package org.simple.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.entity.Logs;
-import org.simple.service.LogsService;
+import org.simple.service.ILogsService;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +23,12 @@ import java.time.LocalDateTime;
  */
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/inward")
 @Tag(name = "inward", description = "日志处理")
 public class InwardController {
-    private final LogsService centerLogsService;
+
+    @Autowired
+    private ILogsService logsService;
 
     @PostMapping("saveLogs")
     public Boolean saveSimpleLog(@RequestBody org.simple.dto.Logs centerLogs) {
@@ -37,6 +38,6 @@ public class InwardController {
         log.setId(RandomUtil.getLogsId());
         log.setCreatetime(LocalDateTime.now());
         System.out.println("-----全局日志处理end------");
-        return centerLogsService.save(log);
+        return logsService.save(log);
     }
 }

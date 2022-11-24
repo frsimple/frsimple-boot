@@ -1,10 +1,7 @@
 package org.simple.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.simple.entity.Role;
 
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
+@Mapper
 public interface RoleMapper extends BaseMapper<Role> {
     @Delete("delete from center_roleuser where role = #{id}")
     void delRoleUser(@Param("id") String id);

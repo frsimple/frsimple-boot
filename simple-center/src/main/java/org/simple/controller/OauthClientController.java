@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.entity.OauthClientDetails;
-import org.simple.service.OauthClientService;
+import org.simple.service.IOauthClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -22,11 +22,12 @@ import java.util.List;
  */
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/oauth")
 @Tag(name = "oauth", description = "权限用户")
 public class OauthClientController {
-    private final OauthClientService oauthClientService;
+
+    @Autowired
+    private IOauthClientService oauthClientService;
 
     @GetMapping("list")
     @Operation(summary = "查询客户端用户")

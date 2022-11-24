@@ -12,7 +12,7 @@ import org.simple.utils.CommonResult;
  * @version v1.0
  * @since 2022/11/13
  */
-public interface RoleService extends IService<Role> {
+public interface IRoleService extends IService<Role> {
 
     CommonResult delRole(String id);
 

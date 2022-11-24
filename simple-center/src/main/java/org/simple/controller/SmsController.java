@@ -6,13 +6,13 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.SmsDto;
 import org.simple.entity.Sms;
-import org.simple.service.SmsService;
+import org.simple.service.ISmsService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +28,14 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/sms")
 @Tag(name = "sms", description = "sms管理")
 public class SmsController {
-    private final SmsService smsService;
-    private final RedisTemplate redisTemplate;
+    @Autowired
+    private  ISmsService smsService;
+
+    @Autowired
+    private  RedisTemplate redisTemplate;
 
     @PostMapping("saveOrUpdate")
     public CommonResult saveOrUpdate(@RequestBody Sms sms) {

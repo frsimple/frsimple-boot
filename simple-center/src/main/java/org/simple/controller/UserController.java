@@ -3,11 +3,11 @@ package org.simple.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
 import org.simple.dto.UserDto;
 import org.simple.entity.User;
-import org.simple.service.UserService;
+import org.simple.service.IUserService;
 import org.simple.utils.CommonResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,14 +21,13 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
-@AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-
-    private final UserService userService;
-    private final RedisTemplate redisTemplate;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @GetMapping("info")
     @Operation(summary = "查询当前用户信息")

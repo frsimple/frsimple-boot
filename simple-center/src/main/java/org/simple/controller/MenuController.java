@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.entity.Menu;
-import org.simple.service.MenuService;
+import org.simple.service.IMenuService;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,13 +22,13 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
-@AllArgsConstructor
 @RequestMapping("/menu")
 @Tag(name = "menu", description = "菜单管理")
 public class MenuController {
-    private final MenuService menuService;
+
+    @Autowired
+    private IMenuService menuService;
 
     @GetMapping("treeAll")
     @Operation(summary = "查询菜单树")

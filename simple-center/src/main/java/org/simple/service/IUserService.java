@@ -17,7 +17,7 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-public interface UserService extends IService<User> {
+public interface IUserService extends IService<User> {
 
     List<Tree<String>> getUserMenu(String userId);
 

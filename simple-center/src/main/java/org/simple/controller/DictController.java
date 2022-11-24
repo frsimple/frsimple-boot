@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import org.simple.entity.Dictionary;
-import org.simple.service.DictionaryService;
+import org.simple.service.IDictionaryService;
 import org.simple.utils.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,11 +25,11 @@ import java.util.List;
  */
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/dict")
 @Tag(name = "dict", description = "字典管理")
 public class DictController {
-    private final DictionaryService dictionaryService;
+    @Autowired
+    private IDictionaryService dictionaryService;
 
     @GetMapping("list")
     @Operation(summary = "查询字典")

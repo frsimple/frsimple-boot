@@ -2,7 +2,6 @@ package org.simple.init;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.EmailDto;
 import org.simple.dto.OssDto;
@@ -10,9 +9,10 @@ import org.simple.dto.SmsDto;
 import org.simple.entity.Email;
 import org.simple.entity.Oss;
 import org.simple.entity.Sms;
-import org.simple.service.EmailService;
-import org.simple.service.OssService;
-import org.simple.service.SmsService;
+import org.simple.service.IEmailService;
+import org.simple.service.IOssService;
+import org.simple.service.ISmsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -28,16 +28,16 @@ import java.util.concurrent.TimeUnit;
  * @since 2022/11/13
  */
 @Configuration
-@AllArgsConstructor
 public class RedisDataInit {
 
-    private final RedisTemplate redisTemplate;
-
-    private final OssService ossService;
-
-    private final EmailService emailService;
-
-    private final SmsService smsService;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private IOssService ossService;
+    @Autowired
+    private IEmailService emailService;
+    @Autowired
+    private ISmsService smsService;
 
 
     @PostConstruct

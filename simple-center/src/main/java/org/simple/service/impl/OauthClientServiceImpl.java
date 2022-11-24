@@ -3,7 +3,7 @@ package org.simple.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.simple.entity.OauthClientDetails;
 import org.simple.mapper.OauthClientMapper;
-import org.simple.service.OauthClientService;
+import org.simple.service.IOauthClientService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,5 +14,5 @@ import org.springframework.stereotype.Service;
  * @since 2022/11/13
  */
 @Service
-public class OauthClientServiceImpl extends ServiceImpl<OauthClientMapper, OauthClientDetails> implements OauthClientService {
+public class OauthClientServiceImpl extends ServiceImpl<OauthClientMapper, OauthClientDetails> implements IOauthClientService {
 }

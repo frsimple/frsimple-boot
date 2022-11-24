@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.simple.entity.Role;
 import org.simple.entity.RoleMenu;
 import org.simple.mapper.RoleMapper;
-import org.simple.service.RoleService;
+import org.simple.service.IRoleService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2022/11/13
  */
 @Service
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
     @Override
     public CommonResult delRole(String id) {
