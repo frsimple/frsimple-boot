@@ -117,10 +117,17 @@
                 <artifactId>tencentcloud-sdk-java</artifactId>
                 <version>3.1.57</version>
             </dependency>
+            <!--认证授权框架-->
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-spring-boot-starter</artifactId>
-                <version>1.32.0</version>
+                <version>1.33.0</version>
+            </dependency>
+            <!--验证码-->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>1.6.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

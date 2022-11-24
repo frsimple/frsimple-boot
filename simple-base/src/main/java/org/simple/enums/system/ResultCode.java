@@ -28,11 +28,40 @@ public enum ResultCode implements IErrorCode {
      * 参数检验失败
      */
     VALIDATE_FAILED(404, "参数检验失败"),
+    /**
+     * 断言异常
+     */
+    ILLEGAL_ARGUMENT_EXCEPTION(5300,"断言异常"),
 
     /**
      * 暂未登录或token已经过期
      */
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
+
+    /**
+     * token为空
+     **/
+    NOT_TOKEN_EXCEPTION(51066, "没有访问权限"),
+    /**
+     * token无效
+     **/
+    INVALID_EXCEPTION(51067, "token无效"),
+    /**
+     * token过期
+     **/
+    TOKEN_TINEDOUT_EXCEPTION(51068, "token已过期"),
+    /**
+     * 用户被顶下线
+     **/
+    BE_REPLACED_EXCEPTION(51069, "用户被顶下线"),
+    /**
+     * 用户被踢下线
+     **/
+    KICK_OUT_EXCEPTION(51070, "用户被踢下线"),
+    /**
+     * 用户被踢下线
+     **/
+    NOT_LOGIN_EXCEPTION(51065, "当前会话未登录"),
 
     /**
      * 没有相关权限
