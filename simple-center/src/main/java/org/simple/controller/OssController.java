@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@RequestMapping("/oss")
+@RequestMapping("/center/oss")
 @Tag(name = "oss", description = "oss管理")
 public class OssController {
 

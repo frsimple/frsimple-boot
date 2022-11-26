@@ -23,21 +23,21 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
-@RequestMapping("/branch")
+@RequestMapping("/center/branch")
 @Tag(name = "branch", description = "组织管理")
 public class BranchController {
 
     @Autowired
     private IBranchService branchService;
 
-    @GetMapping("queryOrganTree")
+    @GetMapping("/queryOrganTree")
     @Operation(summary = "查询组织机构树形列表")
     public List<Tree<String>> queryOrganTree(@RequestParam(required = false, name = "tenantId") String tenantId) {
         return branchService.queryTree(tenantId);
     }
 
 
-    @PostMapping("editOrgan")
+    @PostMapping("/editOrgan")
     @Operation(summary = "修改组织机构信息")
     public Boolean editOrgan(@RequestBody Branch branch) {
         return branchService.updateById(branch);

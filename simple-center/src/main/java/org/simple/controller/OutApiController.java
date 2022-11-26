@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022/11/13
  */
 @RestController
-@RequestMapping("/outApi")
+@RequestMapping("/center/outApi")
 @Tag(name = "outApi", description = "外部api")
 public class OutApiController {
 

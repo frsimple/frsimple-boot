@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/center/email")
 @Tag(name = "dict", description = "邮件管理")
 public class EmailController {
     @Autowired

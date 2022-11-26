@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  */
 
 @RestController
-@RequestMapping("/inward")
+@RequestMapping("/center/inward")
 @Tag(name = "inward", description = "日志处理")
 public class InwardController {
 

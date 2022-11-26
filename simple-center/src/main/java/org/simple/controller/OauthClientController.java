@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/center/oauth")
 @Tag(name = "oauth", description = "权限用户")
 public class OauthClientController {
 

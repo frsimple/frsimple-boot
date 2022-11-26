@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/center/role")
 @Tag(name = "role", description = "角色管理")
 public class RoleController {
 

@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/center/menu")
 @Tag(name = "menu", description = "菜单管理")
 public class MenuController {
 

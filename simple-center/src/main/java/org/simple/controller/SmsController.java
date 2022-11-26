@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@RequestMapping("/sms")
+@RequestMapping("/center/sms")
 @Tag(name = "sms", description = "sms管理")
 public class SmsController {
     @Autowired

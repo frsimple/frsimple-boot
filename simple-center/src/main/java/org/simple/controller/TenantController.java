@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
-@RequestMapping("/tenant")
+@RequestMapping("/center/tenant")
 public class TenantController {
     @Autowired
     private ITenantService tenantService;

@@ -20,8 +20,8 @@ import javax.validation.Valid;
  * @since 2022-11-24 22:15:00
  */
 @RestController
-@RequestMapping("/auth")
-public class LoginController extends BaseController {
+@RequestMapping("/center/auth")
+public class LoginController {
 
     @Autowired
     private ILoginService loginService;
@@ -32,7 +32,7 @@ public class LoginController extends BaseController {
 
     @PostMapping("/byUserName")
     @SaIgnore
-    public CommonResult<LoginDto> authByUserName(@RequestBody @Valid LoginParam loginParam){
+    public CommonResult<LoginDto> authByUserName(@RequestBody @Valid LoginParam loginParam) {
         // 直接调用service方法
         return CommonResult.success(loginService.loginByUserName(loginParam));
     }
@@ -40,10 +40,9 @@ public class LoginController extends BaseController {
 
     @GetMapping("/getUserInfo")
     @SaIgnore
-    public CommonResult<User> getCurrentUserInfo(){
-
-        String userId = (String) getCurrentUserId();
-        User user  = userService.getById(userId);
+    public CommonResult<User> getCurrentUserInfo() {
+        String userId = loginService.getCurrentUserId();
+        User user = userService.getById(userId);
         // 直接调用service方法
         return CommonResult.success(user);
     }

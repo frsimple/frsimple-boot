@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/dict")
+@RequestMapping("/center/dict")
 @Tag(name = "dict", description = "字典管理")
 public class DictController {
     @Autowired

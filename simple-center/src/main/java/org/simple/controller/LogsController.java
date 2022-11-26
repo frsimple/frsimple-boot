@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/logs")
+@RequestMapping("/center/logs")
 @Tag(name = "logs", description = "日志列表")
 public class LogsController {
 

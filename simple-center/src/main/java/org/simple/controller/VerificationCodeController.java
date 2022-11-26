@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @SaIgnore
-@RequestMapping("/code")
+@RequestMapping("/center/code")
 public class VerificationCodeController {
 
     @Autowired
@@ -46,7 +45,7 @@ public class VerificationCodeController {
         //生成验证码
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(111, 36);
         captcha.setLen(2);
-        String result = "";
+        String result;
         try {
             result = new Double(Double.parseDouble(captcha.text())).intValue() + "";
         } catch (Exception e) {

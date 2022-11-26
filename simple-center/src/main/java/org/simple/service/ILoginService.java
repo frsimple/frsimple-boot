@@ -18,4 +18,18 @@ public interface ILoginService {
      * @return 返回登录实体信息
      */
     LoginDto loginByUserName(LoginParam loginParam);
+
+
+    /**
+     * 获取当前登录的用户ID
+     * @return
+     */
+     String getCurrentUserId();
+
+
+    /**
+     * 获取当前用户的token
+     * @return
+     */
+     String getCurrentToken();
 }

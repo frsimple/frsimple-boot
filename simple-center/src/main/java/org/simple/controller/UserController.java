@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import org.simple.dto.UserDto;
 import org.simple.entity.User;
+import org.simple.service.ILoginService;
 import org.simple.service.IUserService;
 import org.simple.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +23,19 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/center/user")
 public class UserController {
     @Autowired
     private IUserService userService;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private ILoginService loginService;
 
-    @GetMapping("info")
-    @Operation(summary = "查询当前用户信息")
-    public CommonResult getUserInfo() {
-        return null;
-    }
-
-
-    @GetMapping("menu")
+    @GetMapping("/menu")
     @Operation(summary = "查询当前用户菜单")
     public CommonResult getUserMenu() {
-        return null;
+        return CommonResult.success(userService.getUserMenu(loginService.getCurrentUserId()));
     }
 
     @GetMapping("list")
