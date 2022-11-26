@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.entity.Tenant;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
@@ -24,10 +26,11 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/tenant")
+@Tag(name = "tenant", description = "租户管理")
 public class TenantController {
-    @Autowired
-    private ITenantService tenantService;
+    private final ITenantService tenantService;
 
     @GetMapping("list")
     @Operation(summary = "查询机构信息列表")

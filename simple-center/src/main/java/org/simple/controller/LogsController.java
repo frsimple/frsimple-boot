@@ -3,6 +3,7 @@ package org.simple.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.dto.LogsDto;
 import org.simple.service.ILogsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,12 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/logs")
 @Tag(name = "logs", description = "日志列表")
 public class LogsController {
-
-    @Autowired
-    private ILogsService logsService;
+    private final ILogsService logsService;
 
     @GetMapping("list")
     public IPage<List<LogsDto>> logsList(Page page, LogsDto logs) {

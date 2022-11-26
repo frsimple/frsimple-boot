@@ -69,9 +69,8 @@ public class GlobalExceptionHandler {
     }
 
 
-
     /**
-     * Satoken未登录异常处理
+     * Sa-token未登录异常处理
      *
      * @param exception
      * @return
@@ -82,17 +81,17 @@ public class GlobalExceptionHandler {
         // 判断场景值，定制化异常信息
         ResultCode ResultCode = null;
         if (exception.getType().equals(NotLoginException.NOT_TOKEN)) {
-            ResultCode = ResultCode.NOT_TOKEN_EXCEPTION;
+            ResultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.INVALID_TOKEN)) {
-            ResultCode = ResultCode.INVALID_EXCEPTION;
+            ResultCode = org.simple.enums.system.ResultCode.INVALID_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.TOKEN_TIMEOUT)) {
-            ResultCode = ResultCode.TOKEN_TINEDOUT_EXCEPTION;
+            ResultCode = org.simple.enums.system.ResultCode.TOKEN_TINEDOUT_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.BE_REPLACED)) {
-            ResultCode = ResultCode.BE_REPLACED_EXCEPTION;
+            ResultCode = org.simple.enums.system.ResultCode.BE_REPLACED_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.KICK_OUT)) {
-            ResultCode = ResultCode.KICK_OUT_EXCEPTION;
+            ResultCode = org.simple.enums.system.ResultCode.KICK_OUT_EXCEPTION;
         } else {
-            ResultCode = ResultCode.NOT_TOKEN_EXCEPTION;
+            ResultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
         }
         return CommonResult.failed(ResultCode);
     }
@@ -106,6 +105,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public CommonResult<Boolean> illegalArgumentException(IllegalArgumentException illegalArgumentException) {
-        return CommonResult.failed(ResultCode.ILLEGAL_ARGUMENT_EXCEPTION,illegalArgumentException.getMessage());
+        return CommonResult.failed(ResultCode.ILLEGAL_ARGUMENT_EXCEPTION, illegalArgumentException.getMessage());
     }
 }

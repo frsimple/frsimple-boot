@@ -13,7 +13,5 @@ import lombok.Data;
 @Data
 @Builder
 public class LoginDto {
-
-    // 登录后的token值
     private String token;
 }

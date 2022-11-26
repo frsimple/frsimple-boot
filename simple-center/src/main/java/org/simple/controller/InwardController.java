@@ -3,6 +3,7 @@ package org.simple.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.entity.Logs;
 import org.simple.service.ILogsService;
 import org.simple.utils.RandomUtil;
@@ -23,12 +24,11 @@ import java.time.LocalDateTime;
  */
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/inward")
 @Tag(name = "inward", description = "日志处理")
 public class InwardController {
-
-    @Autowired
-    private ILogsService logsService;
+    private final ILogsService logsService;
 
     @PostMapping("saveLogs")
     public Boolean saveSimpleLog(@RequestBody org.simple.dto.Logs centerLogs) {

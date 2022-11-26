@@ -5,6 +5,7 @@ import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.minio.errors.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
@@ -33,16 +34,14 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/oss")
 @Tag(name = "oss", description = "oss管理")
 public class OssController {
 
-    @Autowired
-    private  RedisTemplate redisTemplate;
-    @Autowired
-    private  IOssService ossService;
+    private final RedisTemplate redisTemplate;
+    private final IOssService ossService;
 
     @GetMapping("{type}")
     public Oss getOss(@PathVariable("type") String type) {

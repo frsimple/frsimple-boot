@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.simple.mapper.LogsMapper">
+
+    <resultMap id="LogsMap" type="org.simple.dto.LogsDto">
+        <id column="id" property="id"></id>
+        <result column="servicename" property="servicename"></result>
+        <result column="recource" property="recource"></result>
+        <result column="ip" property="ip"></result>
+        <result column="path" property="path"></result>
+        <result column="useragent" property="useragent"></result>
+        <result column="username" property="username"></result>
+        <result column="createtime" property="createtime"></result>
+        <result column="params" property="params"></result>
+        <result column="time" property="time"></result>
+        <result column="status" property="status"></result>
+        <result column="error" property="error"></result>
+        <result column="nickName" property="nickName"></result>
+    </resultMap>
+
+    <select id="logsList" resultMap="LogsMap">
+        select
+        t1.nickname,
+        t1.username as username,
+        t.servicename,
+        t.recource,
+        t.ip,
+        t.path,
+        t.useragent,
+        t.createtime,
+        t.params,
+        t.time,
+        t.status,
+        t.error
+        from center_logs t join center_user t1 on t.username = t1.id
+        where 1=1
+        <if test="obj.path != null and obj.path != ''">
+            and t.path like  CONCAT('%',#{obj.path},'%')
+        </if>
+        <if test="obj.username != null and obj.username != ''">
+            and LOWER(t1.username) like CONCAT('%',LOWER(#{obj.username}),'%')
+        </if>
+        <if test="obj.nickName != null and obj.nickName != ''">
+            and  t1.nickname  like CONCAT('%',#{obj.nickName},'%')
+        </if>
+        <if test="obj.status != null and obj.status != ''">
+            and  t.status   = #{obj.status}
+        </if>
+        order by  t.createtime desc
+    </select>
+</mapper>

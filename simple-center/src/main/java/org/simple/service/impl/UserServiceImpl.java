@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.simple.dto.UserDto;
 import org.simple.entity.Menu;
+import org.simple.entity.Role;
 import org.simple.entity.User;
 import org.simple.mapper.UserMapper;
 import org.simple.service.IUserService;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * UserServiceImpl
@@ -32,7 +34,7 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Override
     public List<Tree<String>> getUserMenu(String userId) {
-        List<Menu> menus = baseMapper.getUserMenu(userId);
+        List<Menu> menus = baseMapper.getUserMenu(userId, "c");
         if (CollectionUtils.isNotEmpty(menus)) {
             TreeNodeConfig config = new TreeNodeConfig();
             return TreeUtil.build(menus, "999999", config,
@@ -53,6 +55,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public List<String> getUserMenuAuth(String userId) {
+        List<Menu> menus = baseMapper.getUserMenu(userId, "b");
+        return menus.stream().map(Menu::getAuthcode).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getUserRole(String userId) {
+        return baseMapper.getUserRole(userId);
     }
 
     @Override

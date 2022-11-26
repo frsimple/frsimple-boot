@@ -1,19 +1,24 @@
 package org.simple.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.dto.UserDto;
 import org.simple.entity.User;
-import org.simple.service.ILoginService;
+import org.simple.service.IAuthService;
 import org.simple.service.IUserService;
 import org.simple.utils.CommonResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户管理
@@ -23,14 +28,27 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/user")
+@Tag(name = "user", description = "用户管理")
 public class UserController {
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private RedisTemplate redisTemplate;
-    @Autowired
-    private ILoginService loginService;
+    private final IUserService userService;
+    private final IAuthService loginService;
+
+    @GetMapping("info")
+    @Operation(summary = "查询当前用户信息")
+    public CommonResult getUserInfo() {
+        String userId = loginService.getCurrentUserId();
+        User user = userService.getById(userId);
+        Map<String, Object> userInfo =
+                BeanUtil.beanToMap(userId);
+        userInfo.put("avatar", user.getAvatar());
+        userInfo.put("nickname", user.getNickname());
+        Map<String, Object> result = new HashMap<>(10);
+        result.put("roles", StpUtil.getPermissionList(userId));
+        result.put("user", userInfo);
+        return CommonResult.success(result);
+    }
 
     @GetMapping("/menu")
     @Operation(summary = "查询当前用户菜单")

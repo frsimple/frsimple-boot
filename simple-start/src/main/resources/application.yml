@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: dev
-    include: satoken
   application:
     name: admin
   servlet:

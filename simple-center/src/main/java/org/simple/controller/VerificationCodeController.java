@@ -2,6 +2,8 @@ package org.simple.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.wf.captcha.ArithmeticCaptcha;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,21 +26,21 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  * @since 2022-11-24 22:07:08
  */
-@RestController
 @SaIgnore
+@RestController
+@AllArgsConstructor
 @RequestMapping("/center/code")
+@Tag(name = "code", description = "验证码")
 public class VerificationCodeController {
 
-    @Autowired
-    private RedisTemplate<String,String> redisTemplate;
-
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * 获取验证码图片
-     * @param response 响应
+     *
+     * @param response        响应
      * @param uniqueTimeStamp 唯一时间戳
-     * @description 适用于获取验证码图片
-     * @throws IOException
+     * @throws IOException 异常信息
      */
     @GetMapping
     public void getCode(HttpServletResponse response, @RequestParam("sp") String uniqueTimeStamp) throws IOException {
@@ -51,7 +53,7 @@ public class VerificationCodeController {
         } catch (Exception e) {
             result = captcha.text();
         }
-        //存储验证码到reids中
+        //存储验证码到redis中
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.opsForValue().set(RedisConstant.CODE_STR + uniqueTimeStamp, result
                 , RedisConstant.CODE_TIMEOUT, TimeUnit.SECONDS);

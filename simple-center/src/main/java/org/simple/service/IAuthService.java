@@ -10,7 +10,7 @@ import org.simple.dto.LoginParam;
  * @version v1.0
  * @since 2022-11-24 22:24:29
  */
-public interface ILoginService {
+public interface IAuthService {
 
     /**
      * 通过用户名登录

@@ -5,6 +5,7 @@ import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import org.simple.dto.OrganTreeDto;
 import org.simple.entity.Branch;
 import org.simple.mapper.BranchMapper;
@@ -24,16 +25,13 @@ import java.util.List;
 @Service
 public class BranchServiceImpl extends ServiceImpl<BranchMapper, Branch> implements IBranchService {
 
-    @Autowired
-    private BranchMapper branchMapper;
-
     @Override
     public List<Tree<String>> queryTree(String tenantId) {
         List<OrganTreeDto> treeDtoList;
         if (StrUtil.isEmpty(tenantId)) {
-            treeDtoList = branchMapper.queryOrganTree();
+            treeDtoList = baseMapper.queryOrganTree();
         } else {
-            treeDtoList = branchMapper.queryOrganTreeByName(tenantId);
+            treeDtoList = baseMapper.queryOrganTreeByName(tenantId);
         }
         TreeNodeConfig config = new TreeNodeConfig();
         config.setWeightKey("sort");

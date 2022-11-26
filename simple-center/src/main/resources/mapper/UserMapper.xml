@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.simple.mapper.UserMapper">
+
+    <resultMap id="userMap" type="org.simple.dto.UserDto">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="nickname" property="nickname"></result>
+        <result column="phone" property="phone"></result>
+        <result column="email" property="email"></result>
+        <result column="status" property="status"></result>
+        <result column="avatar" property="avatar"></result>
+        <result column="createdate" property="createdate"></result>
+        <result column="updatedate" property="updatedate"></result>
+        <result column="logindate" property="logindate"></result>
+        <result column="tenant" property="tenant"></result>
+        <result column="error" property="error"></result>
+        <result column="tenantName" property="tenantName"></result>
+        <result column="roles" property="roles"></result>
+        <result column="roleIds" property="roleIds"></result>
+    </resultMap>
+
+    <select id="listAll" resultMap="userMap">
+        select t.*,
+               (select GROUP_CONCAT(t1.name)
+                from center_tenant t1
+                where FIND_IN_SET(t1.id, (select GROUP_CONCAT(t2.tenant)
+                                          from center_usertenant t2
+                                          where t2.user = t.id)))
+                as tenantName,
+               (select GROUP_CONCAT(t3.name)
+                from center_role t3
+                where FIND_IN_SET(t3.id,
+                                  (select GROUP_CONCAT(t4.role) from
+                                  center_roleuser t4 where t4.user = t.id))) as roles,
+               (select GROUP_CONCAT(t5.role) from
+        center_roleuser t5 where t5.user = t.id) as roleIds
+        from center_user t
+        where 1=1
+        <if test="user.tenant != null and user.tenant != ''">
+            and t.tenant = #{user.tenant}
+        </if>
+        <if test="user.nickname != null and user.nickname != ''">
+            and  t.nickname  like CONCAT('%',#{user.nickname},'%')
+        </if>
+        <if test="user.status != null and user.status != ''">
+            and  t.status   = #{user.status}
+        </if>
+        order by  t.createdate desc
+    </select>
+
+</mapper>

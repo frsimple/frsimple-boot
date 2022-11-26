@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.*;
 import org.simple.dto.UserDto;
 import org.simple.entity.Menu;
+import org.simple.entity.Role;
 import org.simple.entity.User;
 
 import java.util.List;
@@ -21,13 +22,32 @@ import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 查询当前用户菜单
+     *
+     * @param userId 用户id
+     * @return 菜单信息
+     */
     @Select("select t1.* from center_rolemenu t join center_menu t1 on t1.id = t.menu" +
             " where t.role in ( select  role from center_roleuser where  " +
-            "user  = #{userId}) and t1.type ='c' order by t1.sort asc")
+            "user  = #{userId}) and t1.type =#{menuType} order by t1.sort asc")
     @Results({
             @Result(column = "meta", property = "meta", typeHandler = JacksonTypeHandler.class)
     })
-    List<Menu> getUserMenu(@Param("userId") String userId);
+    List<Menu> getUserMenu(@Param("userId") String userId, @Param("menuType") String menuType);
+
+    /**
+     * 查询当前用户角色
+     *
+     * @param userId 用户id
+     * @return 角色信息
+     */
+    @Select("select code from center_role t join center_roleuser t1 on t1.role = t.id" +
+            " where t1.user= #{userId}")
+    @Results({
+            @Result(column = "meta", property = "meta", typeHandler = JacksonTypeHandler.class)
+    })
+    List<String> getUserRole(@Param("userId") String userId);
 
 
     @Delete("delete from center_roleuser where user = #{userId}")

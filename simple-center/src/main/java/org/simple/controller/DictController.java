@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.entity.Dictionary;
 import org.simple.service.IDictionaryService;
 import org.simple.utils.RandomUtil;
@@ -23,13 +24,12 @@ import java.util.List;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/dict")
 @Tag(name = "dict", description = "字典管理")
 public class DictController {
-    @Autowired
-    private IDictionaryService dictionaryService;
+    private final IDictionaryService dictionaryService;
 
     @GetMapping("list")
     @Operation(summary = "查询字典")

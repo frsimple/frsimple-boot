@@ -4,6 +4,7 @@ import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.entity.Branch;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
@@ -23,12 +24,11 @@ import java.util.List;
  * @since 2022/11/13
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/branch")
 @Tag(name = "branch", description = "组织管理")
 public class BranchController {
-
-    @Autowired
-    private IBranchService branchService;
+    private final IBranchService branchService;
 
     @GetMapping("/queryOrganTree")
     @Operation(summary = "查询组织机构树形列表")

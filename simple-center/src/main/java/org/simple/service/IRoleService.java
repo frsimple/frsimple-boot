@@ -14,9 +14,29 @@ import org.simple.utils.CommonResult;
  */
 public interface IRoleService extends IService<Role> {
 
+    /**
+     * 删除角色
+     *
+     * @param id 主键id
+     * @return 是否成功
+     */
     CommonResult delRole(String id);
 
+
+    /**
+     * 查询角色的菜单
+     *
+     * @param roleId 角色id
+     * @return 是否成功
+     */
     CommonResult queryRoleMenu(String roleId);
 
+
+    /**
+     * 给角色添加权限
+     *
+     * @param roleMenu 角色信息
+     * @return 是否成功
+     */
     CommonResult insertRoleMenus(RoleMenu roleMenu);
 }

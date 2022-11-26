@@ -5,11 +5,12 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.LoginDto;
 import org.simple.dto.LoginParam;
 import org.simple.entity.User;
-import org.simple.service.ILoginService;
+import org.simple.service.IAuthService;
 import org.simple.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,14 +25,10 @@ import org.springframework.util.Assert;
  * @since 2022-11-24 22:26:08
  */
 @Service
-public class LoginServiceImpl implements ILoginService {
-
-    @Autowired
-    private IUserService userService;
-
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
+@AllArgsConstructor
+public class AuthServiceImpl implements IAuthService {
+    private final IUserService userService;
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * 通过用户名登录
@@ -61,16 +58,32 @@ public class LoginServiceImpl implements ILoginService {
         return LoginDto.builder().token(token).build();
     }
 
+    /**
+     * 获取当前登录人id
+     *
+     * @return 登录人id
+     */
     @Override
     public String getCurrentUserId() {
         return StpUtil.getLoginId().toString();
     }
 
+    /**
+     * 获取当前登录人-token
+     *
+     * @return token
+     */
     @Override
     public String getCurrentToken() {
         return StpUtil.getTokenValue();
     }
 
+    /**
+     * 校验验证码
+     *
+     * @param code 验证码
+     * @param sp   时间
+     */
     public void checkIsValidCode(String code, String sp) {
         Object redisCode = redisTemplate.opsForValue().get(RedisConstant.CODE_STR + sp);
         Assert.isTrue(ObjectUtil.isNotNull(redisCode), "验证码已过期");

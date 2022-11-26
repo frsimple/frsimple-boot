@@ -6,6 +6,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.SmsDto;
 import org.simple.entity.Sms;
@@ -26,16 +27,13 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  * @since 2022/11/13
  */
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/center/sms")
 @Tag(name = "sms", description = "sms管理")
 public class SmsController {
-    @Autowired
-    private  ISmsService smsService;
-
-    @Autowired
-    private  RedisTemplate redisTemplate;
+    private final ISmsService smsService;
+    private final RedisTemplate redisTemplate;
 
     @PostMapping("saveOrUpdate")
     public CommonResult saveOrUpdate(@RequestBody Sms sms) {
