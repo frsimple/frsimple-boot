@@ -2,6 +2,8 @@ package org.simple.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.entity.Dictionary;
 import org.simple.service.IDictionaryService;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,31 +36,28 @@ public class DictController {
 
     @GetMapping("list")
     @Operation(summary = "查询字典")
-    public IPage<List<Dictionary>> list(Page page, Dictionary dictionary) {
-        //只查询字典
-        dictionary.setValue("#");
-        String label = "";
-        if (StrUtil.isNotEmpty(dictionary.getLabel())) {
-            label = dictionary.getLabel();
-            dictionary.setLabel("");
+    public CommonResult list(Page page, Dictionary dictionary) {
+        QueryWrapper<Dictionary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Dictionary::getValue, "#");
+        String label = dictionary.getLabel();
+        if (StrUtil.isNotEmpty(label)) {
+            queryWrapper.and(x -> x.lambda().like(Dictionary::getLabel, label).or().like(Dictionary::getCode, label));
         }
-        return dictionaryService.page(page,
-                Wrappers.query(dictionary).like("label", label)
-                        .or().like("code", label)
-                        .orderByDesc("createtime"));
+        queryWrapper.lambda().orderByDesc(Dictionary::getCreatetime);
+        return CommonResult.success(dictionaryService.page(page, queryWrapper));
     }
 
     @GetMapping("list1")
     @Operation(summary = "查询字典")
-    public List<Dictionary> list1(Dictionary dictionary) {
+    public CommonResult list1(Dictionary dictionary) {
         String id = "";
         if (StrUtil.isNotEmpty(dictionary.getId())) {
             id = dictionary.getId();
         }
         dictionary.setId(null);
         dictionary.setValue("#");
-        return dictionaryService.list(Wrappers.query(dictionary).
-                notIn("id", id));
+        return CommonResult.success(dictionaryService.list(Wrappers.query(dictionary).
+                notIn("id", id)));
     }
 
     @GetMapping("values")
