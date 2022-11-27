@@ -20,7 +20,7 @@
 
 基础框架：SpringBoot 2.7+
 
-授权认证：Spring Security Oauth2.0 (支持自定义手机验证码登录)
+授权认证：sa-token（轻量级的Java权限认证框架）
 
 高可用缓存：Redis
 
@@ -30,9 +30,11 @@
 
 文件存储：minio
 
+在线接口文档：SpringDoc
+
 短信服务： 阿里云 ｜ 腾讯云
 
-工具类： HuTool | SnowFlake | IdGenerator | SpringDoc
+工具类： HuTool | IdGenerator
 
 #### 开发部署
 

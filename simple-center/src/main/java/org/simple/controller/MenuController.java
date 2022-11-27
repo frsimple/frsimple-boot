@@ -47,7 +47,7 @@ public class MenuController {
     @Operation(summary = "根据条件查询菜单")
     public CommonResult getMenuList(Page page, Menu menu) {
         String name = menu.getName();
-        menu.setName("");
+        menu.setName(null);
         return CommonResult.success(menuService.page(page,Wrappers.query(menu).orderByAsc("sort")
                 .like("name",name)));
     }
