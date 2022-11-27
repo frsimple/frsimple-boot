@@ -6,6 +6,7 @@ import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.EmailDto;
+import org.simple.utils.CommonResult;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class EmailUtil {
     /**
      * 发送邮件
      */
-    public Boolean sendEmail(String title, String content, String[] tos, boolean isHtml, File[] files) {
+    public CommonResult sendEmail(String title, String content, String[] tos, boolean isHtml, File[] files) {
         try {
             MailAccount account = new MailAccount();
             account.setHost(emailDto.getHost());
@@ -55,9 +56,9 @@ public class EmailUtil {
             } else {
                 MailUtil.send(account, CollUtil.newArrayList(tos), title, content, isHtml, files);
             }
-            return true;
+            return CommonResult.success("发送成功");
         } catch (Exception ex) {
-            return false;
+            return CommonResult.failed("发送失败：" + ex.getMessage());
         }
     }
 }

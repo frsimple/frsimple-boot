@@ -29,6 +29,14 @@ public interface IUserService extends IService<User> {
     List<Tree<String>> getUserMenu(String userId);
 
     /**
+     * 查询当前用户
+     *
+     * @param userName 用户账号
+     * @return 用户信息
+     */
+    User getInfoByUserName(String userName);
+
+    /**
      * 查询当前用户菜单
      *
      * @param userId 用户id

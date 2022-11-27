@@ -11,6 +11,7 @@ import org.simple.dto.EmailParams;
 import org.simple.entity.Email;
 import org.simple.service.IEmailService;
 import org.simple.sms.EmailUtil;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -63,7 +64,7 @@ public class EmailController {
     }
 
     @PostMapping("sendEmail")
-    public Boolean sendEmail(EmailParams emailParams, @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
+    public CommonResult sendEmail(EmailParams emailParams, @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
         File[] fileList = new File[files.length];
         if (null != files && files.length != 0) {
             for (int i = 0; i < files.length; i++) {

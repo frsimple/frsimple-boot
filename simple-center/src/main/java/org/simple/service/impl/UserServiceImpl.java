@@ -4,10 +4,13 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import kotlin.jvm.internal.Lambda;
 import org.simple.dto.UserDto;
 import org.simple.entity.Menu;
 import org.simple.entity.Role;
@@ -55,6 +58,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public User getInfoByUserName(String userName) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, userName);
+        return this.getOne(queryWrapper);
     }
 
     @Override

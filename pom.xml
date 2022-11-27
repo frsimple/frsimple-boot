@@ -66,11 +66,6 @@
                 <version>8.0.30</version>
             </dependency>
             <dependency>
-                <groupId>com.dameng</groupId>
-                <artifactId>DmJdbcDriver18</artifactId>
-                <version>8.1.2.141</version>
-            </dependency>
-            <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-bom</artifactId>
                 <version>5.8.8</version>

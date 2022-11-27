@@ -45,7 +45,10 @@ public class User {
      * 主机构
      */
     private String tenant;
-    private Integer error;
+
+    private Integer errorcount;
+
+    private LocalDateTime locktime;
 
     private String organ;
 }

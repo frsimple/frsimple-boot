@@ -2,6 +2,7 @@ package org.simple.service;
 
 import org.simple.dto.LoginDto;
 import org.simple.dto.LoginParam;
+import org.simple.exception.CustomException;
 
 /**
  * LoginService
@@ -17,7 +18,7 @@ public interface IAuthService {
      * @param loginParam 登录参数
      * @return 返回登录实体信息
      */
-    LoginDto loginByUserName(LoginParam loginParam);
+    LoginDto loginByUserName(LoginParam loginParam) throws CustomException;
 
 
     /**

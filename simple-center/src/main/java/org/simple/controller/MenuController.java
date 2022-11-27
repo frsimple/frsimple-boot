@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.entity.Menu;
 import org.simple.service.IMenuService;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,11 +45,11 @@ public class MenuController {
 
     @GetMapping("menuList")
     @Operation(summary = "根据条件查询菜单")
-    public IPage<List<Menu>> getMenuList(Page page, Menu menu) {
+    public CommonResult getMenuList(Page page, Menu menu) {
         String name = menu.getName();
         menu.setName("");
-        return menuService.page(page, Wrappers.query(menu).orderByAsc("sort")
-                .like("name", name));
+        return CommonResult.success(menuService.page(page,Wrappers.query(menu).orderByAsc("sort")
+                .like("name",name)));
     }
 
     @GetMapping("btnList")
