@@ -33,7 +33,7 @@ public class BranchController {
 
     @GetMapping("/queryOrganTree")
     @Operation(summary = "查询组织机构树形列表")
-    @SaCheckPermission(value = {"system:branch:query"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"system:organ:query"}, mode = SaMode.OR)
     public List<Tree<String>> queryOrganTree(@RequestParam(required = false, name = "tenantId") String tenantId) {
         return branchService.queryTree(tenantId);
     }
@@ -41,14 +41,14 @@ public class BranchController {
 
     @PostMapping("/editOrgan")
     @Operation(summary = "修改组织机构信息")
-    @SaCheckPermission(value = {"system:branch:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"system:organ:edit"}, mode = SaMode.OR)
     public Boolean editOrgan(@RequestBody Branch branch) {
         return branchService.updateById(branch);
     }
 
     @PostMapping("addOrgan")
     @Operation(summary = "新增组织机构信息")
-    @SaCheckPermission(value = {"system:branch:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"system:organ:add"}, mode = SaMode.OR)
     public Boolean addOrgan(@RequestBody Branch branch) {
         branch.setId(RandomUtil.getOrganId());
         branch.setCreatetime(LocalDateTime.now());
@@ -58,7 +58,7 @@ public class BranchController {
 
     @DeleteMapping("delOrgan/{id}")
     @Operation(summary = "新增组织机构信息")
-    @SaCheckPermission(value = {"system:branch:del"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"system:organ:del"}, mode = SaMode.OR)
     public Boolean delOrgan(@PathVariable("id") String id) throws CustomException {
         Branch branch = new Branch();
         branch.setParentid(id);
@@ -70,7 +70,7 @@ public class BranchController {
 
     @DeleteMapping("getOrgan")
     @Operation(summary = "查询组织机构信息")
-    @SaCheckPermission(value = {"system:branch:query"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"system:organ:query"}, mode = SaMode.OR)
     public Branch getOrgan(@RequestParam("id") String id) {
         return branchService.getById(id);
     }

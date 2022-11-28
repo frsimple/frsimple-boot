@@ -33,7 +33,7 @@ public class MenuController {
 
     @GetMapping("treeAll")
     @Operation(summary = "查询菜单树")
-    @SaCheckPermission(value = {"system:menu:query"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:query"}, mode = SaMode.OR)
     public List<Tree<String>> getTreeMenuAll() {
         return menuService.getTreeMenuAll();
     }
@@ -46,7 +46,7 @@ public class MenuController {
 
     @GetMapping("menuList")
     @Operation(summary = "根据条件查询菜单")
-    @SaCheckPermission(value = {"system:menu:query"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:query"}, mode = SaMode.OR)
     public CommonResult getMenuList(Page page, Menu menu) {
         String name = menu.getName();
         menu.setName(null);
@@ -65,7 +65,7 @@ public class MenuController {
 
     @PostMapping("addMenu")
     @Operation(summary = "新增菜单信息")
-    @SaCheckPermission(value = {"system:menu:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:add"}, mode = SaMode.OR)
     public Boolean addMenu(@RequestBody Menu menu) {
         //重新组装菜单信息表
         Menu menu1 = new Menu();
@@ -85,7 +85,7 @@ public class MenuController {
 
     @PostMapping("editMenu")
     @Operation(summary = "修改菜单信息")
-    @SaCheckPermission(value = {"system:menu:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:edit"}, mode = SaMode.OR)
     public Boolean editMenu(@RequestBody Menu menu) {
         //重新组装菜单信息表
         Menu menu1 = new Menu();
@@ -101,7 +101,7 @@ public class MenuController {
 
     @DeleteMapping("delMenu")
     @Operation(summary = "删除菜单信息")
-    @SaCheckPermission(value = {"system:menu:del"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:del"}, mode = SaMode.OR)
     public Boolean delMenu(@RequestParam("id") String id) {
         return menuService.delMenu(id);
     }
@@ -125,7 +125,7 @@ public class MenuController {
 
     @PostMapping("editBtnMenu")
     @Operation(summary = "修改菜单权限信息")
-    @SaCheckPermission(value = {"system:menu:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:edit"}, mode = SaMode.OR)
     public Boolean editBtnMenu(@RequestBody Menu menu) {
         Menu m = new Menu();
         m.setId(menu.getId());
@@ -137,7 +137,7 @@ public class MenuController {
 
     @DeleteMapping("delBtnMenu")
     @Operation(summary = "删除菜单权限信息")
-    @SaCheckPermission(value = {"system:menu:del"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"center:menu:del"}, mode = SaMode.OR)
     public Boolean delBtnMenu(@RequestParam("id") String id) {
         return menuService.delBtnMenu(id);
     }

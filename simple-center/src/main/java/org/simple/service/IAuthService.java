@@ -2,7 +2,11 @@ package org.simple.service;
 
 import org.simple.dto.LoginDto;
 import org.simple.dto.LoginParam;
+import org.simple.dto.QueryOnlineUserDto;
+import org.simple.dto.QueryOnlineUserParam;
 import org.simple.exception.CustomException;
+
+import java.util.List;
 
 /**
  * LoginService
@@ -33,4 +37,11 @@ public interface IAuthService {
      * @return
      */
      String getCurrentToken();
+
+    /**
+     * 获取当前在线用户
+     * @param queryOnlineUserParam
+     * @return
+     */
+     List<QueryOnlineUserDto> getOnlineUser(QueryOnlineUserParam queryOnlineUserParam);
 }
