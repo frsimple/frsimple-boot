@@ -1,11 +1,14 @@
 package org.simple.service.impl;
 
+import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
@@ -19,6 +22,8 @@ import org.simple.constant.IErrorCode;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.LoginDto;
 import org.simple.dto.LoginParam;
+import org.simple.dto.QueryOnlineUserDto;
+import org.simple.dto.QueryOnlineUserParam;
 import org.simple.entity.User;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
@@ -29,6 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * LoginServiceImpl
@@ -59,6 +68,9 @@ public class AuthServiceImpl implements IAuthService {
         StpUtil.login(userEntity.getId(), loginParam.getDevice());
         // 登录后获取token信息
         String token = StpUtil.getTokenValue();
+        StpUtil.getSession().set("userName",userEntity.getUsername());
+        StpUtil.getSession().set("nickName",userEntity.getNickname());
+        StpUtil.getSession().set("userId",userEntity.getId());
         return LoginDto.builder().token(token).build();
     }
 
@@ -80,6 +92,34 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public String getCurrentToken() {
         return StpUtil.getTokenValue();
+    }
+
+    @Override
+    public List<QueryOnlineUserDto> getOnlineUser(QueryOnlineUserParam queryOnlineUserParam) {
+        // 创建集合
+        List<QueryOnlineUserDto> queryOnlineUserDtos = new ArrayList<>();
+
+        // 获取分页后开始的位置，这里减一是因为hutool分页工具的起始算法是从0开始
+        int start = PageUtil.getStart(queryOnlineUserParam.getCurrent()-1,queryOnlineUserParam.getSize());
+
+        // 分页查询数据
+
+        List<String> sessionIdList = StpUtil.searchSessionId("", start, queryOnlineUserParam.getSize(), false);
+        for (String sessionId: sessionIdList) {
+            SaSession session = StpUtil.getSessionBySessionId(sessionId);
+            // 转换登录时间
+            Date transformDate = DateUtil.date(session.getCreateTime());
+            // 转换剩余时间
+            String transformTimeOut = DateUtil.formatBetween(session.getTimeout(), BetweenFormatter.Level.SECOND);
+            QueryOnlineUserDto queryOnlineUserDto = QueryOnlineUserDto.builder()
+                    .loginDate(transformDate)
+                    .timeout(transformTimeOut)
+                    .userName(session.getString("userName"))
+                    .userId(session.getString("userId"))
+                    .nickName(session.getString("nickName")).build();
+            queryOnlineUserDtos.add(queryOnlineUserDto);
+        }
+        return queryOnlineUserDtos;
     }
 
     /**
