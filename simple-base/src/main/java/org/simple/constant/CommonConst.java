@@ -28,4 +28,9 @@ public class CommonConst {
      */
     public static final String DB_BASE = "base";
 
+    /**
+     * token的Code
+     */
+    public static final String TOKEN_CODE = "Authorization";
+
 }

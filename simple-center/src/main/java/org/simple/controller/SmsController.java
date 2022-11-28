@@ -5,6 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
@@ -36,6 +37,7 @@ public class SmsController {
     private final RedisTemplate redisTemplate;
 
     @PostMapping("saveOrUpdate")
+    @Operation(summary = "保存sms配置")
     public CommonResult saveOrUpdate(@RequestBody Sms sms) {
         //防止重复提交
         if (StrUtil.isEmpty(sms.getType())) {
@@ -70,6 +72,7 @@ public class SmsController {
     }
 
     @GetMapping("{type}")
+    @Operation(summary = "获取sms信息")
     public CommonResult getOne(@PathVariable("type") String type) {
         Sms sms = new Sms();
         sms.setType(type);

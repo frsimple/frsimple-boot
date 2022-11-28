@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.minio.errors.*;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
@@ -44,6 +45,7 @@ public class OssController {
     private final IOssService ossService;
 
     @GetMapping("{type}")
+    @Operation(summary = "获取oss配置")
     public Oss getOss(@PathVariable("type") String type) {
         Oss o = new Oss();
         o.setType(type);
@@ -51,6 +53,7 @@ public class OssController {
     }
 
     @PostMapping("saveOrUpdate")
+    @Operation(summary = "保存oss配置")
     public Boolean saveOrUpdate(@RequestBody Oss oss) {
         Oss query = new Oss();
         query.setType(oss.getType());
@@ -86,6 +89,7 @@ public class OssController {
     }
 
     @GetMapping("listFiles/{type}")
+    @Operation(summary = "查询分类存储配置")
     public CommonResult<?> listFiles(@PathVariable("type") String type,
                                      @RequestParam("prefix") String prefix,
                                      @RequestParam(value = "nextmarker", required = false) String nextmarker) {
@@ -100,6 +104,7 @@ public class OssController {
     }
 
     @GetMapping("downloadFile/{type}")
+    @Operation(summary = "分类下载文件")
     public void downloadFile(@PathVariable("type") String type,
                              @RequestParam("key") String key, HttpServletResponse response) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         FileDto fIleDto = new FileDto();
@@ -123,6 +128,7 @@ public class OssController {
     }
 
     @GetMapping("downloadFileLink/{type}")
+    @Operation(summary = "分类下载文件链接")
     public String downloadFileLink(@PathVariable("type") String type,
                                    @RequestParam("key") String key) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         String result = "";

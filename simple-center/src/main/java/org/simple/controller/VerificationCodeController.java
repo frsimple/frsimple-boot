@@ -2,6 +2,7 @@ package org.simple.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.wf.captcha.ArithmeticCaptcha;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
@@ -43,6 +44,7 @@ public class VerificationCodeController {
      * @throws IOException 异常信息
      */
     @GetMapping
+    @Operation(summary = "获取验证码")
     public void getCode(HttpServletResponse response, @RequestParam("sp") String uniqueTimeStamp) throws IOException {
         //生成验证码
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(111, 36);

@@ -3,6 +3,7 @@ package org.simple.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConstant;
@@ -41,11 +42,13 @@ public class EmailController {
     private final RedisTemplate redisTemplate;
 
     @GetMapping("emailCfg")
+    @Operation(summary = "获取邮件配置")
     public List<Email> getEmailCfg() {
         return emailService.list();
     }
 
     @PostMapping("saveOrUpdate")
+    @Operation(summary = "保存邮箱配置")
     public Boolean saveOrUpdate(@RequestBody Email email) {
         if (StrUtil.isEmpty(email.getId())) {
             email.setId(RandomUtil.getEmailCfgId());
@@ -64,6 +67,7 @@ public class EmailController {
     }
 
     @PostMapping("sendEmail")
+    @Operation(summary = "发送邮件")
     public CommonResult sendEmail(EmailParams emailParams, @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
         File[] fileList = new File[files.length];
         if (null != files && files.length != 0) {

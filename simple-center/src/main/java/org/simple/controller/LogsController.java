@@ -2,6 +2,7 @@ package org.simple.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.dto.LogsDto;
@@ -28,6 +29,7 @@ public class LogsController {
     private final ILogsService logsService;
 
     @GetMapping("list")
+    @Operation(summary = "查询日志列表")
     public IPage<List<LogsDto>> logsList(Page page, LogsDto logs) {
         return logsService.logsList(page, logs);
     }

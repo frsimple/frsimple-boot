@@ -17,5 +17,20 @@ import java.util.List;
  */
 public interface ILogsService extends IService<Logs> {
 
+    /**
+     * 保存
+     *
+     * @param page 分页参数
+     * @param logs 查询条件
+     * @return 是否成功
+     */
     IPage<List<LogsDto>> logsList(Page page, LogsDto logs);
+
+    /**
+     * 保存
+     *
+     * @param entity 当前信息
+     * @return 是否成功
+     */
+    Boolean saveUpdate(Logs entity);
 }

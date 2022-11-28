@@ -353,8 +353,6 @@ public class UserController {
         user.setId(authService.getCurrentUserId());
         user.setEmail(email);
         userService.updateById(user);
-
         return CommonResult.successNodata("更新绑定邮箱成功");
     }
-
 }
