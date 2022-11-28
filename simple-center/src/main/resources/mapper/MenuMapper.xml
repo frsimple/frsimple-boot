@@ -4,14 +4,14 @@
 <mapper namespace="org.simple.mapper.MenuMapper">
 
 
-<!--    <resultMap id="RoleMenuMap" type="org.simple.center.entity.RoleMenu">-->
-<!--        <id column="id" property="id"/>-->
-<!--        <result column="role" property="role"/>-->
-<!--        <result column="menu" property="menu"/>-->
-<!--    </resultMap>-->
+    <!--    <resultMap id="RoleMenuMap" type="org.simple.center.entity.RoleMenu">-->
+    <!--        <id column="id" property="id"/>-->
+    <!--        <result column="role" property="role"/>-->
+    <!--        <result column="menu" property="menu"/>-->
+    <!--    </resultMap>-->
 
     <delete id="delRoleMenuByMenu">
-       delete from center_rolemenu where menu in
+        delete from center_rolemenu where menu in
         <foreach collection="menuList" item="menu" open="(" close=")" separator=",">
             #{menu}
         </foreach>

@@ -14,7 +14,6 @@ import org.simple.service.IEmailService;
 import org.simple.sms.EmailUtil;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

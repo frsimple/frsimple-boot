@@ -38,7 +38,6 @@ public class BranchController {
         return branchService.queryTree(tenantId);
     }
 
-
     @PostMapping("/editOrgan")
     @Operation(summary = "修改组织机构信息")
     @SaCheckPermission(value = {"system:organ:edit"}, mode = SaMode.OR)

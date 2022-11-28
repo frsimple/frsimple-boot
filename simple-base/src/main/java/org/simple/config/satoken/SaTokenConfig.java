@@ -2,10 +2,8 @@ package org.simple.config.satoken;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.strategy.SaStrategy;
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.IdUtil;
 import com.github.yitter.idgen.YitIdHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

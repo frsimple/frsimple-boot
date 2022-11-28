@@ -50,8 +50,8 @@ public class MenuController {
     public CommonResult getMenuList(Page page, Menu menu) {
         String name = menu.getName();
         menu.setName(null);
-        return CommonResult.success(menuService.page(page,Wrappers.query(menu).orderByAsc("sort")
-                .like("name",name)));
+        return CommonResult.success(menuService.page(page, Wrappers.query(menu).orderByAsc("sort")
+                .like("name", name)));
     }
 
     @GetMapping("btnList")

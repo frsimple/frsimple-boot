@@ -37,9 +37,8 @@ import java.util.List;
 public class TencentOss {
 
     private static TencentOss tencentOss = null;
-    private RedisTemplate redisTemplate;
-
     private static OssDto ossDto;
+    private RedisTemplate redisTemplate;
 
     private TencentOss() {
     }

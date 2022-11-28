@@ -80,21 +80,21 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public CommonResult<Boolean> unauthenticatedExceptionHandler(NotLoginException exception) {
         // 判断场景值，定制化异常信息
-        ResultCode ResultCode = null;
+        ResultCode resultCode = null;
         if (exception.getType().equals(NotLoginException.NOT_TOKEN)) {
-            ResultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.INVALID_TOKEN)) {
-            ResultCode = org.simple.enums.system.ResultCode.INVALID_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCode.INVALID_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.TOKEN_TIMEOUT)) {
-            ResultCode = org.simple.enums.system.ResultCode.TOKEN_TINEDOUT_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCode.TOKEN_TINEDOUT_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.BE_REPLACED)) {
-            ResultCode = org.simple.enums.system.ResultCode.BE_REPLACED_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCode.BE_REPLACED_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.KICK_OUT)) {
-            ResultCode = org.simple.enums.system.ResultCode.KICK_OUT_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCode.KICK_OUT_EXCEPTION;
         } else {
-            ResultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
         }
-        return CommonResult.failed(ResultCode);
+        return CommonResult.failed(resultCode);
     }
 
 

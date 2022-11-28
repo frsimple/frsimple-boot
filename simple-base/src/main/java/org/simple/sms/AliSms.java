@@ -32,10 +32,9 @@ public class AliSms {
             aliSms = new AliSms();
         }
         //设置配置对象
-        SmsDto var = BeanUtil.fillBeanWithMap(
+        smsDto = BeanUtil.fillBeanWithMap(
                 template.opsForHash().entries(RedisConstant.SMS_ALI), new SmsDto(),
                 false);
-        smsDto = var;
         return aliSms;
     }
 
@@ -70,7 +69,7 @@ public class AliSms {
             sendSmsRequest.setTemplateCode(temId);
             sendSmsRequest.setTemplateParam(JSONObject.toJSONString(temParams));
             SendSmsResponse sendSmsResponse = client.sendSms(sendSmsRequest);
-            if (!sendSmsResponse.getBody().getCode().equals("OK")) {
+            if (!"OK".equals(sendSmsResponse.getBody().getCode())) {
                 return CommonResult.failed("发送失败：" + sendSmsResponse.getBody().getMessage());
             }
         } catch (Exception ex) {

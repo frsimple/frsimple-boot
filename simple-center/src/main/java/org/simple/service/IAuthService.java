@@ -19,29 +19,34 @@ public interface IAuthService {
 
     /**
      * 通过用户名登录
+     *
      * @param loginParam 登录参数
      * @return 返回登录实体信息
+     * @throws CustomException 异常信息
      */
     LoginDto loginByUserName(LoginParam loginParam) throws CustomException;
 
 
     /**
      * 获取当前登录的用户ID
+     *
      * @return
      */
-     String getCurrentUserId();
+    String getCurrentUserId();
 
 
     /**
      * 获取当前用户的token
+     *
      * @return
      */
-     String getCurrentToken();
+    String getCurrentToken();
 
     /**
      * 获取当前在线用户
+     *
      * @param queryOnlineUserParam
      * @return
      */
-     List<QueryOnlineUserDto> getOnlineUser(QueryOnlineUserParam queryOnlineUserParam);
+    List<QueryOnlineUserDto> getOnlineUser(QueryOnlineUserParam queryOnlineUserParam);
 }

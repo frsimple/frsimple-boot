@@ -2,10 +2,7 @@ package org.simple.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**

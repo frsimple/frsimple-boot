@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.simple.dto.LogsDto;
 import org.simple.entity.Logs;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -33,4 +34,15 @@ public interface ILogsService extends IService<Logs> {
      * @return 是否成功
      */
     Boolean saveUpdate(Logs entity);
+
+    /**
+     * 根据请求转化日志实体
+     *
+     * @param serviceName   方法注释
+     * @param currentUserId 当前人id
+     * @param duration      请求耗时
+     * @param request       请求参数
+     * @return 日志信息
+     */
+    Logs getLogData(String serviceName, String currentUserId, String duration, HttpServletRequest request);
 }

@@ -36,17 +36,17 @@
         from center_logs t join center_user t1 on t.username = t1.id
         where 1=1
         <if test="obj.path != null and obj.path != ''">
-            and t.path like  CONCAT('%',#{obj.path},'%')
+            and t.path like CONCAT('%',#{obj.path},'%')
         </if>
         <if test="obj.username != null and obj.username != ''">
             and LOWER(t1.username) like CONCAT('%',LOWER(#{obj.username}),'%')
         </if>
         <if test="obj.nickName != null and obj.nickName != ''">
-            and  t1.nickname  like CONCAT('%',#{obj.nickName},'%')
+            and t1.nickname like CONCAT('%',#{obj.nickName},'%')
         </if>
         <if test="obj.status != null and obj.status != ''">
-            and  t.status   = #{obj.status}
+            and t.status = #{obj.status}
         </if>
-        order by  t.createtime desc
+        order by t.createtime desc
     </select>
 </mapper>

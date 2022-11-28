@@ -14,7 +14,6 @@ import org.simple.entity.Sms;
 import org.simple.service.ISmsService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,10 +60,10 @@ public class SmsController {
         smsDto.setSecretid(sms.getSecretid());
         smsDto.setSecretkey(sms.getSecretkey());
         smsDto.setSign(sms.getSign());
-        if (sms.getType().equals("ALI")) {
+        if ("ALI".equals(sms.getType())) {
             redisTemplate.opsForHash().putAll(RedisConstant.SMS_ALI, BeanUtil.beanToMap(smsDto));
             redisTemplate.expire(RedisConstant.SMS_ALI, 300000000, TimeUnit.DAYS);
-        } else if (sms.getType().equals("TENCENT")) {
+        } else if ("TENCENT".equals(sms.getType())) {
             redisTemplate.opsForHash().putAll(RedisConstant.SMS_TENCENT, BeanUtil.beanToMap(smsDto));
             redisTemplate.expire(RedisConstant.SMS_TENCENT, 300000000, TimeUnit.DAYS);
         }

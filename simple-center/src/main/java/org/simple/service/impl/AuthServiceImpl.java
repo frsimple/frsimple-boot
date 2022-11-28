@@ -10,15 +10,9 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.asymmetric.KeyType;
-import cn.hutool.crypto.asymmetric.RSA;
 import cn.hutool.crypto.digest.DigestUtil;
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import org.simple.config.auth.AuthProperties;
-import org.simple.constant.IErrorCode;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.LoginDto;
 import org.simple.dto.LoginParam;
@@ -30,7 +24,6 @@ import org.simple.exception.CustomException;
 import org.simple.service.IAuthService;
 import org.simple.service.IUserService;
 import org.simple.utils.CommonResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -58,6 +51,7 @@ public class AuthServiceImpl implements IAuthService {
      *
      * @param loginParam 登录参数
      * @return 返回登录实体信息
+     * @throws CustomException 异常
      */
     @Override
     public LoginDto loginByUserName(LoginParam loginParam) throws CustomException {
@@ -68,9 +62,9 @@ public class AuthServiceImpl implements IAuthService {
         StpUtil.login(userEntity.getId(), loginParam.getDevice());
         // 登录后获取token信息
         String token = StpUtil.getTokenValue();
-        StpUtil.getSession().set("userName",userEntity.getUsername());
-        StpUtil.getSession().set("nickName",userEntity.getNickname());
-        StpUtil.getSession().set("userId",userEntity.getId());
+        StpUtil.getSession().set("userName", userEntity.getUsername());
+        StpUtil.getSession().set("nickName", userEntity.getNickname());
+        StpUtil.getSession().set("userId", userEntity.getId());
         return LoginDto.builder().token(token).build();
     }
 
@@ -100,12 +94,12 @@ public class AuthServiceImpl implements IAuthService {
         List<QueryOnlineUserDto> queryOnlineUserDtos = new ArrayList<>();
 
         // 获取分页后开始的位置，这里减一是因为hutool分页工具的起始算法是从0开始
-        int start = PageUtil.getStart(queryOnlineUserParam.getCurrent()-1,queryOnlineUserParam.getSize());
+        int start = PageUtil.getStart(queryOnlineUserParam.getCurrent() - 1, queryOnlineUserParam.getSize());
 
         // 分页查询数据
 
         List<String> sessionIdList = StpUtil.searchSessionId("", start, queryOnlineUserParam.getSize(), false);
-        for (String sessionId: sessionIdList) {
+        for (String sessionId : sessionIdList) {
             SaSession session = StpUtil.getSessionBySessionId(sessionId);
             // 转换登录时间
             Date transformDate = DateUtil.date(session.getCreateTime());

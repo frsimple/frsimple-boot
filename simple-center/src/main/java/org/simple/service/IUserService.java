@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.simple.dto.UserDto;
-import org.simple.entity.Menu;
-import org.simple.entity.Role;
 import org.simple.entity.User;
 import org.simple.utils.CommonResult;
 

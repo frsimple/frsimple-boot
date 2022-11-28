@@ -24,18 +24,18 @@
 
     <select id="listAll" resultMap="userMap">
         select t.*,
-               (select GROUP_CONCAT(t1.name)
-                from center_tenant t1
-                where FIND_IN_SET(t1.id, (select GROUP_CONCAT(t2.tenant)
-                                          from center_usertenant t2
-                                          where t2.user = t.id)))
-                as tenantName,
-               (select GROUP_CONCAT(t3.name)
-                from center_role t3
-                where FIND_IN_SET(t3.id,
-                                  (select GROUP_CONCAT(t4.role) from
-                                  center_roleuser t4 where t4.user = t.id))) as roles,
-               (select GROUP_CONCAT(t5.role) from
+        (select GROUP_CONCAT(t1.name)
+        from center_tenant t1
+        where FIND_IN_SET(t1.id, (select GROUP_CONCAT(t2.tenant)
+        from center_usertenant t2
+        where t2.user = t.id)))
+        as tenantName,
+        (select GROUP_CONCAT(t3.name)
+        from center_role t3
+        where FIND_IN_SET(t3.id,
+        (select GROUP_CONCAT(t4.role) from
+        center_roleuser t4 where t4.user = t.id))) as roles,
+        (select GROUP_CONCAT(t5.role) from
         center_roleuser t5 where t5.user = t.id) as roleIds
         from center_user t
         where 1=1
@@ -43,12 +43,12 @@
             and t.tenant = #{user.tenant}
         </if>
         <if test="user.nickname != null and user.nickname != ''">
-            and  t.nickname  like CONCAT('%',#{user.nickname},'%')
+            and t.nickname like CONCAT('%',#{user.nickname},'%')
         </if>
         <if test="user.status != null and user.status != ''">
-            and  t.status   = #{user.status}
+            and t.status = #{user.status}
         </if>
-        order by  t.createdate desc
+        order by t.createdate desc
     </select>
 
 </mapper>

@@ -61,10 +61,10 @@ public class RedisDataInit {
                 smsDto.setSecretid(sms.getSecretid());
                 smsDto.setSecretkey(sms.getSecretkey());
                 smsDto.setSign(sms.getSign());
-                if (sms.getType().equals("ALI")) {
+                if ("ALI".equals(sms.getType())) {
                     redisTemplate.opsForHash().putAll(RedisConstant.SMS_ALI, BeanUtil.beanToMap(smsDto));
                     redisTemplate.expire(RedisConstant.SMS_ALI, 300000000, TimeUnit.DAYS);
-                } else if (sms.getType().equals("TENCENT")) {
+                } else if ("TENCENT".equals(sms.getType())) {
                     redisTemplate.opsForHash().putAll(RedisConstant.SMS_TENCENT, BeanUtil.beanToMap(smsDto));
                     redisTemplate.expire(RedisConstant.SMS_TENCENT, 300000000, TimeUnit.DAYS);
                 }
@@ -99,13 +99,13 @@ public class RedisDataInit {
                 o.setRegion(oss.getRegion());
                 o.setEndpoint(oss.getEndpoint());
                 o.setWorkspace(oss.getWorkspace());
-                if (oss.getType().equals("ALIOSS")) {
+                if ("ALIOSS".equals(oss.getType())) {
                     redisTemplate.opsForHash().putAll(RedisConstant.ALIOSS_PIX, BeanUtil.beanToMap(o));
                     redisTemplate.expire(RedisConstant.ALIOSS_PIX, 300000000, TimeUnit.DAYS);
-                } else if (oss.getType().equals("TENCENTCOS")) {
+                } else if ("TENCENTCOS".equals(oss.getType())) {
                     redisTemplate.opsForHash().putAll(RedisConstant.TENCENT_PIX, BeanUtil.beanToMap(o));
                     redisTemplate.expire(RedisConstant.TENCENT_PIX, 300000000, TimeUnit.DAYS);
-                } else if (oss.getType().equals("MINIO")) {
+                } else if ("MINIO".equals(oss.getType())) {
                     redisTemplate.opsForHash().putAll(RedisConstant.MINIO_PIX, BeanUtil.beanToMap(o));
                     redisTemplate.expire(RedisConstant.MINIO_PIX, 300000000, TimeUnit.DAYS);
                 }

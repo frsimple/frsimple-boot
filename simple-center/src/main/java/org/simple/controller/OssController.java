@@ -15,7 +15,6 @@ import org.simple.service.IOssService;
 import org.simple.storage.OssUtil;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,13 +74,13 @@ public class OssController {
         ossDto.setRegion(oss.getRegion());
         ossDto.setEndpoint(oss.getEndpoint());
         ossDto.setWorkspace(oss.getWorkspace());
-        if (oss.getType().equals("ALIOSS")) {
+        if ("ALIOSS".equals(oss.getType())) {
             redisTemplate.opsForHash().putAll(RedisConstant.ALIOSS_PIX, BeanUtil.beanToMap(ossDto));
             redisTemplate.expire(RedisConstant.ALIOSS_PIX, 300000000, TimeUnit.DAYS);
-        } else if (oss.getType().equals("TENCENTCOS")) {
+        } else if ("TENCENTCOS".equals(oss.getType())) {
             redisTemplate.opsForHash().putAll(RedisConstant.TENCENT_PIX, BeanUtil.beanToMap(ossDto));
             redisTemplate.expire(RedisConstant.TENCENT_PIX, 300000000, TimeUnit.DAYS);
-        } else if (oss.getType().equals("MINIO")) {
+        } else if ("MINIO".equals(oss.getType())) {
             redisTemplate.opsForHash().putAll(RedisConstant.MINIO_PIX, BeanUtil.beanToMap(ossDto));
             redisTemplate.expire(RedisConstant.MINIO_PIX, 300000000, TimeUnit.DAYS);
         }
@@ -93,11 +92,11 @@ public class OssController {
     public CommonResult<?> listFiles(@PathVariable("type") String type,
                                      @RequestParam("prefix") String prefix,
                                      @RequestParam(value = "nextmarker", required = false) String nextmarker) {
-        if (type.equals("ALIOSS")) {
+        if ("ALIOSS".equals(type)) {
             return CommonResult.success(OssUtil.getAliOss(redisTemplate).listFiles(50, nextmarker, prefix));
-        } else if (type.equals("TENCENTCOS")) {
+        } else if ("TENCENTCOS".equals(type)) {
             return CommonResult.success(OssUtil.getTencentOss(redisTemplate).listFiles(50, nextmarker, prefix));
-        } else if (type.equals("MINIO")) {
+        } else if ("MINIO".equals(type)) {
             return CommonResult.success(OssUtil.getMinioOss(redisTemplate).listFiles(50, nextmarker, prefix));
         }
         return CommonResult.success(new ArrayList<>());
@@ -108,11 +107,11 @@ public class OssController {
     public void downloadFile(@PathVariable("type") String type,
                              @RequestParam("key") String key, HttpServletResponse response) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         FileDto fIleDto = new FileDto();
-        if (type.equals("ALIOSS")) {
+        if ("ALIOSS".equals(type)) {
             fIleDto = OssUtil.getAliOss(redisTemplate).downLoad(key);
-        } else if (type.equals("TENCENTCOS")) {
+        } else if ("TENCENTCOS".equals(type)) {
             fIleDto = OssUtil.getTencentOss(redisTemplate).downLoad(key);
-        } else if (type.equals("MINIO")) {
+        } else if ("MINIO".equals(type)) {
             fIleDto = OssUtil.getMinioOss(redisTemplate).downLoad(key);
         }
         try {
@@ -132,11 +131,11 @@ public class OssController {
     public String downloadFileLink(@PathVariable("type") String type,
                                    @RequestParam("key") String key) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         String result = "";
-        if (type.equals("ALIOSS")) {
+        if ("ALIOSS".equals(type)) {
             result = OssUtil.getAliOss(redisTemplate).downLoadLink(key, 100L);
-        } else if (type.equals("TENCENTCOS")) {
+        } else if ("TENCENTCOS".equals(type)) {
             result = OssUtil.getTencentOss(redisTemplate).downLoadLink(key, 100L);
-        } else if (type.equals("MINIO")) {
+        } else if ("MINIO".equals(type)) {
             result = OssUtil.getMinioOss(redisTemplate).downLoadLink(key, 100);
         }
         return result;

@@ -12,5 +12,5 @@ import org.simple.entity.Tenant;
  */
 public interface ITenantService extends IService<Tenant> {
 
-    Integer  selectCount(String id);
+    Integer selectCount(String id);
 }

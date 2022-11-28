@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.*;
 import org.simple.dto.UserDto;
 import org.simple.entity.Menu;
-import org.simple.entity.Role;
 import org.simple.entity.User;
 
 import java.util.List;

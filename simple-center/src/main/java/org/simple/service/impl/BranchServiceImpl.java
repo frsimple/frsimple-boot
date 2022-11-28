@@ -5,12 +5,10 @@ import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.AllArgsConstructor;
 import org.simple.dto.OrganTreeDto;
 import org.simple.entity.Branch;
 import org.simple.mapper.BranchMapper;
 import org.simple.service.IBranchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

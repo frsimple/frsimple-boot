@@ -6,6 +6,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.DesensitizedUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,6 @@ import org.simple.storage.OssUtil;
 import org.simple.utils.ComUtil;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.web.bind.annotation.*;
@@ -127,7 +127,7 @@ public class UserController {
     @Operation(summary = "删除用户信息")
     @SaCheckPermission(value = {"system:user:del"}, mode = SaMode.OR)
     public CommonResult delUser(@PathVariable("id") String id) {
-        if (id.equals("1")) {
+        if ("1".equals(id)) {
             return CommonResult.failed("不允许删除超级管理员");
         }
         return userService.delUser(id);
