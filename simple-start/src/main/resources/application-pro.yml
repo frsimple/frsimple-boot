@@ -1,0 +1,103 @@
+server:
+  tomcat:
+    uri-encoding: utf-8
+  port: 40000
+
+spring:
+  #多数据库配置
+  datasource:
+    dynamic:
+      p6spy: false
+      lazy: false
+      primary: master
+      strict: false
+      druid:
+        #定时执行数据链接检测语句 防止数据库闲时超时断开链接
+        validation-query: select 1 from dual #执行语句
+        test-while-idle: true #空闲时执行
+        time-between-eviction-runs-millis: 60000 #执行间隔
+      datasource:
+        #基础数据库-mysql
+        master:
+          poolName: master
+          username: root
+          password: 123456.zxc
+          url: jdbc:mysql://47.101.200.106:3306/simple_center?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+  #redis配置
+  redis:
+    # redis数据库索引(默认为0)，我们使用索引为3的数据库，避免和其他数据库冲突
+    database: 3
+    # redis服务器地址（默认为127.0.01）
+    host: 47.101.200.106
+    # redis端口（默认为6379）
+    port: 6379
+    # redis访问密码（默认为空）
+    password: 123456.zxc
+    # redis连接超时时间（单位毫秒）
+    timeout: 3000
+    # redis连接池配置
+    jedis:
+      pool:
+        # 最大可用连接数（默认为8，负数表示无限）
+        max-active: 8
+        # 最大空闲连接数（默认为8，负数表示无限）
+        max-idle: 8
+        # 最小空闲连接数（默认为0，该值只有为正数才有用）
+        min-idle: 0
+        # 从连接池中获取连接最大等待时间（默认为-1，单位为毫秒，负数表示无限）
+        max-wait: -1
+config:
+  minio:
+    endpoint: https://xxx:9090
+    accessKey: minioAdmin
+    secretKey: minioAdmin
+    fileHost: https://xxx:9090
+  jwt:
+    expTime: 20
+    tokenCode: Authorization
+    secretKey: 123.zxc
+  druid:
+    enabled: true
+    loginUsername: admin
+    loginPassword: 123456
+    allow:
+    deny:
+    exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+  snowflake:
+    workerId: 1
+  springdoc:
+    title: API接口文档
+    description: 在线swagger
+    version: 3.0
+    name: xxx
+    url:
+    email: xxx@qq.com
+
+app:
+  auth:
+    lockTime: 10
+    errorNumber: 3
+    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCi7arytH+MJmau5lJsFt/98tJE4MTnf0aWUlrQhh5L1dfkJCai7XNGzDx1UnecVBSglDMgdmWUwOoXwQhHdb3uR9BJqH6Rj6D035lVqKyKirAYaD+PcAIZwus1HxVz/junibVT/yr6TlkpWCgS9saXGJrnX5eJjhvEjNbQjcV1vwIDAQAB
+    privateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKLtqvK0f4wmZq7mUmwW3/3y0kTgxOd/RpZSWtCGHkvV1+QkJqLtc0bMPHVSd5xUFKCUMyB2ZZTA6hfBCEd1ve5H0EmofpGPoPTfmVWorIqKsBhoP49wAhnC6zUfFXP+O6eJtVP/KvpOWSlYKBL2xpcYmudfl4mOG8SM1tCNxXW/AgMBAAECgYAFQj0p/HtAOrF5kRooiywR2WEOpqyXhj5w6Qz6VwhD5vQpbnGuASw4pRK8fK8H2JgaPyS2HJ9jVKWACWB37swOOnN2pavcGT/AaLX1CEItdA6mwTDJjoDLW7QCRtXm5mQx5+OwA2dCkBCZV/Fwoi9fMVq7rrR6Fhy0cMMxmoe6UQJBAOZVY8/u/JmkMW27rRleOQ829tjl26TTI7sgwE4YXVgTmC3NqFnutiJPRpIPWUnFgC4arvURH4Bsh+WSRkaaIa8CQQC1FXHH2MSklMkZ4t6L1+6gYnZIeWeWLmi2T13Bj47vRGE1cdR95/pVNxxywxq1gvMsu87CJpCpP6KehpYlwEDxAkAqfbIuF85toYak0ax7M5CfJ+qd1LmSTIkY6k/PmFsP9n1qZbga7xiWd71zEHXOUCr3VmDUQNZo4JypUzS3rZNtAkEAsLF4EJUHa8ByafvhQ3szsPPijt1HolcufZX72f8GbZm/cLLdsO1GaxgXfjO6QBrCxYeMPA39Yehh+WVB5RwvQQJARHL5Dow3b/19coHoNZun/AL5ry0xWBUzyCfGi8zN0knvesVLiRVNpXmyaxma6Yx5MwjaxDt3x/dgZ8P6/WbSUA==
+
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: 1200
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: tik
+  # 是否输出操作日志
+  is-log: false
+
+logging:
+  level:
+    org.simple: debug # debug 可以查看打印的sql
+    com.baomidou.dynamic: debug

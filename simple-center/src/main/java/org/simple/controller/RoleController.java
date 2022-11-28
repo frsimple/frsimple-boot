@@ -1,5 +1,7 @@
 package org.simple.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -12,7 +14,6 @@ import org.simple.entity.RoleMenu;
 import org.simple.service.IRoleService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ public class RoleController {
 
     @GetMapping("list")
     @Operation(summary = "查询角色列表")
+    @SaCheckPermission(value = {"system:role:query"}, mode = SaMode.OR)
     public IPage<List<Role>> list(Page page, Role role) {
         String r = StrUtil.isEmpty(role.getName()) ? "" : role.getName();
         role.setName(null);
@@ -42,6 +44,7 @@ public class RoleController {
 
     @PostMapping("addRole")
     @Operation(summary = "新增角色信息")
+    @SaCheckPermission(value = {"system:role:add"}, mode = SaMode.OR)
     public Boolean addRole(@RequestBody Role role) {
         //清洗重新定义对象
         Role r = new Role();
@@ -56,6 +59,7 @@ public class RoleController {
 
     @PostMapping("editRole")
     @Operation(summary = "修改角色信息")
+    @SaCheckPermission(value = {"system:role:edit"}, mode = SaMode.OR)
     public Boolean editRole(@RequestBody Role role) {
         //清洗重新定义对象
         Role r = new Role();
@@ -67,6 +71,7 @@ public class RoleController {
 
     @DeleteMapping("delRole")
     @Operation(summary = "删除角色信息")
+    @SaCheckPermission(value = {"system:role:del"}, mode = SaMode.OR)
     public CommonResult delRole(@RequestParam("id") String id) {
         return roleService.delRole(id);
     }
@@ -80,6 +85,7 @@ public class RoleController {
 
     @PostMapping("saveRoleMenu")
     @Operation(summary = "保存角色菜单权限信息")
+    @SaCheckPermission(value = {"system:role:edit"}, mode = SaMode.OR)
     public CommonResult saveRoleMenu(@RequestBody RoleMenu roleMenu) {
         return roleService.insertRoleMenus(roleMenu);
     }

@@ -1,6 +1,7 @@
 package org.simple.config.handler;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
 import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
 import org.simple.exception.FileException;
@@ -94,6 +95,19 @@ public class GlobalExceptionHandler {
             ResultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
         }
         return CommonResult.failed(ResultCode);
+    }
+
+
+    /**
+     * Sa-token 接口无权返回返回信息增强
+     *
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(value = NotPermissionException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public CommonResult handleNotPermissionException(NotPermissionException exception) {
+        return CommonResult.failed(ResultCode.FORBIDDEN);
     }
 
     /**

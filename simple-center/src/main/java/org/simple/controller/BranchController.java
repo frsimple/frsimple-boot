@@ -1,5 +1,7 @@
 package org.simple.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +12,6 @@ import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
 import org.simple.service.IBranchService;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,7 @@ public class BranchController {
 
     @GetMapping("/queryOrganTree")
     @Operation(summary = "查询组织机构树形列表")
+    @SaCheckPermission(value = {"system:branch:query"}, mode = SaMode.OR)
     public List<Tree<String>> queryOrganTree(@RequestParam(required = false, name = "tenantId") String tenantId) {
         return branchService.queryTree(tenantId);
     }
@@ -39,12 +41,14 @@ public class BranchController {
 
     @PostMapping("/editOrgan")
     @Operation(summary = "修改组织机构信息")
+    @SaCheckPermission(value = {"system:branch:edit"}, mode = SaMode.OR)
     public Boolean editOrgan(@RequestBody Branch branch) {
         return branchService.updateById(branch);
     }
 
     @PostMapping("addOrgan")
     @Operation(summary = "新增组织机构信息")
+    @SaCheckPermission(value = {"system:branch:add"}, mode = SaMode.OR)
     public Boolean addOrgan(@RequestBody Branch branch) {
         branch.setId(RandomUtil.getOrganId());
         branch.setCreatetime(LocalDateTime.now());
@@ -54,6 +58,7 @@ public class BranchController {
 
     @DeleteMapping("delOrgan/{id}")
     @Operation(summary = "新增组织机构信息")
+    @SaCheckPermission(value = {"system:branch:del"}, mode = SaMode.OR)
     public Boolean delOrgan(@PathVariable("id") String id) throws CustomException {
         Branch branch = new Branch();
         branch.setParentid(id);
@@ -64,7 +69,8 @@ public class BranchController {
     }
 
     @DeleteMapping("getOrgan")
-    @Operation(summary = "新增组织机构信息")
+    @Operation(summary = "查询组织机构信息")
+    @SaCheckPermission(value = {"system:branch:query"}, mode = SaMode.OR)
     public Branch getOrgan(@RequestParam("id") String id) {
         return branchService.getById(id);
     }

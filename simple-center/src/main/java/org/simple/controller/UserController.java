@@ -1,5 +1,7 @@
 package org.simple.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.DesensitizedUtil;
@@ -72,6 +74,7 @@ public class UserController {
 
     @GetMapping("list")
     @Operation(summary = "查询用户列表")
+    @SaCheckPermission(value = {"system:user:query"}, mode = SaMode.OR)
     public CommonResult list(Page page, User user) {
         return CommonResult.success(userService.listAll(page, user));
     }
@@ -86,6 +89,7 @@ public class UserController {
 
     @PostMapping("addUser")
     @Operation(summary = "新增用户信息")
+    @SaCheckPermission(value = {"system:user:add"}, mode = SaMode.OR)
     public CommonResult addUser(@RequestBody UserDto userDto) {
         String userid = RandomUtil.getUserId();
         User user = new User();
@@ -114,12 +118,14 @@ public class UserController {
 
     @PostMapping("editUser")
     @Operation(summary = "修改用户信息")
+    @SaCheckPermission(value = {"system:user:edit"}, mode = SaMode.OR)
     public CommonResult editUser(@RequestBody UserDto userDto) {
         return userService.updateUser(userDto);
     }
 
     @DeleteMapping("delUser/{id}")
     @Operation(summary = "删除用户信息")
+    @SaCheckPermission(value = {"system:user:del"}, mode = SaMode.OR)
     public CommonResult delUser(@PathVariable("id") String id) {
         if (id.equals("1")) {
             return CommonResult.failed("不允许删除超级管理员");

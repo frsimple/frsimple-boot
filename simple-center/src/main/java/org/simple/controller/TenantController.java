@@ -1,5 +1,7 @@
 package org.simple.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -12,7 +14,6 @@ import org.simple.enums.system.ResultCode;
 import org.simple.exception.CustomException;
 import org.simple.service.ITenantService;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ public class TenantController {
 
     @GetMapping("list")
     @Operation(summary = "查询机构信息列表")
+    @SaCheckPermission(value = {"system:tenant:query"}, mode = SaMode.OR)
     public IPage<Tenant> list(Page page, Tenant tenant) {
         String name = "";
         if (StrUtil.isNotEmpty(tenant.getName())) {
@@ -45,6 +47,7 @@ public class TenantController {
 
     @GetMapping("getTenant")
     @Operation(summary = "根据名称查询机构")
+    @SaCheckPermission(value = {"system:tenant:query"}, mode = SaMode.OR)
     public List<Tenant> getOne(@RequestParam("name") String name) {
         Tenant tenant = new Tenant();
         tenant.setName(name);
@@ -53,6 +56,7 @@ public class TenantController {
 
     @PostMapping("addTenant")
     @Operation(summary = "新增机构信息")
+    @SaCheckPermission(value = {"system:tenant:add"}, mode = SaMode.OR)
     public Boolean addTenant(@RequestBody Tenant tenant) {
         tenant.setId(RandomUtil.getTenantId());
         tenant.setCreatedate(LocalDateTime.now());
@@ -62,6 +66,7 @@ public class TenantController {
 
     @PostMapping("editTenant")
     @Operation(summary = "修改机构信息")
+    @SaCheckPermission(value = {"system:tenant:edit"}, mode = SaMode.OR)
     public Boolean editTenant(@RequestBody Tenant tenant) {
         tenant.setUpdatedate(LocalDateTime.now());
         return tenantService.updateById(tenant);
@@ -69,6 +74,7 @@ public class TenantController {
 
     @DeleteMapping("delTenant/{id}")
     @Operation(summary = "删除机构信息")
+    @SaCheckPermission(value = {"system:tenant:del"}, mode = SaMode.OR)
     public Boolean delTenant(@PathVariable("id") String id) throws CustomException {
         //判断机构下面是否关联的有用户
         Integer count = tenantService.selectCount(id);

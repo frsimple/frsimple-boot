@@ -1,10 +1,10 @@
 package org.simple.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +14,6 @@ import org.simple.entity.Dictionary;
 import org.simple.service.IDictionaryService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -36,6 +35,7 @@ public class DictController {
 
     @GetMapping("list")
     @Operation(summary = "查询字典")
+    @SaCheckPermission(value = {"system:dict:query"}, mode = SaMode.OR)
     public CommonResult list(Page page, Dictionary dictionary) {
         QueryWrapper<Dictionary> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Dictionary::getValue, "#");
@@ -49,6 +49,7 @@ public class DictController {
 
     @GetMapping("list1")
     @Operation(summary = "查询字典")
+    @SaCheckPermission(value = {"system:dict:query"}, mode = SaMode.OR)
     public CommonResult list1(Dictionary dictionary) {
         String id = "";
         if (StrUtil.isNotEmpty(dictionary.getId())) {
@@ -62,6 +63,7 @@ public class DictController {
 
     @GetMapping("values")
     @Operation(summary = "查询字典项")
+    @SaCheckPermission(value = {"system:dict:query"}, mode = SaMode.OR)
     public List<Dictionary> listValues(@RequestParam("code") String code) {
         Dictionary dictionary = new Dictionary();
         dictionary.setCode(code);
@@ -79,6 +81,7 @@ public class DictController {
 
     @PostMapping("addDict")
     @Operation(summary = "新增字典")
+    @SaCheckPermission(value = {"system:dict:add"}, mode = SaMode.OR)
     public Boolean addDict(@RequestBody Dictionary dictionary) {
         dictionary.setId(RandomUtil.getDictId());
         dictionary.setCreatetime(LocalDateTime.now());
@@ -87,6 +90,7 @@ public class DictController {
 
     @PostMapping("editDict")
     @Operation(summary = "修改字典")
+    @SaCheckPermission(value = {"system:dict:edit"}, mode = SaMode.OR)
     public Boolean editDict(@RequestBody Dictionary dictionary) {
         //清洗对象
         Dictionary d = dictionaryService.getById(dictionary.getId());
@@ -112,6 +116,7 @@ public class DictController {
 
     @DeleteMapping("delDict")
     @Operation(summary = "删除字典")
+    @SaCheckPermission(value = {"system:dict:del"}, mode = SaMode.OR)
     public Boolean delDict(@RequestParam("id") String id) {
         Dictionary d = dictionaryService.getById(id);
         if ("#".equals(d.getValue())) {
