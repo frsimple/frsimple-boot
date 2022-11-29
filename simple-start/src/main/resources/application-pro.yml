@@ -49,10 +49,10 @@ spring:
         max-wait: -1
 config:
   minio:
-    endpoint: https://xxx:9090
+    endpoint: https://localhost:9090
     accessKey: minioAdmin
     secretKey: minioAdmin
-    fileHost: https://xxx:9090
+    fileHost: https://localhost:9090
   jwt:
     expTime: 20
     tokenCode: Authorization
