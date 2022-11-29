@@ -4,7 +4,7 @@
 
 #### 前端源码地址
 
-[vue3](https://gitee.com/frsimple/view)
+[vue3](https://gitee.com/frsimple/sview)
 
 #### simple中后台框架交流微信群 **_(获取初始化脚本)_**
 
@@ -14,7 +14,7 @@
 
 #### 演示地址
 
-[vue3版本](http://vue.frsimple.cn)
+[vue3版本](https://svue.frsimple.cn/)
 
 #### 软件架构
 
