@@ -70,7 +70,7 @@ public class RedisDataInit {
                 Dictionary d = new Dictionary();
                 d.setCode(item.getCode());
                 List<Dictionary> dicts =
-                        dictionaryService.list(Wrappers.query(dictionary).notIn("value", "#"));
+                        dictionaryService.list(Wrappers.query(d).notIn("value", "#"));
                 JSONArray array = new JSONArray();
                 if (dicts.size() != 0) {
                     for (Dictionary item1 : dicts) {

@@ -69,19 +69,32 @@ public class DictController {
     @GetMapping("values")
     @Operation(summary = "查询字典项")
     @SaCheckPermission(value = {"system:dict:query"}, mode = SaMode.OR)
-    public List<Dictionary> listValues(@RequestParam("code") String code) {
+    public CommonResult listValues(@RequestParam("code") String code) {
+        //先从缓存中拿
+        Object o = redisTemplate.opsForValue().get(code);
+        if(o != null){
+            List array =  (List)o;
+            return CommonResult.success(array);
+        }
         Dictionary dictionary = new Dictionary();
         dictionary.setCode(code);
-        return dictionaryService.list(
+        List<Dictionary> dists =  dictionaryService.list(
                 Wrappers.query(dictionary).notIn("value", "#"));
+        return CommonResult.success(dists);
     }
 
     @GetMapping("values/{code}")
-    public List<Dictionary> listValues1(@PathVariable("code") String code) {
-        Dictionary dictionary = new Dictionary();
-        dictionary.setCode(code);
-        return dictionaryService.list(
-                Wrappers.query(dictionary).notIn("value", "#"));
+    public CommonResult listValues1(@PathVariable("code") String code) {
+        //先从缓存中拿
+        JSONArray array =  (JSONArray)redisTemplate.opsForValue().get(code);
+        if(null == array || array.size() == 0){
+            Dictionary dictionary = new Dictionary();
+            dictionary.setCode(code);
+            List<Dictionary> dists =  dictionaryService.list(
+                    Wrappers.query(dictionary).notIn("value", "#"));
+            return CommonResult.success(dists);
+        }
+        return CommonResult.success(array);
     }
 
     @PostMapping("addDict")
