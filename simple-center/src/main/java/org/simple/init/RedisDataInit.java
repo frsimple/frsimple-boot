@@ -2,13 +2,18 @@ package org.simple.init;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.simple.constant.RedisConstant;
 import org.simple.dto.EmailDto;
 import org.simple.dto.OssDto;
 import org.simple.dto.SmsDto;
+import org.simple.entity.Dictionary;
 import org.simple.entity.Email;
 import org.simple.entity.Oss;
 import org.simple.entity.Sms;
+import org.simple.service.IDictionaryService;
 import org.simple.service.IEmailService;
 import org.simple.service.IOssService;
 import org.simple.service.ISmsService;
@@ -38,6 +43,9 @@ public class RedisDataInit {
     private IEmailService emailService;
     @Autowired
     private ISmsService smsService;
+    @Autowired
+    private IDictionaryService dictionaryService;
+
 
 
     @PostConstruct
@@ -48,6 +56,36 @@ public class RedisDataInit {
         loadSmsConfig();
         //初始化邮件配置数据
         loadEmailConfig();
+        //初始化字典缓存
+        loadDictConfig();
+    }
+
+    private void loadDictConfig() {
+        Dictionary dictionary = new Dictionary();
+        dictionary.setValue("#");
+        List<Dictionary> dictionaryList = dictionaryService.list(Wrappers.query(dictionary));
+        if (dictionaryList.size() != 0) {
+            //Map<String, JSONArray> dictMap = new HashMap<>();
+            for (Dictionary item : dictionaryList) {
+                Dictionary d = new Dictionary();
+                d.setCode(item.getCode());
+                List<Dictionary> dicts =
+                        dictionaryService.list(Wrappers.query(dictionary).notIn("value", "#"));
+                JSONArray array = new JSONArray();
+                if (dicts.size() != 0) {
+                    for (Dictionary item1 : dicts) {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("value", item1.getValue());
+                        jsonObject.put("id", item1.getId());
+                        jsonObject.put("label", item1.getLabel());
+                        jsonObject.put("code", item1.getCode());
+                        array.add(jsonObject);
+                    }
+                }
+                //dictMap.put(item.getCode(), array);
+                redisTemplate.opsForValue().set(item.getCode(),array);
+            }
+        }
     }
 
 

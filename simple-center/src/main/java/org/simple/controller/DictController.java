@@ -4,6 +4,8 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +16,7 @@ import org.simple.entity.Dictionary;
 import org.simple.service.IDictionaryService;
 import org.simple.utils.CommonResult;
 import org.simple.utils.RandomUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -32,6 +35,8 @@ import java.util.List;
 @Tag(name = "dict", description = "字典管理")
 public class DictController {
     private final IDictionaryService dictionaryService;
+
+    private final RedisTemplate redisTemplate;
 
     @GetMapping("list")
     @Operation(summary = "查询字典")
@@ -127,4 +132,35 @@ public class DictController {
             return dictionaryService.removeById(id);
         }
     }
+    @GetMapping("refDictCache")
+    @Operation(summary = "刷新字段缓存")
+    @SaCheckPermission(value = {"system:dict:query"}, mode = SaMode.OR)
+    public CommonResult refDictCache( ) {
+        Dictionary dictionary = new Dictionary();
+        dictionary.setValue("#");
+        List<Dictionary> dictionaryList = dictionaryService.list(Wrappers.query(dictionary));
+        if (dictionaryList.size() != 0) {
+            for (Dictionary item : dictionaryList) {
+                Dictionary d = new Dictionary();
+                d.setCode(item.getCode());
+                List<Dictionary> dicts =
+                        dictionaryService.list(Wrappers.query(dictionary).notIn("value", "#"));
+                JSONArray array = new JSONArray();
+                if (dicts.size() != 0) {
+                    for (Dictionary item1 : dicts) {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("value", item1.getValue());
+                        jsonObject.put("id", item1.getId());
+                        jsonObject.put("label", item1.getLabel());
+                        jsonObject.put("code", item1.getCode());
+                        array.add(jsonObject);
+                    }
+                }
+                redisTemplate.opsForValue().set(item.getCode(),array);
+            }
+        }
+        return CommonResult.success("刷新完成!");
+    }
+
+
 }
