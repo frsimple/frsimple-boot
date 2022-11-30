@@ -86,15 +86,16 @@ public class DictController {
     @GetMapping("values/{code}")
     public CommonResult listValues1(@PathVariable("code") String code) {
         //先从缓存中拿
-        JSONArray array =  (JSONArray)redisTemplate.opsForValue().get(code);
-        if(null == array || array.size() == 0){
-            Dictionary dictionary = new Dictionary();
-            dictionary.setCode(code);
-            List<Dictionary> dists =  dictionaryService.list(
-                    Wrappers.query(dictionary).notIn("value", "#"));
-            return CommonResult.success(dists);
+        Object o = redisTemplate.opsForValue().get(code);
+        if(o != null){
+            List array =  (List)o;
+            return CommonResult.success(array);
         }
-        return CommonResult.success(array);
+        Dictionary dictionary = new Dictionary();
+        dictionary.setCode(code);
+        List<Dictionary> dists =  dictionaryService.list(
+                Wrappers.query(dictionary).notIn("value", "#"));
+        return CommonResult.success(dists);
     }
 
     @PostMapping("addDict")
@@ -157,7 +158,7 @@ public class DictController {
                 Dictionary d = new Dictionary();
                 d.setCode(item.getCode());
                 List<Dictionary> dicts =
-                        dictionaryService.list(Wrappers.query(dictionary).notIn("value", "#"));
+                        dictionaryService.list(Wrappers.query(d).notIn("value", "#"));
                 JSONArray array = new JSONArray();
                 if (dicts.size() != 0) {
                     for (Dictionary item1 : dicts) {
