@@ -1,0 +1,48 @@
+package ${package}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+#if($column.columnKey.equals('PRI'))
+import com.baomidou.mybatisplus.annotation.IdType;
+#end
+
+
+
+/**
+ * @Copyright: ${company}
+ * @Desc: ${comments}实体
+ * @Date: ${datetime}
+ * @Author: ${author}
+ */
+
+@Data
+@NoArgsConstructor
+@TableName(value = "${tableName}")
+public class ${className} implements Serializable{
+private static final long serialVersionUID=1L;
+
+#foreach ($column in $columns)
+
+    #if($column.columnKey.equals('PRI'))
+    @TableId(type = IdType.ASSIGN_ID)
+    #end
+    #if($column.dataType.equals('json'))
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    #end
+    private $column.attrType $column.attrname;
+#end
+
+}
