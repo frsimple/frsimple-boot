@@ -18,13 +18,13 @@ public class PageModel {
      * 当前页数
      */
     @Schema(description = "当前页数")
-    private Long current;
+    private int current;
 
     /**
      * 每页多少条
      */
     @Schema(description = "每页多少条，默认20")
-    private Long pageSize = 20L;
+    private int pageSize = 20;
 
     /**
      * 默认查询

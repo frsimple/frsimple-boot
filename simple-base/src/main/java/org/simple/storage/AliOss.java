@@ -7,12 +7,13 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.internal.OSSHeaders;
 import com.aliyun.oss.model.*;
-import org.simple.constant.RedisConstant;
+import org.simple.constant.RedisConst;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
 import org.simple.utils.ComUtil;
-import org.simple.utils.CommonResult;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.simple.utils.RedisUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,13 +39,13 @@ public class AliOss {
     private AliOss() {
     }
 
-    public static AliOss getInstance(RedisTemplate template) {
+    public static AliOss getInstance(RedisUtil redisUtil) {
         if (null == aliOss) {
             aliOss = new AliOss();
         }
         //设置配置对象
         OssDto var = BeanUtil.fillBeanWithMap(
-                template.opsForHash().entries(RedisConstant.ALIOSS_PIX), new OssDto(),
+                redisUtil.entries(RedisConst.ALIOSS_PIX), new OssDto(),
                 false);
         ossDto = var;
         return aliOss;
@@ -52,10 +53,10 @@ public class AliOss {
 
     private OSS getOssClient() {
         return new OSSClientBuilder().build(ossDto.getEndpoint(),
-                ossDto.getAccesskeyid(), ossDto.getAccesskeysecret());
+                ossDto.getAccessKeyId(), ossDto.getAccessKeySecret());
     }
 
-    public CommonResult fileUpload(File file, boolean isPrivate, String userid) {
+    public ActionResult<?> fileUpload(File file, boolean isPrivate, String userid) {
         //初始化ossclient对象
         OSS ossClient = getOssClient();
         String fileName = file.getName();
@@ -83,14 +84,14 @@ public class AliOss {
             ossClient.putObject(putObjectRequest);
             //若是私有连接则返回上传路径，若是公共读则返回请求的url地址
             if (isPrivate) {
-                return CommonResult.success(path);
+                return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
             } else {
-                return CommonResult.success(
+                return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(),
                         "https://" + ossDto.getWorkspace() + "." + ossDto.getEndpoint() + "/" + path
                 );
             }
         } catch (Exception ex) {
-            return CommonResult.failed("上传失败：" + ex.getMessage());
+            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
         } finally {
             //最后关闭ossclient
             ossClient.shutdown();

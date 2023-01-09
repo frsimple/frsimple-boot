@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.simple.mapper.LogsMapper">
+<mapper namespace="org.simple.system.mapper.LogsMapper">
 
-    <resultMap id="LogsMap" type="org.simple.dto.LogsDto">
-        <id column="id" property="id"></id>
-        <result column="servicename" property="servicename"></result>
-        <result column="recource" property="recource"></result>
-        <result column="ip" property="ip"></result>
-        <result column="path" property="path"></result>
-        <result column="useragent" property="useragent"></result>
-        <result column="username" property="username"></result>
-        <result column="createtime" property="createtime"></result>
-        <result column="params" property="params"></result>
-        <result column="time" property="time"></result>
-        <result column="status" property="status"></result>
-        <result column="error" property="error"></result>
-        <result column="nickName" property="nickName"></result>
+    <resultMap id="LogsMap" type="org.simple.system.entity.LogsEntity">
+        <id column="id" property="id"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="resource" property="resource"/>
+        <result column="ip" property="ip"/>
+        <result column="path" property="path"/>
+        <result column="useragent" property="useragent"/>
+        <result column="username" property="username"/>
+        <result column="create_time" property="createTime"/>
+        <result column="params" property="params"/>
+        <result column="time" property="time"/>
+        <result column="status" property="status"/>
+        <result column="error" property="error"/>
+        <result column="nick_name" property="nickName"/>
     </resultMap>
 
     <select id="logsList" resultMap="LogsMap">
         select
-        t1.nickname,
+        t1.nick_name,
         t1.username as username,
-        t.servicename,
-        t.recource,
+        t.service_name,
+        t.resource,
         t.ip,
         t.path,
         t.useragent,
-        t.createtime,
+        t.create_time,
         t.params,
         t.time,
         t.status,
@@ -42,11 +42,11 @@
             and LOWER(t1.username) like CONCAT('%',LOWER(#{obj.username}),'%')
         </if>
         <if test="obj.nickName != null and obj.nickName != ''">
-            and t1.nickname like CONCAT('%',#{obj.nickName},'%')
+            and t1.nick_name like CONCAT('%',#{obj.nickName},'%')
         </if>
         <if test="obj.status != null and obj.status != ''">
             and t.status = #{obj.status}
         </if>
-        order by t.createtime desc
+        order by t.create_time desc
     </select>
 </mapper>

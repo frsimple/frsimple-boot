@@ -4,10 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
-import org.simple.constant.RedisConstant;
+import org.simple.constant.RedisConst;
 import org.simple.dto.EmailDto;
-import org.simple.utils.CommonResult;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
+import org.simple.utils.RedisUtil;
 
 import java.io.File;
 
@@ -26,13 +27,13 @@ public class EmailUtil {
     private EmailUtil() {
     }
 
-    public static EmailUtil getInstance(RedisTemplate redisTemplate) {
+    public static EmailUtil getInstance(RedisUtil redisUtil) {
         if (null == emailUtil) {
             emailUtil = new EmailUtil();
         }
         //设置配置对象
         EmailDto var = BeanUtil.fillBeanWithMap(
-                redisTemplate.opsForHash().entries(RedisConstant.EMIAL_PIX), new EmailDto(),
+                redisUtil.entries(RedisConst.EMIAL_PIX), new EmailDto(),
                 false);
         emailDto = var;
         return emailUtil;
@@ -41,24 +42,24 @@ public class EmailUtil {
     /**
      * 发送邮件
      */
-    public CommonResult sendEmail(String title, String content, String[] tos, boolean isHtml, File[] files) {
+    public ActionResult<?> sendEmail(String title, String content, String[] tos, boolean isHtml, File[] files) {
         try {
             MailAccount account = new MailAccount();
             account.setHost(emailDto.getHost());
             account.setPort(Integer.valueOf(emailDto.getPort()));
             account.setAuth(true);
-            account.setFrom(emailDto.getSitename() + "<" + emailDto.getUsername() + ">");
+            account.setFrom(emailDto.getSiteName() + "<" + emailDto.getUsername() + ">");
             account.setUser(emailDto.getUsername());
             account.setPass(emailDto.getPassword());
-            account.setSslEnable(emailDto.getIsssl() == 1);
+            account.setSslEnable(emailDto.getIsSsl() == 1);
             if (null == files || files.length == 0) {
                 MailUtil.send(account, CollUtil.newArrayList(tos), title, content, isHtml);
             } else {
                 MailUtil.send(account, CollUtil.newArrayList(tos), title, content, isHtml, files);
             }
-            return CommonResult.success("发送成功");
+            return ActionResult.success(ResultCodeEnum.SUCCESS.getCode());
         } catch (Exception ex) {
-            return CommonResult.failed("发送失败：" + ex.getMessage());
+            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
         }
     }
 }

@@ -42,7 +42,7 @@ private static final long serialVersionUID=1L;
     #if($column.dataType.equals('json'))
     @TableField(typeHandler = JacksonTypeHandler.class)
     #end
-    private $column.attrType $column.attrname;
+private $column.attrType $column.attrname;
 #end
 
 }

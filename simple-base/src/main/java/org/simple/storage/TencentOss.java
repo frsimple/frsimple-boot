@@ -12,11 +12,13 @@ import com.qcloud.cos.exception.CosServiceException;
 import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.model.*;
 import com.qcloud.cos.region.Region;
-import org.simple.constant.RedisConstant;
+import org.simple.constant.RedisConst;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
 import org.simple.utils.ComUtil;
-import org.simple.utils.CommonResult;
+import org.simple.utils.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.File;
@@ -43,28 +45,28 @@ public class TencentOss {
     private TencentOss() {
     }
 
-    public static TencentOss getInstance(RedisTemplate template) {
+    public static TencentOss getInstance(RedisUtil redisUtil) {
         if (null == tencentOss) {
             tencentOss = new TencentOss();
         }
         //设置配置对象
         OssDto var = BeanUtil.fillBeanWithMap(
-                template.opsForHash().entries(RedisConstant.TENCENT_PIX), new OssDto(),
+                redisUtil.entries(RedisConst.TENCENT_PIX), new OssDto(),
                 false);
         ossDto = var;
         return tencentOss;
     }
 
     private COSClient getCosClient() {
-        COSCredentials cred = new BasicCOSCredentials(ossDto.getAccesskeyid(),
-                ossDto.getAccesskeysecret());
+        COSCredentials cred = new BasicCOSCredentials(ossDto.getAccessKeyId(),
+                ossDto.getAccessKeySecret());
         Region region = new Region(ossDto.getRegion());
         ClientConfig clientConfig = new ClientConfig(region);
         clientConfig.setHttpProtocol(HttpProtocol.https);
         return new COSClient(cred, clientConfig);
     }
 
-    public CommonResult fileUpload(File file, boolean isPrivate, String userid) {
+    public ActionResult<?> fileUpload(File file, boolean isPrivate, String userid) {
         //初始化ossclient对象
         COSClient cosClient = getCosClient();
         String fileName = file.getName();
@@ -89,14 +91,14 @@ public class TencentOss {
             cosClient.putObject(putObjectRequest);
             //若是私有连接则返回上传路径，若是公共读则返回请求的url地址
             if (isPrivate) {
-                return CommonResult.success(path);
+                return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
             } else {
-                return CommonResult.success(
+                return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(),
                         "https://" + ossDto.getWorkspace() + "." + ossDto.getEndpoint() + "/" + path
                 );
             }
         } catch (Exception ex) {
-            return CommonResult.failed("上传失败：" + ex.getMessage());
+            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
         } finally {
             //最后关闭ossclient
             cosClient.shutdown();

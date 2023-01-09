@@ -9,10 +9,11 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.sms.v20190711.SmsClient;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
-import org.simple.constant.RedisConstant;
+import org.simple.constant.RedisConst;
 import org.simple.dto.SmsDto;
-import org.simple.utils.CommonResult;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
+import org.simple.utils.RedisUtil;
 
 /**
  * TencentSms
@@ -30,19 +31,19 @@ public class TencentSms {
     private TencentSms() {
     }
 
-    public static TencentSms getInstance(RedisTemplate template) {
+    public static TencentSms getInstance(RedisUtil redisUtil) {
         if (null == tencentSms) {
             tencentSms = new TencentSms();
         }
         //设置配置对象
         smsDto = BeanUtil.fillBeanWithMap(
-                template.opsForHash().entries(RedisConstant.SMS_TENCENT), new SmsDto(),
+                redisUtil.entries(RedisConst.SMS_TENCENT), new SmsDto(),
                 false);
         return tencentSms;
     }
 
     public SmsClient createClient() {
-        Credential cred = new Credential(smsDto.getSecretid(), smsDto.getSecretkey());
+        Credential cred = new Credential(smsDto.getSecretId(), smsDto.getSecretKey());
         HttpProfile httpProfile = new HttpProfile();
         httpProfile.setReqMethod("POST");
         httpProfile.setConnTimeout(60);
@@ -56,7 +57,7 @@ public class TencentSms {
     /**
      * 国内短信发送
      */
-    public CommonResult sendSms(String sign, String temId, String[] temParams, String[] phoneNumbers) {
+    public ActionResult<?> sendSms(String sign, String temId, String[] temParams, String[] phoneNumbers) {
         SmsClient client = createClient();
         SendSmsRequest sendSmsRequest = new SendSmsRequest();
         sendSmsRequest.setSmsSdkAppid(smsDto.getAppid());
@@ -76,11 +77,11 @@ public class TencentSms {
         try {
             SendSmsResponse resp = client.SendSms(sendSmsRequest);
             if (!"Ok".equals(resp.getSendStatusSet()[0].getCode())) {
-                return CommonResult.failed("发送失败：" + resp.getSendStatusSet()[0].getMessage());
+                return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
             }
         } catch (TencentCloudSDKException e) {
-            return CommonResult.failed(e.getMessage());
+            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
         }
-        return CommonResult.successNodata("发送成功");
+        return ActionResult.success(ResultCodeEnum.SUCCESS.getCode());
     }
 }

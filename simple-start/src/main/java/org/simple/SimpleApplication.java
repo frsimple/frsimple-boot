@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @since 2022-7-7
  */
 @EnableAsync
-@MapperScan("org.simple.mapper")
+@MapperScan("org.simple.*.mapper")
 @SpringBootApplication(scanBasePackages = "org.simple")
 public class SimpleApplication {
     /**

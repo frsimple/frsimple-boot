@@ -2,14 +2,14 @@ package org.simple.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.simple.enums.system.ResultCode;
+import org.simple.enums.system.ResultCodeEnum;
 
 /**
  * 文件操作异常封装
  *
  * @author yh_liu
  * @version v1.0
- * @since 2022/7/11
+ * @since 2022/11/11
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,7 +18,7 @@ public class FileException extends Exception {
     /**
      * 异常编码
      */
-    private ResultCode errorCode;
+    private Object errorCode;
 
     /**
      * 异常信息
@@ -31,13 +31,13 @@ public class FileException extends Exception {
      * @param errorCode 异常编码
      */
     public FileException(Object errorCode) {
-        ResultCode codesEnum = ResultCode.fromCode(Long.parseLong(errorCode.toString()));
+        ResultCodeEnum codesEnum = ResultCodeEnum.fromCode(errorCode.toString());
         if (codesEnum != null) {
-            this.errorCode = codesEnum;
+            this.errorCode = codesEnum.getCode();
             this.errorMessage = codesEnum.getMsg();
         } else {
-            this.errorCode = ResultCode.FAILED;
-            this.errorMessage = ResultCode.FAILED.getMsg();
+            this.errorCode = ResultCodeEnum.SUCCESS.getCode();
+            this.errorMessage = ResultCodeEnum.SUCCESS.getMsg();
         }
     }
 
@@ -48,7 +48,7 @@ public class FileException extends Exception {
      */
     public FileException(String errorMessage) {
         super(errorMessage);
-        this.errorCode = ResultCode.FAILED;
+        this.errorCode = ResultCodeEnum.FAILED.getCode();
         this.errorMessage = errorMessage;
     }
 

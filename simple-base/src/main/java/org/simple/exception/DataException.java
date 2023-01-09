@@ -1,6 +1,6 @@
 package org.simple.exception;
 
-import org.simple.enums.system.ResultCode;
+import org.simple.enums.system.ResultCodeEnum;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class DataException extends Exception {
      * @return 数据异常
      */
     public static DataException errorLink(String warning) {
-        return new DataException(ResultCode.DB002.getCode() + warning);
+        return new DataException(ResultCodeEnum.DB5002.getMsg() + warning);
     }
 
     /**
@@ -64,5 +64,4 @@ public class DataException extends Exception {
             e.printStackTrace();
         }
     }
-
 }

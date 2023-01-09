@@ -16,17 +16,17 @@ public class PageUtil {
      * @param <T>      实体
      * @return 自定义分页
      */
-    public static <T> List<T> getListPage(Long page, Long pageSize, List<T> list) {
+    public static <T> List<T> getListPage(int page, int pageSize, List<T> list) {
         if (list == null || list.size() == 0) {
             return list;
         }
-        long totalCount = list.size();
+        int totalCount = list.size();
         page = page - 1;
-        long fromIndex = page * pageSize;
+        int fromIndex = page * pageSize;
         if (fromIndex >= totalCount) {
             return list;
         }
-        long toIndex = ((page + 1) * pageSize);
+        int toIndex = ((page + 1) * pageSize);
         if (toIndex > totalCount) {
             toIndex = totalCount;
         }

@@ -98,9 +98,22 @@ public class TreeUtil<T extends BaseTree<T>> {
      * @param list 父级菜单
      * @return 子菜单
      */
+    public List<T> buildTree(List<T> list, String rootId) {
+        return list.stream()
+                .filter(node -> ObjectUtil.isNull(node.getParentId()) || ObjectUtil.isNull(node.getParentId()) || rootId.equals(node.getParentId()))
+                .peek(node -> node.setChildren(getChildren(node, list)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 转化tree
+     *
+     * @param list 父级菜单
+     * @return 子菜单
+     */
     public List<T> buildTree(List<T> list) {
         return list.stream()
-                .filter(node -> ObjectUtil.isNull(node.getParentId()) || ObjectUtil.isNull(node.getParentId()))
+                .filter(node -> ObjectUtil.isNull(node.getParentId()) || ObjectUtil.isNull(node.getParentId()) || "0".equals(node.getParentId()))
                 .peek(node -> node.setChildren(getChildren(node, list)))
                 .collect(Collectors.toList());
     }

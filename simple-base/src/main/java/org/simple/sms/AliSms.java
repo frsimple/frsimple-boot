@@ -6,10 +6,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
-import org.simple.constant.RedisConstant;
+import org.simple.constant.CommonConst;
+import org.simple.constant.RedisConst;
 import org.simple.dto.SmsDto;
-import org.simple.utils.CommonResult;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
+import org.simple.utils.RedisUtil;
 
 /**
  * sms
@@ -27,13 +29,13 @@ public class AliSms {
     private AliSms() {
     }
 
-    public static AliSms getInstance(RedisTemplate template) {
+    public static AliSms getInstance(RedisUtil redisUtil) {
         if (null == aliSms) {
             aliSms = new AliSms();
         }
         //设置配置对象
         smsDto = BeanUtil.fillBeanWithMap(
-                template.opsForHash().entries(RedisConstant.SMS_ALI), new SmsDto(),
+                redisUtil.entries(RedisConst.SMS_ALI), new SmsDto(),
                 false);
         return aliSms;
     }
@@ -41,9 +43,9 @@ public class AliSms {
     public static com.aliyun.dysmsapi20170525.Client createClient() throws Exception {
         Config config = new Config()
                 // 您的 AccessKey ID
-                .setAccessKeyId(smsDto.getSecretid())
+                .setAccessKeyId(smsDto.getSecretId())
                 // 您的 AccessKey Secret
-                .setAccessKeySecret(smsDto.getSecretkey());
+                .setAccessKeySecret(smsDto.getSecretKey());
         // 访问的域名
         if (StrUtil.isNotEmpty(smsDto.getEndpoint())) {
             config.endpoint = smsDto.getEndpoint();
@@ -59,23 +61,23 @@ public class AliSms {
     /**
      * 发送同步短信
      */
-    public CommonResult sendAsyncSms(String signName, String[] phoneNumbers,
-                                     String temId, JSONObject temParams) throws Exception {
+    public ActionResult<?> sendAsyncSms(String signName, String[] phoneNumbers,
+                                        String temId, JSONObject temParams) throws Exception {
         try {
             com.aliyun.dysmsapi20170525.Client client = createClient();
             SendSmsRequest sendSmsRequest = new SendSmsRequest();
-            sendSmsRequest.setPhoneNumbers(StrUtil.join(",", phoneNumbers));
+            sendSmsRequest.setPhoneNumbers(StrUtil.join(CommonConst.STRING_COMMA, phoneNumbers));
             sendSmsRequest.setSignName(StrUtil.isEmpty(signName) ? smsDto.getSign() : signName);
             sendSmsRequest.setTemplateCode(temId);
             sendSmsRequest.setTemplateParam(JSONObject.toJSONString(temParams));
             SendSmsResponse sendSmsResponse = client.sendSms(sendSmsRequest);
             if (!"OK".equals(sendSmsResponse.getBody().getCode())) {
-                return CommonResult.failed("发送失败：" + sendSmsResponse.getBody().getMessage());
+                return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
             }
         } catch (Exception ex) {
-            return CommonResult.failed("发送失败：" + ex.getMessage());
+            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
         }
 
-        return CommonResult.successNodata("发送成功");
+        return ActionResult.success(ResultCodeEnum.SUCCESS.getCode());
     }
 }

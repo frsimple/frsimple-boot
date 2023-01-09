@@ -2,11 +2,11 @@ package org.simple.config.handler;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
-import org.simple.enums.system.ResultCode;
+import org.simple.enums.system.ResultCodeEnum;
 import org.simple.exception.CustomException;
 import org.simple.exception.FileException;
 import org.simple.exception.WorkFlowException;
-import org.simple.utils.CommonResult;
+import org.simple.utils.ActionResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,13 +28,13 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = WorkFlowException.class)
-    public CommonResult<?> workFlowExceptionHandler(WorkFlowException ex) {
-        CommonResult<?> commonResult;
+    public ActionResult<?> workFlowExceptionHandler(WorkFlowException ex) {
+        ActionResult<?> actionResult;
         if (ex != null) {
-            commonResult = CommonResult.failed(ex.getErrorCode(), ex.getErrorMessage());
-            return commonResult;
+            actionResult = ActionResult.failed(ex.getErrorCode());
+            return actionResult;
         }
-        return CommonResult.failed(ResultCode.FAILED, "未知异常");
+        return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
     }
 
     /**
@@ -44,13 +44,13 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = CustomException.class)
-    public CommonResult<?> customExceptionHandler(CustomException ex) {
-        CommonResult<?> commonResult;
+    public ActionResult<?> customExceptionHandler(CustomException ex) {
+        ActionResult<?> actionResult;
         if (ex != null) {
-            commonResult = CommonResult.failed(ex.getErrorCode(), ex.getErrorMessage());
-            return commonResult;
+            actionResult = ActionResult.failed(ex.getErrorCode());
+            return actionResult;
         }
-        return CommonResult.failed(ResultCode.FAILED, "未知异常");
+        return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
     }
 
     /**
@@ -60,65 +60,65 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = FileException.class)
-    public CommonResult<?> fileExceptionHandler(FileException ex) {
-        CommonResult<?> commonResult;
+    public ActionResult<?> fileExceptionHandler(FileException ex) {
+        ActionResult<?> actionResult;
         if (ex != null) {
-            commonResult = CommonResult.failed(ex.getErrorCode(), ex.getErrorMessage());
-            return commonResult;
+            actionResult = ActionResult.failed(ex.getErrorCode());
+            return actionResult;
         }
-        return CommonResult.failed(ResultCode.FAILED, "未知异常");
+        return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
     }
 
 
     /**
      * Sa-token未登录异常处理
      *
-     * @param exception
-     * @return
+     * @param exception 异常
+     * @return 返回
      */
     @ExceptionHandler(value = NotLoginException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public CommonResult<Boolean> unauthenticatedExceptionHandler(NotLoginException exception) {
+    public ActionResult<Boolean> unauthenticatedExceptionHandler(NotLoginException exception) {
         // 判断场景值，定制化异常信息
-        ResultCode resultCode = null;
+        ResultCodeEnum resultCode;
         if (exception.getType().equals(NotLoginException.NOT_TOKEN)) {
-            resultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCodeEnum.NOT_TOKEN_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.INVALID_TOKEN)) {
-            resultCode = org.simple.enums.system.ResultCode.INVALID_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCodeEnum.INVALID_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.TOKEN_TIMEOUT)) {
-            resultCode = org.simple.enums.system.ResultCode.TOKEN_TINEDOUT_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCodeEnum.TOKEN_TINEDOUT_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.BE_REPLACED)) {
-            resultCode = org.simple.enums.system.ResultCode.BE_REPLACED_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCodeEnum.BE_REPLACED_EXCEPTION;
         } else if (exception.getType().equals(NotLoginException.KICK_OUT)) {
-            resultCode = org.simple.enums.system.ResultCode.KICK_OUT_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCodeEnum.KICK_OUT_EXCEPTION;
         } else {
-            resultCode = org.simple.enums.system.ResultCode.NOT_TOKEN_EXCEPTION;
+            resultCode = org.simple.enums.system.ResultCodeEnum.NOT_TOKEN_EXCEPTION;
         }
-        return CommonResult.failed(resultCode);
+        return ActionResult.failed(resultCode.getCode());
     }
 
 
     /**
      * Sa-token 接口无权返回返回信息增强
      *
-     * @param exception
-     * @return
+     * @param exception 异常
+     * @return 返回
      */
     @ExceptionHandler(value = NotPermissionException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public CommonResult handleNotPermissionException(NotPermissionException exception) {
-        return CommonResult.failed(ResultCode.FORBIDDEN);
+    public ActionResult<?> handleNotPermissionException(NotPermissionException exception) {
+        return ActionResult.failed(ResultCodeEnum.FORBIDDEN.getCode());
     }
 
     /**
      * 断言异常
      *
-     * @param illegalArgumentException
-     * @return
+     * @param exception 异常
+     * @return 返回
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public CommonResult<Boolean> illegalArgumentException(IllegalArgumentException illegalArgumentException) {
-        return CommonResult.failed(ResultCode.ILLEGAL_ARGUMENT_EXCEPTION, illegalArgumentException.getMessage());
+    public ActionResult<Boolean> illegalArgumentException(IllegalArgumentException exception) {
+        return ActionResult.failed(ResultCodeEnum.ILLEGAL_ARGUMENT_EXCEPTION.getCode());
     }
 }

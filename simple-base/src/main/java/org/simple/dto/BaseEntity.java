@@ -23,7 +23,7 @@ public class BaseEntity {
      */
     @Schema(description = "主键id")
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 创建时间
@@ -37,7 +37,7 @@ public class BaseEntity {
      */
     @TableField(value = "create_user_id", fill = FieldFill.INSERT)
     @Schema(description = "创建人id")
-    private Long createUserId;
+    private String createUserId;
 
     /**
      * 创建人
@@ -51,7 +51,7 @@ public class BaseEntity {
      */
     @TableField(value = "create_org_id", fill = FieldFill.INSERT)
     @Schema(description = "创建人组织id")
-    private Long createOrgId;
+    private String createOrgId;
 
     /**
      * 修改时间
@@ -65,7 +65,7 @@ public class BaseEntity {
      */
     @TableField(value = "modify_user_id", fill = FieldFill.UPDATE)
     @Schema(description = "修改人id")
-    private Long modifyUserId;
+    private String modifyUserId;
 
     /**
      * 修改人
@@ -86,7 +86,14 @@ public class BaseEntity {
      */
     @TableField(value = "sort_index")
     @Schema(description = "排序号")
-    private Integer sortIndex;
+    private Double sortIndex;
+
+    /**
+     * 租户id
+     */
+    @TableField(value = "tenant_id")
+    @Schema(description = "租户id")
+    private String tenantId;
 
     /**
      * 是否删除

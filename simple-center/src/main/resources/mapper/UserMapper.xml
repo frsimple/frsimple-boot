@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.simple.mapper.UserMapper">
+<mapper namespace="org.simple.system.mapper.UserMapper">
 
-    <resultMap id="userMap" type="org.simple.dto.UserDto">
-        <id column="id" property="id"></id>
-        <result column="username" property="username"></result>
-        <result column="password" property="password"></result>
-        <result column="nickname" property="nickname"></result>
-        <result column="phone" property="phone"></result>
-        <result column="email" property="email"></result>
-        <result column="status" property="status"></result>
-        <result column="avatar" property="avatar"></result>
-        <result column="createdate" property="createdate"></result>
-        <result column="updatedate" property="updatedate"></result>
-        <result column="logindate" property="logindate"></result>
-        <result column="tenant" property="tenant"></result>
-        <result column="error" property="error"></result>
-        <result column="tenantName" property="tenantName"></result>
-        <result column="roles" property="roles"></result>
-        <result column="roleIds" property="roleIds"></result>
+    <resultMap id="userMap" type="org.simple.system.dto.user.UserEntityDto">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nick_Name" property="nickName"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="avatar" property="avatar"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="login_date" property="loginDate"/>
+        <result column="tenant" property="tenant"/>
+        <result column="error_count" property="errorCount"/>
+        <result column="tenantName" property="tenantName"/>
+        <result column="roles" property="roles"/>
+        <result column="roleIds" property="roleIds"/>
     </resultMap>
 
     <select id="listAll" resultMap="userMap">
@@ -42,13 +42,13 @@
         <if test="user.tenant != null and user.tenant != ''">
             and t.tenant = #{user.tenant}
         </if>
-        <if test="user.nickname != null and user.nickname != ''">
-            and t.nickname like CONCAT('%',#{user.nickname},'%')
+        <if test="user.nickName != null and user.nickName != ''">
+            and t.nick_name like CONCAT('%',#{user.nickName},'%')
         </if>
         <if test="user.status != null and user.status != ''">
             and t.status = #{user.status}
         </if>
-        order by t.createdate desc
+        order by t.create_time desc
     </select>
 
 </mapper>

@@ -33,4 +33,18 @@ public class CommonConst {
      */
     public static final String TOKEN_CODE = "Authorization";
 
+    /**
+     * 警号
+     */
+    public static final String ALARM_SIGNAL = "#";
+
+    /**
+     * MINIO
+     */
+    public static final String MINIO = "MINIO";
+
+    /**
+     * 超级管理员
+     */
+    public static final String SUPER_ADMIN = "1";
 }

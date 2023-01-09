@@ -14,8 +14,8 @@ public class OssDto {
 
     private String endpoint;
     private String workspace;
-    private String accesskeyid;
-    private String accesskeysecret;
+    private String accessKeyId;
+    private String accessKeySecret;
     private String appid;
     private String region;
 }

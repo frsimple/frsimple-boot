@@ -1,10 +1,11 @@
 package org.simple.config.satoken;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.jwt.SaJwtTemplate;
+import cn.dev33.satoken.jwt.SaJwtUtil;
 import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.strategy.SaStrategy;
 import cn.hutool.core.collection.ListUtil;
-import com.github.yitter.idgen.YitIdHelper;
+import cn.hutool.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,12 +27,14 @@ public class SaTokenConfig implements WebMvcConfigurer {
      * 重写 Sa-Token 框架内部算法策略
      */
     @Autowired
-    public void rewriteSaStrategy() {
-        // 重写 Token 生成策略 
-        SaStrategy.me.createToken = (loginId, loginType) -> {
-            // 生成雪花Id
-            return String.valueOf(YitIdHelper.nextId());
-        };
+    public void setSaJwtTemplate() {
+        SaJwtUtil.setSaJwtTemplate(new SaJwtTemplate() {
+            @Override
+            public String generateToken(JWT jwt, String key) {
+                System.out.println("------ 自定义了 token 生成算法");
+                return super.generateToken(jwt, key);
+            }
+        });
     }
 
     /**

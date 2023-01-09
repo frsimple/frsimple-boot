@@ -1,6 +1,6 @@
 package org.simple.sms;
 
-import org.springframework.data.redis.core.RedisTemplate;
+import org.simple.utils.RedisUtil;
 
 /**
  * SmsUtil
@@ -12,11 +12,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 public class SmsUtil {
 
-    public static AliSms getAliSms(RedisTemplate redisTemplate) {
-        return AliSms.getInstance(redisTemplate);
+    public static AliSms getAliSms(RedisUtil redisUtil) {
+        return AliSms.getInstance(redisUtil);
     }
 
-    public static TencentSms getTencentSms(RedisTemplate redisTemplate) {
-        return TencentSms.getInstance(redisTemplate);
+    public static TencentSms getTencentSms(RedisUtil redisUtil) {
+        return TencentSms.getInstance(redisUtil);
     }
 }

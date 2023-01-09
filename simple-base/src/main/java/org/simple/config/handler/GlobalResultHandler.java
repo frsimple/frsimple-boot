@@ -2,8 +2,8 @@ package org.simple.config.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.simple.enums.system.ResultCode;
-import org.simple.utils.CommonResult;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -47,10 +47,10 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, @Nonnull MethodParameter methodParameter, @Nonnull MediaType mediaType, @Nonnull Class<? extends HttpMessageConverter<?>> aClass, @Nonnull ServerHttpRequest serverHttpRequest, @Nonnull ServerHttpResponse serverHttpResponse) {
         /* 防止返回类型不是包装类型，但是抛出异常，被处理成包装类型 */
-        if (body instanceof CommonResult) {
+        if (body instanceof ActionResult) {
             return body;
         }
-        Object wrap = CommonResult.success(body, ResultCode.SUCCESS.getMsg());
+        Object wrap = ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), body);
         /* 防止返回类型为string时需要特殊判断 */
         if (body instanceof String) {
             try {

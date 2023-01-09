@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,6 +25,23 @@ public class SpringDocConfig {
 
     private static final String SECURITY_SCHEME_NAME = "BearerAuth";
     private final SpringDocProperties springDocProperties;
+
+    @Bean
+    public GroupedOpenApi systemApi() {
+        return GroupedOpenApi.builder()
+                .group("system").displayName("系统管理")
+                .pathsToMatch("/api/center/system/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi onlineApi() {
+        return GroupedOpenApi.builder()
+                .group("online").displayName("在线开发")
+                .pathsToMatch("/api/center/online/**")
+                .build();
+    }
+
 
     /**
      * 主要是这个方法，其他的方法是抽出去的

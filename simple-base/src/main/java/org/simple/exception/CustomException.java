@@ -2,7 +2,7 @@ package org.simple.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.simple.enums.system.ResultCode;
+import org.simple.enums.system.ResultCodeEnum;
 
 /**
  * 自定义异常封装
@@ -18,7 +18,7 @@ public class CustomException extends Exception {
     /**
      * 异常编码
      */
-    private ResultCode errorCode;
+    private Object errorCode;
 
     /**
      * 异常信息
@@ -31,13 +31,13 @@ public class CustomException extends Exception {
      * @param errorCode 异常编码
      */
     public CustomException(Object errorCode) {
-        ResultCode codesEnum = ResultCode.fromCode(Long.parseLong(errorCode.toString()));
+        ResultCodeEnum codesEnum = ResultCodeEnum.fromCode(errorCode.toString());
         if (codesEnum != null) {
-            this.errorCode = codesEnum;
+            this.errorCode = codesEnum.getCode();
             this.errorMessage = codesEnum.getMsg();
         } else {
-            this.errorCode = ResultCode.FAILED;
-            this.errorMessage = ResultCode.FAILED.getMsg();
+            this.errorCode = ResultCodeEnum.FAILED.getCode();
+            this.errorMessage = ResultCodeEnum.FAILED.getMsg();
         }
     }
 

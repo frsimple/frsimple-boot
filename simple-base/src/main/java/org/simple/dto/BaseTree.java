@@ -18,7 +18,7 @@ public class BaseTree<T> extends BaseEntity {
     /**
      * 节点父id
      */
-    private Long parentId;
+    private String parentId;
 
     /**
      * 节点父名称

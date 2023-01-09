@@ -16,6 +16,6 @@ public class EmailDto {
     private String port;
     private String username;
     private String password;
-    private String sitename;
-    private Integer isssl;
+    private String siteName;
+    private Integer isSsl;
 }

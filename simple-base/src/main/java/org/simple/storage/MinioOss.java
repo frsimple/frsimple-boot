@@ -6,11 +6,13 @@ import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.Item;
-import org.simple.constant.RedisConstant;
+import org.simple.constant.RedisConst;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
+import org.simple.enums.system.ResultCodeEnum;
+import org.simple.utils.ActionResult;
 import org.simple.utils.ComUtil;
-import org.simple.utils.CommonResult;
+import org.simple.utils.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -42,13 +44,13 @@ public class MinioOss {
     private MinioOss() {
     }
 
-    public static MinioOss getInstance(RedisTemplate template) {
+    public static MinioOss getInstance(RedisUtil redisUtil) {
         if (null == minioOss) {
             minioOss = new MinioOss();
         }
         //设置配置对象
         OssDto var = BeanUtil.fillBeanWithMap(
-                template.opsForHash().entries(RedisConstant.MINIO_PIX), new OssDto(),
+                redisUtil.entries(RedisConst.MINIO_PIX), new OssDto(),
                 false);
         ossDto = var;
         return minioOss;
@@ -57,12 +59,12 @@ public class MinioOss {
     private MinioClient getMinioClient() {
         MinioClient minioClient = MinioClient.builder()
                 .endpoint(ossDto.getEndpoint())
-                .credentials(ossDto.getAccesskeyid(), ossDto.getAccesskeysecret()).build();
+                .credentials(ossDto.getAccessKeyId(), ossDto.getAccessKeySecret()).build();
         return minioClient;
     }
 
 
-    public CommonResult fileUpload(File file, boolean isPrivate, String userid) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public ActionResult<?> fileUpload(File file, boolean isPrivate, String userid) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         MinioClient minioClient = getMinioClient();
         String fileName = file.getName();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,9 +87,9 @@ public class MinioOss {
         minioClient.putObject(args);
 
         if (isPrivate) {
-            return CommonResult.success(path);
+            return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
         } else {
-            return CommonResult.success(ossDto.getEndpoint() + "/" + ossDto.getWorkspace() + "/" + path);
+            return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), ossDto.getEndpoint() + "/" + ossDto.getWorkspace() + "/" + path);
         }
     }
 

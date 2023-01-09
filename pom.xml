@@ -77,10 +77,8 @@
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
-                <artifactId>hutool-bom</artifactId>
-                <version>5.8.8</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.10</version>
             </dependency>
             <dependency>
                 <groupId>io.minio</groupId>
@@ -134,7 +132,11 @@
                 <artifactId>sa-token-dao-redis-jackson</artifactId>
                 <version>1.33.0</version>
             </dependency>
-
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
+                <version>1.33.0</version>
+            </dependency>
             <!--验证码-->
             <dependency>
                 <groupId>com.github.whvcse</groupId>

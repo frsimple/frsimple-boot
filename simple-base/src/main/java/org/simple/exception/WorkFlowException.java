@@ -2,7 +2,7 @@ package org.simple.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.simple.enums.system.ResultCode;
+import org.simple.enums.system.ResultCodeEnum;
 
 /**
  * 流程异常封装
@@ -18,7 +18,7 @@ public class WorkFlowException extends Exception {
     /**
      * 异常编码
      */
-    private ResultCode errorCode;
+    private String errorCode;
 
     /**
      * 异常信息
@@ -32,13 +32,13 @@ public class WorkFlowException extends Exception {
      * @param errorCode 异常编码
      */
     public WorkFlowException(Object errorCode) {
-        ResultCode codesEnum = ResultCode.fromCode(Long.parseLong(errorCode.toString()));
+        ResultCodeEnum codesEnum = ResultCodeEnum.fromCode(errorCode.toString());
         if (codesEnum != null) {
-            this.errorCode = codesEnum;
+            this.errorCode = codesEnum.getCode();
             this.errorMessage = codesEnum.getMsg();
         } else {
-            this.errorCode = ResultCode.FAILED;
-            this.errorMessage = ResultCode.FAILED.getMsg();
+            this.errorCode = ResultCodeEnum.FAILED.getCode();
+            this.errorMessage = ResultCodeEnum.FAILED.getMsg();
         }
     }
 
@@ -49,7 +49,7 @@ public class WorkFlowException extends Exception {
      */
     public WorkFlowException(String errorMessage) {
         super(errorMessage);
-        this.errorCode = ResultCode.FAILED;
+        this.errorCode = ResultCodeEnum.FAILED.getCode();
         this.errorMessage = errorMessage;
     }
 
