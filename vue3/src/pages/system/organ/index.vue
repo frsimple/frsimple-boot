@@ -46,6 +46,7 @@
             childrenKey: 'children',
             treeNodeColumnIndex: 0,
           }"
+          :loadingProps="{ size: '23px', text: '加载中...' }"
           :table-layout="'fixed'"
           :loading="dataLoading"
         >

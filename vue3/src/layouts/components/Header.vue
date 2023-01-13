@@ -19,16 +19,30 @@
         <div class="operations-container">
           <!-- 搜索框 -->
           <search v-if="layout !== 'side'" :layout="layout" />
-
           <t-popup placement="left-bottom">
             <t-button theme="primary">
               <template #icon>
                 <t-icon name="logo-wecom"></t-icon>
               </template>
-              扫码进入微信交流群</t-button
+              扫码进入交流群</t-button
             >
             <template #content>
-              <img style="height: 300px; width: 300px" src="https://frsimple.cn/_nuxt/11662564543_.pic.34eebea0.jpg" />
+              <t-space>
+                <div style="display: flex; flex-direction: column; align-items: center">
+                  <t-image
+                    style="height: 185px; width: 185px"
+                    src="https://pengpengyu-test.oss-cn-zhangjiakou.aliyuncs.com/image/wx.jpg"
+                  ></t-image>
+                  <span>扫码进入微信交流群</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center">
+                  <t-image
+                    style="height: 185px; width: 185px"
+                    src="https://pengpengyu-test.oss-cn-zhangjiakou.aliyuncs.com/image/qq.jpg"
+                  ></t-image>
+                  <span>扫码进入QQ交流群</span>
+                </div>
+              </t-space>
             </template>
           </t-popup>
           <!-- 全局通知 -->
@@ -70,7 +84,7 @@
             </template>
             <t-button class="header-user-btn" theme="default" variant="text">
               <div class="header-user-account">
-                {{ curUser && curUser.nickname ? curUser.nickname : '游客' }}
+                {{ curUser && curUser.nickName ? curUser.nickName : '游客' }}
                 <t-icon name="chevron-down" />
               </div>
             </t-button>
@@ -109,6 +123,7 @@ const userStore = useUserStore();
 const curUser = computed(() => {
   return userStore.curUser;
 });
+console.log(curUser);
 
 const goQQ = () => {
   window.open('http://wpa.qq.com/msgrd?v=3&uin=2827916671&site=qq&menu=yes');
