@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/tenant")
+@RequestMapping("/center/system/tenant")
 @Tag(name = "tenant", description = "租户管理")
 public class TenantController {
     private final ITenantService tenantService;

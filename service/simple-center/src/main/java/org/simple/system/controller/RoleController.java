@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/role")
+@RequestMapping("/center/system/role")
 @Tag(name = "role", description = "角色管理")
 public class RoleController {
     private final IRoleService roleService;

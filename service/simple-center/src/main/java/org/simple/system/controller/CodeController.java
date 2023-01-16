@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/code")
+@RequestMapping("/center/system/code")
 @Tag(name = "code", description = "代码生成")
 public class CodeController {
     private final IDataSourceService IDataSourceService;

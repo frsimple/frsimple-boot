@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/organ")
+@RequestMapping("/center/system/organ")
 @Tag(name = "organ", description = "组织管理")
 public class OrganController {
     private final IOrganService organService;

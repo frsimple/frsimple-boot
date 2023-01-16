@@ -48,7 +48,7 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/user")
+@RequestMapping("/center/system/user")
 @Tag(name = "user", description = "用户管理")
 public class UserController {
     private final IUserService userService;

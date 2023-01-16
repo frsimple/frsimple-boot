@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/email")
+@RequestMapping("/center/system/email")
 @Tag(name = "dict", description = "邮件管理")
 public class EmailController {
     private final IEmailService emailService;

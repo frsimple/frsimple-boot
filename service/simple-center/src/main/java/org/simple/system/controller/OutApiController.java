@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/outApi")
+@RequestMapping("/center/system/outApi")
 @Tag(name = "outApi", description = "外部api")
 public class OutApiController {
 

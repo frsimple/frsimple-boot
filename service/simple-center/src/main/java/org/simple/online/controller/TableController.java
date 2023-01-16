@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Tag(name = "table", description = "数据表定义")
 @RestController
-@RequestMapping("/api/center/online/table")
+@RequestMapping("/center/online/table")
 @RequiredArgsConstructor
 public class TableController {
 

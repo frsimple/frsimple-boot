@@ -33,7 +33,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/dict")
+@RequestMapping("/center/system/dict")
 @Tag(name = "dict", description = "字典管理")
 public class DictController {
     private final IDictionaryService dictionaryService;

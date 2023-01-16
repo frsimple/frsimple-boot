@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/sms")
+@RequestMapping("/center/system/sms")
 @Tag(name = "sms", description = "sms管理")
 public class SmsController {
     private final ISmsService smsService;

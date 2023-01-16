@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/logs")
+@RequestMapping("/center/system/logs")
 @Tag(name = "logs", description = "日志列表")
 public class LogsController {
     private final ILogsService logsService;

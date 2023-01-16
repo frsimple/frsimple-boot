@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Tag(name = "dataType", description = "数据类型定义")
 @RestController
-@RequestMapping("/api/center/online/dataType")
+@RequestMapping("/center/online/dataType")
 @RequiredArgsConstructor
 public class DataTypeController {
 

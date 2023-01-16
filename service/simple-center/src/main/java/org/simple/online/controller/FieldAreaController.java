@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Tag(name = "fieldArea", description = "数据域定义")
 @RestController
-@RequestMapping("/api/center/online/fieldArea")
+@RequestMapping("/center/online/fieldArea")
 @RequiredArgsConstructor
 public class FieldAreaController {
     private final IFieldAreaService fieldAreaService;

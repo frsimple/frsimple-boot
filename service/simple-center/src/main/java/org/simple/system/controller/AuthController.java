@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/center/system/auth")
+@RequestMapping("/center/system/auth")
 @Tag(name = "auth", description = "登录相关")
 public class AuthController {
     private final IAuthService authService;
