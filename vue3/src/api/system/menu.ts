@@ -1,8 +1,8 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 // 获取菜单根据固定条件
 export function getMenuList(params) {
-  return request.get({
+  return request({
     url: '/center/system/menu/menuList',
     method: 'get',
     params,
@@ -11,7 +11,7 @@ export function getMenuList(params) {
 
 // 查询菜单权限信息
 export function getBtnList(params) {
-  return request.get({
+  return request({
     url: '/center/system/menu/btnList',
     method: 'get',
     params,
@@ -20,7 +20,7 @@ export function getBtnList(params) {
 
 // 查询菜单树，所有数据
 export function getTreeMenuAll() {
-  return request.get({
+  return request({
     url: '/center/system/menu/treeAll',
     method: 'get',
   });
@@ -28,7 +28,7 @@ export function getTreeMenuAll() {
 
 // 新增菜单
 export function addMenuInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/menu/addMenu',
     method: 'post',
     data,
@@ -37,7 +37,7 @@ export function addMenuInfo(data) {
 
 // 修改菜单
 export function editMenuInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/menu/editMenu',
     method: 'post',
     data,
@@ -46,7 +46,7 @@ export function editMenuInfo(data) {
 
 // 删除菜单信息
 export function delMenuInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/menu/delMenu',
     method: 'post',
     data,
@@ -55,7 +55,7 @@ export function delMenuInfo(data) {
 
 // 新增菜单按钮权限
 export function addBtnMenuInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/menu/addBtnMenu',
     method: 'post',
     data,
@@ -64,7 +64,7 @@ export function addBtnMenuInfo(data) {
 
 // 修改菜单按钮权限
 export function editBtnMenuInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/menu/editBtnMenu',
     method: 'post',
     data,
@@ -73,7 +73,7 @@ export function editBtnMenuInfo(data) {
 
 // 删除菜单按钮权限
 export function delBtnMenuInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/menu/delBtnMenu',
     method: 'post',
     data,

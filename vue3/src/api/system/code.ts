@@ -1,14 +1,14 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 export function queryDs() {
-  return request.get({
+  return request({
     url: '/center/system/code/queryDs',
     method: 'get',
   });
 }
 
 export function queryTableList(params) {
-  return request.get({
+  return request({
     url: '/center/system/code/queryTableList',
     method: 'get',
     params,
@@ -16,7 +16,7 @@ export function queryTableList(params) {
 }
 
 export function updateTableCfg(data) {
-  return request.post({
+  return request({
     url: '/center/system/code/updateTableCfg',
     method: 'post',
     data,
@@ -24,19 +24,16 @@ export function updateTableCfg(data) {
 }
 
 export function codeCreate(params) {
-  return request.get(
-    {
-      url: '/center/system/code/codeCreate',
-      method: 'get',
-      params,
-      responseType: 'arraybuffer',
-    },
-    { isTransformResponse: false },
-  );
+  return request({
+    url: '/center/system/code/codeCreate',
+    method: 'get',
+    params,
+    responseType: 'arraybuffer',
+  });
 }
 
 export function addDataSource(data) {
-  return request.post({
+  return request({
     url: '/center/system/code/addDataSource',
     method: 'post',
     data,
@@ -44,7 +41,7 @@ export function addDataSource(data) {
 }
 
 export function delDataSource(data) {
-  return request.post({
+  return request({
     url: '/center/system/code/delDataSource',
     method: 'post',
     data,
@@ -52,7 +49,7 @@ export function delDataSource(data) {
 }
 
 export function checkDataSource(data) {
-  return request.post({
+  return request({
     url: '/center/system/code/checkDataSource',
     method: 'post',
     data,

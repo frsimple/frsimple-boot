@@ -1,8 +1,8 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 // 查询角色列表
 export function roleTreeAll() {
-  return request.get({
+  return request({
     url: '/center/system/menu/roleTreeAll',
     method: 'get',
   });
@@ -10,7 +10,7 @@ export function roleTreeAll() {
 
 // 查询角色列表
 export function roleTree(params) {
-  return request.get({
+  return request({
     url: '/center/system/role/roleMenu',
     method: 'get',
     params,
@@ -19,7 +19,7 @@ export function roleTree(params) {
 
 // 查询角色列表
 export function roleList(params) {
-  return request.get({
+  return request({
     url: '/center/system/role/list',
     method: 'get',
     params,
@@ -28,7 +28,7 @@ export function roleList(params) {
 
 // 查询角色列表全部
 export function roleAllList() {
-  return request.get({
+  return request({
     url: '/center/system/role/allList',
     method: 'get',
   });
@@ -36,7 +36,7 @@ export function roleAllList() {
 
 // 新增角色
 export function addRoleInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/role/addRole',
     method: 'post',
     data,
@@ -45,7 +45,7 @@ export function addRoleInfo(data) {
 
 // 修改角色
 export function editRoleInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/role/editRole',
     method: 'post',
     data,
@@ -54,7 +54,7 @@ export function editRoleInfo(data) {
 
 // 删除角色
 export function delRoleInfo(data) {
-  return request.post({
+  return request({
     url: '/center/system/role/delRole',
     method: 'post',
     data,
@@ -63,7 +63,7 @@ export function delRoleInfo(data) {
 
 // 保存角色权限
 export function saveRoleMenu(data) {
-  return request.post({
+  return request({
     url: '/center/system/role/saveRoleMenu',
     method: 'post',
     data,

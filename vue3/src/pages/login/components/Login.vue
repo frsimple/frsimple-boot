@@ -191,7 +191,7 @@ const router = useRouter();
 const getImgCode = async () => {
   const sp = String(Math.random() * 23);
   formData.value.sp = sp;
-  codeImg.value = `${proxy[env].host}/api/center/system/auth/getCode?sp=${sp}`;
+  codeImg.value = `${proxy[env].host}/center/system/auth/getCode?sp=${sp}`;
 };
 
 onMounted(async () => {

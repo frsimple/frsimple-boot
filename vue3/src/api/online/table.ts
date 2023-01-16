@@ -1,7 +1,7 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 export function getList(params: any) {
-  return request.get({
+  return request({
     url: '/center/online/table/list',
     method: 'get',
     params,
@@ -9,14 +9,14 @@ export function getList(params: any) {
 }
 
 export function getInfo(id: string) {
-  return request.get({
+  return request({
     url: `/center/online/table/info/${id}`,
     method: 'get',
   });
 }
 
 export function doEdit(data: any) {
-  return request.post({
+  return request({
     url: '/center/online/table/save',
     method: 'post',
     data,
@@ -24,7 +24,7 @@ export function doEdit(data: any) {
 }
 
 export function doDelete(data: any) {
-  return request.post({
+  return request({
     url: '/center/online/table/delete',
     method: 'post',
     data,

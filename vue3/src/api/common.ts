@@ -1,8 +1,8 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 // 查询字典项
 export function dicVals(code) {
-  return request.get({
+  return request({
     url: `/center/system/dict/values/${code}`,
     method: 'get',
   });

@@ -1,8 +1,8 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 // 查询字典列表
 export function listDict(params) {
-  return request.get({
+  return request({
     url: '/center/system/dict/list',
     method: 'get',
     params,
@@ -11,7 +11,7 @@ export function listDict(params) {
 
 // 查询字典列表
 export function listDict1(params) {
-  return request.get({
+  return request({
     url: '/center/system/dict/list1',
     method: 'get',
     params,
@@ -20,7 +20,7 @@ export function listDict1(params) {
 
 // 查询字典项
 export function dictValues(params) {
-  return request.get({
+  return request({
     url: '/center/system/dict/values',
     method: 'get',
     params,
@@ -29,7 +29,7 @@ export function dictValues(params) {
 
 // 查询角色列表
 export function roleList(params) {
-  return request.get({
+  return request({
     url: '/center/system/role/list',
     method: 'get',
     params,
@@ -38,7 +38,7 @@ export function roleList(params) {
 
 // 新增字典
 export function addDict(data) {
-  return request.post({
+  return request({
     url: '/center/system/dict/addDict',
     method: 'post',
     data,
@@ -47,7 +47,7 @@ export function addDict(data) {
 
 // 修改字典
 export function editDict(data) {
-  return request.post({
+  return request({
     url: '/center/system/dict/editDict',
     method: 'post',
     data,
@@ -56,7 +56,7 @@ export function editDict(data) {
 
 // 删除字典
 export function delDict(params) {
-  return request.post({
+  return request({
     url: '/center/system/dict/delDict',
     method: 'post',
     params,
@@ -65,7 +65,7 @@ export function delDict(params) {
 
 // 刷新字典缓存
 export function refDictCache() {
-  return request.get({
+  return request({
     url: '/center/system/dict/refDictCache',
     method: 'get',
   });

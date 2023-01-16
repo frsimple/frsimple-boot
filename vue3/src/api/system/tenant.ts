@@ -1,8 +1,8 @@
-import { request } from '@/utils/request/index';
+import request from '@/utils/request';
 
 // 查询机构列表
 export function tenantList(params) {
-  return request.get({
+  return request({
     url: '/center/system/tenant/list',
     method: 'get',
     params,
@@ -11,7 +11,7 @@ export function tenantList(params) {
 
 // 查询机构列表
 export function tenantAllList(params) {
-  return request.get({
+  return request({
     url: '/center/system/tenant/allList',
     method: 'get',
     params,
@@ -20,7 +20,7 @@ export function tenantAllList(params) {
 
 // 新增机构
 export function addTenant(data) {
-  return request.post({
+  return request({
     url: '/center/system/tenant/addTenant',
     method: 'post',
     data,
@@ -29,7 +29,7 @@ export function addTenant(data) {
 
 // 修改机构
 export function editTenant(data) {
-  return request.post({
+  return request({
     url: '/center/system/tenant/editTenant',
     method: 'post',
     data,
@@ -38,7 +38,7 @@ export function editTenant(data) {
 
 // 删除机构
 export function delTenant(id) {
-  return request.post({
+  return request({
     url: `/center/system/tenant/delTenant/${id}`,
     method: 'post',
   });
@@ -46,7 +46,7 @@ export function delTenant(id) {
 
 // 根据name查询机构
 export function getTenant(params) {
-  return request.get({
+  return request({
     url: '/center/system/tenant/getTenant',
     method: 'get',
     params,
