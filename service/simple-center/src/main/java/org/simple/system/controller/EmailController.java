@@ -9,11 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.simple.constant.RedisConst;
 import org.simple.dto.EmailDto;
+import org.simple.sms.EmailUtil;
 import org.simple.system.dto.email.EmailQuery;
 import org.simple.system.entity.EmailEntity;
 import org.simple.system.service.IEmailService;
-import org.simple.sms.EmailUtil;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +48,7 @@ public class EmailController {
 
     @PostMapping("saveOrUpdate")
     @Operation(summary = "保存邮箱配置")
-    public Boolean saveOrUpdate(@RequestBody EmailEntity emailEntity) {
+    public CommonResult saveOrUpdate(@RequestBody EmailEntity emailEntity) {
         if (StrUtil.isEmpty(emailEntity.getId())) {
             emailEntity.setId(String.valueOf(YitIdHelper.nextId()));
         }
@@ -62,12 +62,13 @@ public class EmailController {
         emailDto.setIsSsl(emailEntity.getIsSsl());
         redisUtil.add(RedisConst.EMIAL_PIX, BeanUtil.beanToMap(emailDto));
         redisUtil.expire(RedisConst.EMIAL_PIX, 300000000, TimeUnit.DAYS);
-        return emailService.saveOrUpdate(emailEntity);
+        emailService.saveOrUpdate(emailEntity);
+        return CommonResult.success();
     }
 
     @PostMapping("sendEmail")
     @Operation(summary = "发送邮件")
-    public ActionResult sendEmail(EmailQuery emailQuery, @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
+    public CommonResult sendEmail(EmailQuery emailQuery, @RequestParam(value = "files", required = false) MultipartFile[] files) throws IOException {
         File[] fileList = new File[files.length];
         if (null != files && files.length != 0) {
             for (int i = 0; i < files.length; i++) {

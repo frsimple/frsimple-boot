@@ -15,7 +15,7 @@ const useComputed = (props) => {
 
   const active = computed(() => getActive());
 
-  // 计算打开的菜单
+  //计算打开的菜单
   const openMenu = computed(() => {
     return active.value.substring(0, active.value.lastIndexOf('/'));
   });
@@ -148,12 +148,12 @@ export default defineComponent({
                   ) : (
                     <div style="display:flex;flex-direction: row;align-items: center;">
                       <tLogo class={`${prefix}-side-nav-logo-t-logo1`} />
-                      <h2 class={`${prefix}-side-nav-logo-tdesign-logo1`}>FrSimple</h2>
+                      <h2 class={`${prefix}-side-nav-logo-tdesign-logo1`}>FrSimpleBoot</h2>
                     </div>
                   )}
                 </span>
               ),
-            operations: () => !this.collapsed && <span class="version-container">FrSimple 1.0.0</span>,
+            operations: () => !this.collapsed && <span class="version-container">FrSimpleBoot v1.0.0</span>,
           }}
         >
           <MenuContent navData={this.menu} />

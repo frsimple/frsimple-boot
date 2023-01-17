@@ -13,6 +13,7 @@ import org.simple.system.dto.menu.MenuQuery;
 import org.simple.system.dto.menu.MenuTreeDto;
 import org.simple.system.entity.MenuEntity;
 import org.simple.system.service.IMenuService;
+import org.simple.utils.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,51 +67,57 @@ public class MenuController {
     @PostMapping("addMenu")
     @Operation(summary = "新增菜单信息")
     @SaCheckPermission(value = {"center:menu:add"}, mode = SaMode.OR)
-    public Boolean addMenu(@RequestBody MenuEntity menuEntity) {
+    public CommonResult addMenu(@RequestBody MenuEntity menuEntity) {
         //重新组装菜单信息表
         menuEntity.setId(String.valueOf(YitIdHelper.nextId()));
         menuEntity.setType("c");
         menuEntity.setStatus("0");
-        return menuService.save(menuEntity);
+        menuService.save(menuEntity);
+        return CommonResult.success();
     }
 
     @PostMapping("editMenu")
     @Operation(summary = "修改菜单信息")
     @SaCheckPermission(value = {"center:menu:edit"}, mode = SaMode.OR)
-    public Boolean editMenu(@RequestBody MenuEntity menuEntity) {
+    public CommonResult editMenu(@RequestBody MenuEntity menuEntity) {
         //重新组装菜单信息表
-        return menuService.updateById(menuEntity);
+        menuService.updateById(menuEntity);
+        return CommonResult.success();
     }
 
     @PostMapping("delMenu")
     @Operation(summary = "删除菜单信息")
     @SaCheckPermission(value = {"center:menu:del"}, mode = SaMode.OR)
-    public Boolean delMenu(@RequestBody IdsModel IdsModel) {
-        return menuService.delMenu(IdsModel.getId());
+    public CommonResult delMenu(@RequestBody IdsModel IdsModel) {
+        menuService.delMenu(IdsModel.getId());
+        return CommonResult.success();
     }
 
     @PostMapping("addBtnMenu")
     @Operation(summary = "新增菜单权限信息")
     @SaCheckPermission(value = {"system:menu:add"}, mode = SaMode.OR)
-    public Boolean addBtnMenu(@RequestBody MenuEntity menuEntity) {
+    public CommonResult addBtnMenu(@RequestBody MenuEntity menuEntity) {
         menuEntity.setId(String.valueOf(YitIdHelper.nextId()));
         menuEntity.setStatus("0");
         menuEntity.setType("b");
-        return menuService.save(menuEntity);
+        menuService.save(menuEntity);
+        return CommonResult.success();
 
     }
 
     @PostMapping("editBtnMenu")
     @Operation(summary = "修改菜单权限信息")
     @SaCheckPermission(value = {"center:menu:edit"}, mode = SaMode.OR)
-    public Boolean editBtnMenu(@RequestBody MenuEntity menuEntity) {
-        return menuService.updateById(menuEntity);
+    public CommonResult editBtnMenu(@RequestBody MenuEntity menuEntity) {
+        menuService.updateById(menuEntity);
+        return CommonResult.success();
     }
 
     @PostMapping("delBtnMenu")
     @Operation(summary = "删除菜单权限信息")
     @SaCheckPermission(value = {"center:menu:del"}, mode = SaMode.OR)
-    public Boolean delBtnMenu(@RequestBody IdsModel idsModel) {
-        return menuService.delBtnMenu(idsModel.getId());
+    public CommonResult delBtnMenu(@RequestBody IdsModel idsModel) {
+        menuService.delBtnMenu(idsModel.getId());
+        return CommonResult.success();
     }
 }

@@ -12,7 +12,7 @@ import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
 import org.simple.constant.RedisConst;
 import org.simple.dto.SmsDto;
 import org.simple.enums.system.ResultCodeEnum;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 
 /**
@@ -57,7 +57,7 @@ public class TencentSms {
     /**
      * 国内短信发送
      */
-    public ActionResult<?> sendSms(String sign, String temId, String[] temParams, String[] phoneNumbers) {
+    public CommonResult<?> sendSms(String sign, String temId, String[] temParams, String[] phoneNumbers) {
         SmsClient client = createClient();
         SendSmsRequest sendSmsRequest = new SendSmsRequest();
         sendSmsRequest.setSmsSdkAppid(smsDto.getAppid());
@@ -77,11 +77,11 @@ public class TencentSms {
         try {
             SendSmsResponse resp = client.SendSms(sendSmsRequest);
             if (!"Ok".equals(resp.getSendStatusSet()[0].getCode())) {
-                return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+                return CommonResult.failed(ResultCodeEnum.FAILED.getMsg());
             }
         } catch (TencentCloudSDKException e) {
-            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+            return CommonResult.failed(e.getMessage());
         }
-        return ActionResult.success(ResultCodeEnum.SUCCESS.getCode());
+        return CommonResult.success(ResultCodeEnum.SUCCESS.getCode());
     }
 }

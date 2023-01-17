@@ -27,7 +27,7 @@ public class ${className}Controller {
 
 
     @GetMapping("list")
-    @SimpleLog("查询${comments}")
+    @Operation(summary="查询${comments}")
     public CommonResult list(Page page, ${className} ${classname}) {
         return CommonResult.success(${classname}Service.page(page, Wrappers.query(${classname})));
     }

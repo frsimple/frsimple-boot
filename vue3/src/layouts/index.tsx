@@ -199,31 +199,32 @@ export default defineComponent({
                         minColumnWidth={128}
                         popupProps={{ overlayClassName: 'router-tabs-dropdown' }}
                         v-slots={{
-                          dropdown: () =>
-                            router.path === route.path ? (
-                              <t-dropdown-menu>
-                                <t-dropdown-item onClick={() => handleRefresh(router.path, idx)}>
-                                  <t-icon name="refresh" />
-                                  刷新
+                          dropdown: () => (
+                            // router.path === route.path ? (
+                            <t-dropdown-menu>
+                              <t-dropdown-item onClick={() => handleRefresh(router.path, idx)}>
+                                <t-icon name="refresh" />
+                                刷新
+                              </t-dropdown-item>
+                              {idx > 1 && (
+                                <t-dropdown-item onClick={() => handleCloseAhead(router.path, idx)}>
+                                  <t-icon name="arrow-left" />
+                                  关闭左侧
                                 </t-dropdown-item>
-                                {idx > 1 && (
-                                  <t-dropdown-item onClick={() => handleCloseAhead(router.path, idx)}>
-                                    <t-icon name="arrow-left" />
-                                    关闭左侧
-                                  </t-dropdown-item>
-                                )}
-                                {idx < tabRouters.length - 1 && (
-                                  <t-dropdown-item onClick={() => handleCloseBehind(router.path, idx)}>
-                                    <t-icon name="arrow-right" />
-                                    关闭右侧
-                                  </t-dropdown-item>
-                                )}
-                                <t-dropdown-item onClick={() => handleCloseOther(router.path, idx)}>
-                                  <t-icon name="close-circle" />
-                                  关闭其它
+                              )}
+                              {idx < tabRouters.length - 1 && (
+                                <t-dropdown-item onClick={() => handleCloseBehind(router.path, idx)}>
+                                  <t-icon name="arrow-right" />
+                                  关闭右侧
                                 </t-dropdown-item>
-                              </t-dropdown-menu>
-                            ) : null,
+                              )}
+                              <t-dropdown-item onClick={() => handleCloseOther(router.path, idx)}>
+                                <t-icon name="close-circle" />
+                                关闭其它
+                              </t-dropdown-item>
+                            </t-dropdown-menu>
+                          ),
+                          // ) : null,
                         }}
                       >
                         {!router.isHome ? (
@@ -233,8 +234,8 @@ export default defineComponent({
                           </div>
                         ) : (
                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <t-icon name="app"></t-icon>
-                            <span style={{ marginLeft: '3px' }}>数据概览</span>
+                            <t-icon name="chart"></t-icon>
+                            <span style={{ marginLeft: '3px' }}>首页</span>
                           </div>
                         )}
                       </t-dropdown>

@@ -3,8 +3,10 @@ package org.simple.system.service.impl;
 import cn.dev33.satoken.stp.StpInterface;
 import lombok.AllArgsConstructor;
 import org.simple.system.service.IUserService;
+import org.simple.utils.RedisUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,13 +22,18 @@ import java.util.List;
 public class StpInterfaceImpl implements StpInterface {
 
     private final IUserService userService;
+    private final RedisUtil redisUtil;
 
     /**
      * 返回一个账号所拥有的权限码集合
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        return userService.getUserMenuAuth(loginId.toString());
+        if(redisUtil.hasKey("sa-token-permission-"+loginId)){
+            return (List<String>)redisUtil.get("sa-token-permission-"+loginId);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -34,6 +41,10 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        return userService.getUserRole(loginId.toString());
+        if(redisUtil.hasKey("sa-token-role-"+loginId)){
+            return (List<String>)redisUtil.get("sa-token-role-"+loginId);
+        }else{
+            return new ArrayList<>();
+        }
     }
 }

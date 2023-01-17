@@ -27,7 +27,7 @@ const crumbs = computed(() => {
   return breadcrumbs;
 });
 </script>
-<style scoped>
+<style>
 .tdesign-breadcrumb {
   /* margin-bottom: 8px; */
   margin-left: 10px;

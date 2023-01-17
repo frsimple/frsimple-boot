@@ -3,7 +3,7 @@ export default {
   development: {
     // 开发环境接口请求
     host: 'http://localhost:40000',
-    // host: 'https://vue.frsimple.cn',
+    // host: 'https://svue.frsimple.cn',
     // 开发环境 cdn 路径
     cdn: '',
   },
@@ -15,7 +15,7 @@ export default {
   },
   release: {
     // 正式环境接口地址
-    host: 'https://vue.frsimple.cn',
+    host: 'https://svue.frsimple.cn',
     // 正式环境 cdn 路径
     cdn: '',
   },

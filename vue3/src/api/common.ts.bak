@@ -19,4 +19,11 @@ export function commonUploadImg(data) {
     },
   });
 }
- 
+
+//查询地图树形
+export function regTree() {
+  return request({
+    url: '/shop/dataDic/regTree',
+    method: 'get',
+  });
+}

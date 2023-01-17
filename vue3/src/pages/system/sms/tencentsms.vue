@@ -56,8 +56,8 @@ const initData = async () => {
       aliForm.region = res.data.region;
       aliForm.appid = res.data.appid;
       aliForm.endpoint = res.data.endpoint;
-      aliForm.accesskeyid = res.data.secretid;
-      aliForm.accesskeysecret = res.data.secretkey;
+      aliForm.accesskeyid = res.data.secretId;
+      aliForm.accesskeysecret = res.data.secretKey;
       aliForm.sign = res.data.sign;
     }
   } catch (error) {
@@ -100,8 +100,8 @@ const onSubmit = async ({ validateResult }) => {
           region: aliForm.region,
           endpoint: aliForm.endpoint,
           appid: aliForm.appid,
-          secretid: aliForm.accesskeyid,
-          secretkey: aliForm.accesskeysecret,
+          secretId: aliForm.accesskeyid,
+          secretKey: aliForm.accesskeysecret,
           type: smsType.value,
           sign: aliForm.sign,
         };

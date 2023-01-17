@@ -14,7 +14,7 @@
         <t-radio-group v-model="formData.mode">
           <div v-for="(item, index) in MODE_OPTIONS" :key="index" class="setting-layout-drawer">
             <div>
-              <t-radio-button :key="index" :value="item.type"
+              <t-radio-button :key="index" :value="item.type" class="setting-layout-color-group1"
                 ><component :is="getModeIcon(item.type)"
               /></t-radio-button>
               <p :style="{ textAlign: 'center', marginTop: '8px' }">{{ item.text }}</p>
@@ -54,17 +54,17 @@
                 :value="COLOR_OPTIONS[COLOR_OPTIONS.length - 1]"
                 class="setting-layout-color-group dynamic-color-btn"
               >
-                <color-container :value="COLOR_OPTIONS[COLOR_OPTIONS.length - 1]" />
+                <ColorContainer :value="COLOR_OPTIONS[COLOR_OPTIONS.length - 1]" />
               </t-radio-button>
             </t-popup>
           </div>
         </t-radio-group>
 
-        <div class="setting-group-title">导航布局</div>
+        <!-- <div class="setting-group-title">导航布局</div>
         <t-radio-group v-model="formData.layout">
           <div v-for="(item, index) in LAYOUT_OPTION" :key="index" class="setting-layout-drawer">
             <t-radio-button :key="index" :value="item">
-              <thumbnail :src="getThumbnailUrl(item)" />
+              <Thumbnail :src="getThumbnailUrl(item)" />
             </t-radio-button>
           </div>
         </t-radio-group>
@@ -75,29 +75,34 @@
 
         <t-form-item v-show="formData.layout === 'mix'" label="固定 Sidebar" name="isSidebarFixed">
           <t-switch v-model="formData.isSidebarFixed" />
-        </t-form-item>
+        </t-form-item> -->
 
         <div class="setting-group-title">元素开关</div>
-        <t-form-item v-show="formData.layout === 'side'" label="显示 Header" name="showHeader">
+        <!-- <t-form-item v-show="formData.layout === 'side'" label="显示 Header" name="showHeader">
           <t-switch v-model="formData.showHeader" />
-        </t-form-item>
+        </t-form-item> -->
         <t-form-item label="显示 Breadcrumbs" name="showBreadcrumb">
           <t-switch v-model="formData.showBreadcrumb" />
         </t-form-item>
-        <t-form-item label="显示 Footer" name="showFooter">
+        <!-- <t-form-item label="显示 Footer" name="showFooter">
           <t-switch v-model="formData.showFooter" />
-        </t-form-item>
+        </t-form-item> -->
         <t-form-item label="使用 多标签Tab页" name="isUseTabsRouter">
           <t-switch v-model="formData.isUseTabsRouter"></t-switch>
         </t-form-item>
       </t-form>
-      <div class="setting-info">
+      <!-- <div class="setting-info">
         <p>请复制后手动修改配置文件: /src/config/style.ts</p>
         <t-button theme="primary" variant="text" @click="handleCopy"> 复制配置项 </t-button>
-      </div>
+      </div> -->
     </div>
   </t-drawer>
 </template>
+<script lang="ts">
+export default {
+  name: 'Setting',
+};
+</script>
 <script setup lang="ts">
 import { ref, computed, onMounted, watchEffect } from 'vue';
 import { MessagePlugin, PopupVisibleChangeContext } from 'tdesign-vue-next';
@@ -124,18 +129,8 @@ const MODE_OPTIONS = [
   { type: 'dark', text: '暗黑' },
   { type: 'auto', text: '跟随系统' },
 ];
-const initStyleConfig = () => {
-  const styleConfig = STYLE_CONFIG;
-  for (const key in styleConfig) {
-    if (Object.prototype.hasOwnProperty.call(styleConfig, key)) {
-      styleConfig[key] = settingStore[key];
-    }
-  }
 
-  return styleConfig;
-};
-
-const formData = ref({ ...initStyleConfig() });
+const formData = ref({ ...STYLE_CONFIG });
 const isColoPickerDisplay = ref(false);
 
 const showSettingPanel = computed({
@@ -150,6 +145,7 @@ const showSettingPanel = computed({
 });
 
 const changeColor = (hex: string) => {
+  console.log(hex);
   const newPalette = Color.getPaletteByGradation({
     colors: [hex],
     step: 10,
@@ -212,6 +208,8 @@ watchEffect(() => {
 });
 </script>
 <style lang="less" scoped>
+@import '@/style/variables';
+
 .tdesign-setting {
   z-index: 100;
   position: fixed;
@@ -241,8 +239,13 @@ watchEffect(() => {
   }
 }
 
+.setting-layout-color-group1 {
+  height: 78px !important;
+}
 .setting-layout-color-group {
   display: inline-flex;
+  width: 36px;
+  height: 36px !important;
   justify-content: center;
   align-items: center;
   border-radius: 50% !important;
@@ -268,12 +271,12 @@ watchEffect(() => {
   font-family: PingFang SC;
   font-style: normal;
   font-weight: 500;
-  color: var(--td-text-color-primary);
+  color: var(--tdvns-text-color-primary);
 }
 
 .setting-link {
   cursor: pointer;
-  color: var(--td-brand-color);
+  color: var(--tdvns-brand-color);
   margin-bottom: 8px;
 }
 
@@ -285,9 +288,9 @@ watchEffect(() => {
   line-height: 20px;
   font-size: 12px;
   text-align: center;
-  color: var(--td-text-color-placeholder);
+  color: var(--tdvns-text-color-placeholder);
   width: 100%;
-  background: var(--td-bg-color-container);
+  background: var(--tdvns-bg-color-container);
 }
 
 .setting-drawer-container {
@@ -297,25 +300,22 @@ watchEffect(() => {
   :deep(.t-radio-group.t-size-m) {
     min-height: 32px;
     width: 100%;
+    height: auto;
     justify-content: space-between;
     align-items: center;
-  }
-
-  :deep(.t-radio-group.t-size-m .t-radio-button) {
-    height: auto;
   }
 
   .setting-layout-drawer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 16px;
+    //margin-bottom: 16px;
 
     :deep(.t-radio-button) {
       display: inline-flex;
       max-height: 78px;
       padding: 8px;
-      border-radius: var(--td-radius-default);
+      border-radius: var(--tdvns-border-radius);
       border: 2px solid #e3e6eb;
       > .t-radio-button__label {
         display: inline-flex;
@@ -323,7 +323,7 @@ watchEffect(() => {
     }
 
     :deep(.t-is-checked) {
-      border: 2px solid var(--td-brand-color) !important;
+      border: 2px solid var(--tdvns-brand-color) !important;
     }
 
     :deep(.t-form__controls-content) {
@@ -339,7 +339,7 @@ watchEffect(() => {
 .setting-route-theme {
   :deep(.t-form__label) {
     min-width: 310px !important;
-    color: var(--td-text-color-secondary);
+    color: var(--tdvns-text-color-secondary);
   }
 }
 

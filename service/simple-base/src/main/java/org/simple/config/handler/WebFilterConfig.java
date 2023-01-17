@@ -62,6 +62,7 @@ public class WebFilterConfig implements WebMvcConfigurer {
         list.add("/v3/api-docs/**");
         list.add("/swagger-ui/**");
         list.add("/error/**");
+        list.add("/shop/wechat/**/api/**");
         return list;
     }
 }

@@ -21,19 +21,19 @@ spring:
         master:
           poolName: master
           username: root
-          password: 123456.zxc
-          url: jdbc:mysql://47.101.200.106:3306/simple_center?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+          password: 123456
+          url: jdbc:mysql://localhost:3306/frsimple_boot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
           driver-class-name: com.mysql.cj.jdbc.Driver
   #redis配置
   redis:
     # redis数据库索引(默认为0)，我们使用索引为3的数据库，避免和其他数据库冲突
-    database: 3
+    database: 4
     # redis服务器地址（默认为127.0.01）
-    host: 47.101.200.106
+    host: localhost
     # redis端口（默认为6379）
     port: 6379
     # redis访问密码（默认为空）
-    password: 123456.zxc
+    password: 123456
     # redis连接超时时间（单位毫秒）
     timeout: 3000
     # redis连接池配置
@@ -102,3 +102,12 @@ logging:
   level:
     org.simple: debug # debug 可以查看打印的sql
     com.baomidou.dynamic: debug
+mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    sql-parser-cache: true
+    banner: false
+    db-config:
+      id-type: auto
+      select-strategy: not_empty

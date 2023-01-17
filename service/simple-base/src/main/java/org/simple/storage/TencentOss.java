@@ -16,8 +16,8 @@ import org.simple.constant.RedisConst;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.enums.system.ResultCodeEnum;
-import org.simple.utils.ActionResult;
 import org.simple.utils.ComUtil;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -66,7 +66,7 @@ public class TencentOss {
         return new COSClient(cred, clientConfig);
     }
 
-    public ActionResult<?> fileUpload(File file, boolean isPrivate, String userid) {
+    public CommonResult fileUpload(File file, boolean isPrivate, String userid) {
         //初始化ossclient对象
         COSClient cosClient = getCosClient();
         String fileName = file.getName();
@@ -91,14 +91,14 @@ public class TencentOss {
             cosClient.putObject(putObjectRequest);
             //若是私有连接则返回上传路径，若是公共读则返回请求的url地址
             if (isPrivate) {
-                return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
+                return CommonResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
             } else {
-                return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(),
+                return CommonResult.success(ResultCodeEnum.SUCCESS.getCode(),
                         "https://" + ossDto.getWorkspace() + "." + ossDto.getEndpoint() + "/" + path
                 );
             }
         } catch (Exception ex) {
-            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+            return CommonResult.failed(ex.getMessage());
         } finally {
             //最后关闭ossclient
             cosClient.shutdown();

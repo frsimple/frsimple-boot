@@ -3,22 +3,23 @@
     <t-head-menu :class="menuCls" :theme="theme" expand-type="popup" :value="active">
       <template #logo>
         <span v-if="showLogo" class="header-logo-container">
-          <logo-full class="t-logo" />
+          <LogoFull class="t-logo" />
         </span>
         <div v-else class="header-operate-left">
           <t-button theme="default" shape="square" variant="text" @click="changeCollapsed">
-            <t-icon v-if="isSidebarCompact" class="collapsed-icon" name="menu-fold" />
-            <t-icon v-if="!isSidebarCompact" class="collapsed-icon" name="menu-unfold" />
+            <t-icon class="collapsed-icon" v-if="isSidebarCompact" name="menu-fold" />
+            <t-icon class="collapsed-icon" v-if="!isSidebarCompact" name="menu-unfold" />
           </t-button>
-          <layout-breadcrumb v-if="showBreadcrumb" />
+          <LayoutBreadcrumb v-if="showBreadcrumb" />
           <search :layout="layout" />
         </div>
       </template>
-      <menu-content v-show="layout !== 'side'" class="header-menu" :nav-data="menu" />
+      <MenuContent v-show="layout !== 'side'" class="header-menu" :nav-data="menu" />
       <template #operations>
         <div class="operations-container">
           <!-- 搜索框 -->
           <search v-if="layout !== 'side'" :layout="layout" />
+
           <t-popup placement="left-bottom">
             <t-button theme="primary">
               <template #icon>
@@ -104,12 +105,12 @@
 <script setup lang="ts">
 import { PropType, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { DialogPlugin } from 'tdesign-vue-next';
 import { useSettingStore, useUserStore, getPermissionStore, getUserStore } from '@/store';
 import { getActive } from '@/router';
 import { prefix } from '@/config/global';
 import LogoFull from '@/assets/assets-logo-full.svg?component';
 import { MenuRoute } from '@/interface';
+import { DialogPlugin } from 'tdesign-vue-next';
 import LayoutBreadcrumb from './Breadcrumb.vue';
 
 import Notice from './Notice.vue';
@@ -123,7 +124,6 @@ const userStore = useUserStore();
 const curUser = computed(() => {
   return userStore.curUser;
 });
-console.log(curUser);
 
 const goQQ = () => {
   window.open('http://wpa.qq.com/msgrd?v=3&uin=2827916671&site=qq&menu=yes');
@@ -206,12 +206,12 @@ const handleLogout = () => {
     header: '提醒',
     body: '是否确认退出系统?',
     confirmBtn: '立即退出',
-    // cancelBtn: '暂不',
+    //cancelBtn: '暂不',
     onConfirm: ({ e }) => {
       confirmDia.hide();
       userStore1.logout();
       permissionStore1.restore();
-      // router.push(`/login?redirect=${router.currentRoute.value.fullPath}`);
+      //router.push(`/login?redirect=${router.currentRoute.value.fullPath}`);
       router.push('/login');
     },
     onClose: ({ e, trigger }) => {

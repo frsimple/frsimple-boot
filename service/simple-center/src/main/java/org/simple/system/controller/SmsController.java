@@ -13,7 +13,7 @@ import org.simple.constant.RedisConst;
 import org.simple.dto.SmsDto;
 import org.simple.system.entity.SmsEntity;
 import org.simple.system.service.ISmsService;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,10 +37,10 @@ public class SmsController {
 
     @PostMapping("saveOrUpdate")
     @Operation(summary = "保存sms配置")
-    public ActionResult saveOrUpdate(@RequestBody SmsEntity smsEntity) {
+    public CommonResult saveOrUpdate(@RequestBody SmsEntity smsEntity) {
         //防止重复提交
         if (StrUtil.isEmpty(smsEntity.getType())) {
-            return ActionResult.failed("数据类型不能为空");
+            return CommonResult.failed("数据类型不能为空");
         }
         //查询是否存在已有数据类型的数据
         SmsEntity s1 = new SmsEntity();
@@ -67,14 +67,14 @@ public class SmsController {
             redisUtil.add(RedisConst.SMS_TENCENT, BeanUtil.beanToMap(smsDto));
             redisUtil.expire(RedisConst.SMS_TENCENT, 300000000, TimeUnit.DAYS);
         }
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @GetMapping("{type}")
     @Operation(summary = "获取sms信息")
-    public ActionResult getOne(@PathVariable("type") String type) {
+    public CommonResult getOne(@PathVariable("type") String type) {
         SmsEntity smsEntity = new SmsEntity();
         smsEntity.setType(type);
-        return ActionResult.success(smsService.getOne(Wrappers.query(smsEntity)));
+        return CommonResult.success(smsService.getOne(Wrappers.query(smsEntity)));
     }
 }

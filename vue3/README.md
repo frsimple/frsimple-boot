@@ -1,23 +1,14 @@
+#### [SpringCloud 微服务中后台解决方案传送门](https://gitee.com/frsimple/springcloud)
 
-<p style="display:flex; justify-content: center">
+#### 官网地址
 
-</p>
+[官网地址](http://frsimple.cn)
 
-<p align="center">
-  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/vite.svg" alt="node compatility"></a>
-</p>
+#### 前端源码地址
 
+[vue3](https://gitee.com/frsimple/sview)
 
-
-### 后端源码地址
-
-
-[java源码](https://gitee.com/frsimple/springboot)
-
-
-#### frimsple中后台框架交流微信群 **_(获取初始化脚本)_** 
-
-
+#### simple中后台框架交流微信群 **_(获取初始化脚本)_**
 
 <div style="width:120px;text-align:center;" >扫码进入微信交流群</div>
 
@@ -27,58 +18,46 @@
 
 ![](https://pengpengyu-test.oss-cn-zhangjiakou.aliyuncs.com/image/qq.jpg)
 
+**群共享文件中提供初始化脚本和docker生产部署方案**
 
-### 演示网站
+#### 演示地址
 
-[vue3](https://svue.frsimple.cn)
+[vue3版本](https://svue.frsimple.cn/)
 
-### 项目简介
+#### 软件架构
 
-Simple 是一个基于 TDesign。使用 `Vue3`、`Vite2`、`Pinia`、`TypeScript` 开发，可进行个性化主题配置，旨在提供项目开箱即用的、配置式的中后台项目。
+基础框架：SpringBoot 2.7+
 
-### 开发
+授权认证：sa-token（轻量级的Java权限认证框架）
 
-``` bash
-## 安装依赖
-npm install
+高可用缓存：Redis
 
-## 启动项目
-npm run dev
-```
+持久层：MyBatis Plus （支持动态数据源）
 
-### 构建
+数据库连接池：Alibaba.druid
 
-```bash
-## 构建正式环境
-npm run build
+文件存储：minio
 
-## 构建测试环境
-npm run build:test
-```
+在线接口文档：SpringDoc
 
-### 其他
+短信服务： 阿里云 ｜ 腾讯云
 
-```bash
-## 预览构建产物
-npm run preview
+工具类： HuTool | IdGenerator
 
-## 代码格式检查
-npm run lint
+#### 开发部署
 
-## 代码格式检查与自动修复
-npm run lint:fix
+开发工具：idea
+数据库版本： mysql8.0
+redis版本： 5.0.14
 
-## style格式检查
-npm run stylelint
+- 启动redis
 
-## style格式检查与自动修复
-npm run stylelint:fix
-```
+- 启动服务
+  SimpleApplication
 
-### 兼容性
+#### 目录结构
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br> IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Edge >=84                                                                                                                                                                                                        | Firefox >=83                                                                                                                                                                                                      | Chrome >=84                                                                                                                                                                                                   | Safari >=14.1                                                                                                                                                                          
-
-
+├─ simple-boot //父级工程  
+│ │ ├─ simple-base //基础公共模块  
+│ │ ├─ simple-center //系统管理业务功能  
+│ │ ├─ simple-start //springboot启动模块

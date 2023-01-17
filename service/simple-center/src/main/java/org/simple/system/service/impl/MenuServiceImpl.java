@@ -15,9 +15,7 @@ import org.simple.utils.TreeUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * MenuServiceImpl
@@ -45,8 +43,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                     f.setIcon(f.getMeta() == null ? "app" : f.getMeta().get("icon").toString());
                 }
         );
-        List<MenuTreeDto> data = menuList.stream().sorted(Comparator.comparing(MenuTreeDto::getSort)).collect(Collectors.toList());
-        return new TreeUtil<MenuTreeDto>().buildTree(data);
+        //List<MenuTreeDto> data = menuList.stream().sorted(Comparator.comparing(MenuTreeDto::getSort)).collect(Collectors.toList());
+        return new TreeUtil<MenuTreeDto>().buildTree(menuList);
     }
 
     @Override
@@ -59,8 +57,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                     f.setIcon(f.getMeta() == null ? "app" : f.getMeta().get("icon").toString());
                 }
         );
-        List<MenuTreeDto> data = menuList.stream().sorted(Comparator.comparing(MenuTreeDto::getSort)).collect(Collectors.toList());
-        return new TreeUtil<MenuTreeDto>().buildTree(data, "999999");
+        //List<MenuTreeDto> data = menuList.stream().sorted(Comparator.comparing(MenuTreeDto::getSort)).collect(Collectors.toList());
+        return new TreeUtil<MenuTreeDto>().buildTree(menuList, "999999");
     }
 
     @Override

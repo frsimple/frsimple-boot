@@ -27,6 +27,7 @@
           :table-layout="'fixed'"
           :pagination="pagination"
           :loading="dataLoading"
+          :loading-props="{ size: '23px', text: '加载中...' }"
           @page-change="onPageChange"
         >
           <template #operation="{ row }">

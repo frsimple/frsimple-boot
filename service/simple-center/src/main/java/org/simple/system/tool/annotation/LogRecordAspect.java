@@ -1,5 +1,6 @@
 package org.simple.system.tool.annotation;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,11 +12,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.simple.system.entity.LogsEntity;
-import org.simple.system.service.IAuthService;
 import org.simple.system.service.ILogsService;
 import org.simple.system.tool.event.log.LogEvent;
 import org.simple.system.tool.event.log.LogEventArgs;
-import org.simple.utils.CurrentUtil;
+import org.simple.utils.AuthUtils;
 import org.simple.utils.ServletUtil;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,6 @@ import java.util.List;
 public class LogRecordAspect {
     private final ApplicationEventPublisher applicationEventPublisher;
     private final ILogsService logsService;
-    private final CurrentUtil currentUtil;
 
     List<String> excludeRequestList = new ArrayList<>(Arrays.asList("org.simple.system.controller.AuthController.doLogin",
             "org.simple.system.controller.AuthController.logout",
@@ -75,7 +74,7 @@ public class LogRecordAspect {
                 Operation operation = targetMethod.getAnnotation(Operation.class);
                 String duration = String.valueOf((System.currentTimeMillis() - startTime));
                 String summary = ObjectUtil.isNotNull(operation) ? operation.summary() : "";
-                logsData = logsService.getLogData(summary, currentUtil.getCurrentUserId(), duration, request);
+                logsData = logsService.getLogData(summary, StpUtil.isLogin()?AuthUtils.getUserId():"匿名游客", duration, request);
                 log.info("{}", JSONUtil.toJsonStr(logsData));
                 applicationEventPublisher.publishEvent(new LogEvent<>(new LogEventArgs<>(JSONUtil.toJsonStr(logsData))));
                 return result;

@@ -17,14 +17,14 @@ const host = env === 'development' ? '' : proxy[env].host;
 // const host = env === 'mock' ? '/' : proxy[env].host; // 如果是mock模式 就不配置host 会走本地Mock拦截
 
 const CODE = {
-  LOGIN_TIMEOUT: 1000,
+  LOGIN_TIMEOUT: 10000,
   REQUEST_SUCCESS: 0,
   REQUEST_FOBID: 1001,
 };
 
 const instance = axios.create({
   baseURL: host,
-  timeout: 1000,
+  timeout: 10000,
   withCredentials: true,
 });
 
@@ -40,14 +40,14 @@ instance.interceptors.request.use((config) => {
   }
   const userStore = getUserStore();
   const { token } = userStore;
-  const isToken = (config.headers || {}).isAuth === false;
+  const isToken = (config.headers || {})['isAuth'] === false;
   if (!isToken && token) {
-    config.headers[TOKEN_NAME] = `Bearer ${token}`;
+    config.headers[TOKEN_NAME] = `${token}`;
   }
   return config;
 });
 
-instance.defaults.timeout = 5000;
+instance.defaults.timeout = 10000;
 
 instance.interceptors.response.use(
   (response) => {
@@ -65,7 +65,7 @@ instance.interceptors.response.use(
     if (err.response && err.response.status === 401) {
       if (config.url !== '/auth/oauth/token') {
         const userStrore = useUserStore();
-        userStrore.logout();
+        //userStrore.logout();
         router.push({ path: '/login' });
       }
       return Promise.reject(err.response);

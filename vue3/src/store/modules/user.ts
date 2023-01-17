@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(userInfo: Record<string, unknown>) {
       const res = await loginByUserName(userInfo);
-      if (res.statusCode === '200') {
+      if (res.code === 0) {
         this.token = res.data;
         localStorage.setItem(TOKEN_NAME, this.token);
       } else {

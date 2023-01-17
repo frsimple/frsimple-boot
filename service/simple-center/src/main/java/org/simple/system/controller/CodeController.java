@@ -15,6 +15,7 @@ import org.simple.system.entity.TableCfgEntity;
 import org.simple.enums.system.ResultCodeEnum;
 import org.simple.system.service.IDataSourceService;
 import org.simple.system.service.TableCfgService;
+import org.simple.utils.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -63,14 +64,14 @@ public class CodeController {
      */
     @PostMapping("updateTableCfg")
     @Operation(summary = "修改表配置信息")
-    public String updateTableCfg(@RequestBody TableCfgEntity tableCfgEntity) {
+    public CommonResult updateTableCfg(@RequestBody TableCfgEntity tableCfgEntity) {
         if (StringUtils.isEmpty(tableCfgEntity.getId())) {
             tableCfgEntity.setId(String.valueOf(YitIdHelper.nextId()));
             tableCfgService.save(tableCfgEntity);
         } else {
             tableCfgService.updateById(tableCfgEntity);
         }
-        return ResultCodeEnum.SUCCESS.getMsg();
+        return CommonResult.success();
     }
 
 
@@ -85,30 +86,31 @@ public class CodeController {
 
     @PostMapping("addDataSource")
     @Operation(summary = "新建数据源")
-    public String addDataSource(@RequestBody DataSourceEntity dataSourceEntity) {
+    public CommonResult addDataSource(@RequestBody DataSourceEntity dataSourceEntity) {
         if (!tableCfgService.checkCon(dataSourceEntity.getUrl(), dataSourceEntity.getUser(), dataSourceEntity.getPwd())) {
-            return ResultCodeEnum.DB5002.getMsg();
+            return CommonResult.failed(ResultCodeEnum.DB5002.getMsg());
         }
         dataSourceEntity.setId(String.valueOf(YitIdHelper.nextId()));
         IDataSourceService.save(dataSourceEntity);
-        return ResultCodeEnum.SUCCESS.getMsg();
+         return CommonResult.success();
     }
+
 
 
     @PostMapping("delDataSource")
     @Operation(summary = "删除数据源")
-    public String delDataSource(@RequestParam("id") String id) {
+    public CommonResult delDataSource(@RequestParam("id") String id) {
         IDataSourceService.removeById(id);
-        return ResultCodeEnum.SUCCESS.getMsg();
+        return  CommonResult.success();
     }
 
     @PostMapping("checkDataSource")
     @Operation(summary = "检查数据源")
-    public String checkDataSource(@RequestBody DataSourceEntity dataSourceEntity) {
+    public CommonResult checkDataSource(@RequestBody DataSourceEntity dataSourceEntity) {
         if (!tableCfgService.checkCon(dataSourceEntity.getUrl(), dataSourceEntity.getUser(), dataSourceEntity.getPwd())) {
-            return ResultCodeEnum.DB5002.getMsg();
+            return CommonResult.failed(ResultCodeEnum.DB5002.getMsg());
         } else {
-            return ResultCodeEnum.SUCCESS.getMsg();
+            return CommonResult.success();
         }
     }
 }

@@ -6,8 +6,7 @@ import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import org.simple.constant.RedisConst;
 import org.simple.dto.EmailDto;
-import org.simple.enums.system.ResultCodeEnum;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 
 import java.io.File;
@@ -42,7 +41,7 @@ public class EmailUtil {
     /**
      * 发送邮件
      */
-    public ActionResult<?> sendEmail(String title, String content, String[] tos, boolean isHtml, File[] files) {
+    public CommonResult<?> sendEmail(String title, String content, String[] tos, boolean isHtml, File[] files) {
         try {
             MailAccount account = new MailAccount();
             account.setHost(emailDto.getHost());
@@ -57,9 +56,9 @@ public class EmailUtil {
             } else {
                 MailUtil.send(account, CollUtil.newArrayList(tos), title, content, isHtml, files);
             }
-            return ActionResult.success(ResultCodeEnum.SUCCESS.getCode());
+            return CommonResult.successNodata("发送成功");
         } catch (Exception ex) {
-            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+            return CommonResult.failed(ex.getMessage());
         }
     }
 }

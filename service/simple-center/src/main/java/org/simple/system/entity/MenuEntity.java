@@ -2,12 +2,12 @@ package org.simple.system.entity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.simple.dto.BaseEntity;
 
 /**
  * Menu
@@ -19,7 +19,14 @@ import org.simple.dto.BaseEntity;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "center_menu", autoResultMap = true)
-public class MenuEntity extends BaseEntity {
+public class MenuEntity {
+
+    /**
+     * 主键id
+     */
+    @Schema(description = "主键id")
+    @TableId(value = "id")
+    private String id;
 
     @Schema(description = "名称")
     @TableField("name")
@@ -30,7 +37,7 @@ public class MenuEntity extends BaseEntity {
     private String type;
 
     @Schema(description = "权限编号")
-    @TableField("auth_code")
+    @TableField("authcode")
     private String authCode;
 
     @Schema(description = "路径")
@@ -38,7 +45,7 @@ public class MenuEntity extends BaseEntity {
     private String path;
 
     @Schema(description = "父节点id")
-    @TableField("parent_id")
+    @TableField("parentid")
     private String parentId;
 
     @Schema(description = "组件")

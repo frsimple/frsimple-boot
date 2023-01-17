@@ -34,10 +34,10 @@ public class WorkFlowException extends Exception {
     public WorkFlowException(Object errorCode) {
         ResultCodeEnum codesEnum = ResultCodeEnum.fromCode(errorCode.toString());
         if (codesEnum != null) {
-            this.errorCode = codesEnum.getCode();
+            this.errorCode = String.valueOf(codesEnum.getCode());
             this.errorMessage = codesEnum.getMsg();
         } else {
-            this.errorCode = ResultCodeEnum.FAILED.getCode();
+            this.errorCode = String.valueOf(ResultCodeEnum.FAILED.getCode());
             this.errorMessage = ResultCodeEnum.FAILED.getMsg();
         }
     }
@@ -49,7 +49,7 @@ public class WorkFlowException extends Exception {
      */
     public WorkFlowException(String errorMessage) {
         super(errorMessage);
-        this.errorCode = ResultCodeEnum.FAILED.getCode();
+        this.errorCode = String.valueOf(ResultCodeEnum.FAILED.getCode());
         this.errorMessage = errorMessage;
     }
 

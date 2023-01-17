@@ -12,12 +12,11 @@ import org.simple.system.entity.MenuEntity;
 import org.simple.system.entity.UserEntity;
 import org.simple.system.mapper.UserMapper;
 import org.simple.system.service.IUserService;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.PageUtil;
 import org.simple.utils.TreeUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,8 +55,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
         List<MenuEntity> menuList = baseMapper.getUserMenu(userId, "c");
         List<MenuTreeDto> menuTreeDtoList = BeanUtil.copyToList(menuList, MenuTreeDto.class);
-        List<MenuTreeDto> data = menuTreeDtoList.stream().sorted(Comparator.comparing(MenuTreeDto::getSort)).collect(Collectors.toList());
-        return new TreeUtil<MenuTreeDto>().buildTree(data, "999999");
+        //List<MenuTreeDto> data = menuTreeDtoList.stream().sorted(Comparator.comparing(MenuTreeDto::getSort)).collect(Collectors.toList());
+        return new TreeUtil<MenuTreeDto>().buildTree(menuTreeDtoList, "999999");
     }
 
     @Override
@@ -79,12 +78,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public ActionResult delUser(String userId) {
+    public CommonResult delUser(String userId) {
         //先删除用户关联的数据
         baseMapper.delRoleUser(userId);
         baseMapper.delUserTenant(userId);
         baseMapper.deleteById(userId);
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @Override
@@ -104,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public ActionResult updateUser(UserEntityDto userDto) {
+    public CommonResult updateUser(UserEntityDto userDto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userDto.getUsername());
         userEntity.setNickName(userDto.getNickName());
@@ -124,6 +123,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         for (String role : roles) {
             baseMapper.insertRoleUser(String.valueOf(YitIdHelper.nextId()), role, userDto.getId());
         }
-        return ActionResult.success();
+        return CommonResult.success();
     }
 }

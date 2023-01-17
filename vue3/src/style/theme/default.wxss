@@ -11,10 +11,8 @@
   --td-brand-color-9: #0048cd;
   --td-brand-color-10: #0035b5;
   --td-bg-color-page: #f2f3f5;
-  //自定义样式
   --td-font-gray-2: #4e5969;
 }
-
 :root[theme-mode='dark'] {
   --td-brand-color-1: #1b2f51;
   --td-brand-color-2: #173463;
@@ -26,6 +24,5 @@
   --td-brand-color-8: #4582e6;
   --td-brand-color-9: #699ef5;
   --td-brand-color-10: #96bbf8;
-  //自定义样式
   --td-font-gray-2: #4e5969;
 }

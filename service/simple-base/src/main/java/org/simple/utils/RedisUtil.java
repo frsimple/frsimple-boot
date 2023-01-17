@@ -87,6 +87,16 @@ public class RedisUtil {
     }
 
     /**
+     * 将值放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     */
+    public void setObj(String key, Object value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
      * 将值放入缓存并设置时间
      *
      * @param key   键

@@ -10,7 +10,7 @@ import org.simple.constant.CommonConst;
 import org.simple.constant.RedisConst;
 import org.simple.dto.SmsDto;
 import org.simple.enums.system.ResultCodeEnum;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 
 /**
@@ -61,7 +61,7 @@ public class AliSms {
     /**
      * 发送同步短信
      */
-    public ActionResult<?> sendAsyncSms(String signName, String[] phoneNumbers,
+    public CommonResult<?> sendAsyncSms(String signName, String[] phoneNumbers,
                                         String temId, JSONObject temParams) throws Exception {
         try {
             com.aliyun.dysmsapi20170525.Client client = createClient();
@@ -72,12 +72,12 @@ public class AliSms {
             sendSmsRequest.setTemplateParam(JSONObject.toJSONString(temParams));
             SendSmsResponse sendSmsResponse = client.sendSms(sendSmsRequest);
             if (!"OK".equals(sendSmsResponse.getBody().getCode())) {
-                return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+                return CommonResult.failed(ResultCodeEnum.FAILED.getMsg());
             }
         } catch (Exception ex) {
-            return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+            return CommonResult.failed(ResultCodeEnum.FAILED.getMsg());
         }
 
-        return ActionResult.success(ResultCodeEnum.SUCCESS.getCode());
+        return CommonResult.success(ResultCodeEnum.SUCCESS.getCode());
     }
 }

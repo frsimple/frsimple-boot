@@ -9,7 +9,7 @@ const homeRoute: Array<TRouterInfo> = [
     title: '首页',
     name: 'home',
     isHome: true,
-    icon: 'home',
+    icon: 'chart',
   },
 ];
 

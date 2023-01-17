@@ -335,7 +335,9 @@ const rules1 = {
   code: [{ required: true, message: '请输入字典编码', type: 'error' }, { validator: codeValidator }],
 };
 const onSubmit1 = async () => {
+  console.log('開始保存');
   const result = await form1.value.validate();
+  console.log('開始保存1');
   if (typeof result !== 'object' && result) {
     saveBtn1.content = '保存中...';
     saveBtn1.loading = true;

@@ -15,7 +15,7 @@ import org.simple.dto.OssDto;
 import org.simple.system.entity.OssEntity;
 import org.simple.system.service.IOssService;
 import org.simple.storage.OssUtil;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,13 +80,13 @@ public class OssController {
 
     @GetMapping("listFiles/{type}")
     @Operation(summary = "查询分类存储配置")
-    public ActionResult<?> listFiles(@PathVariable("type") String type,
+    public CommonResult<?> listFiles(@PathVariable("type") String type,
                                      @RequestParam("prefix") String prefix,
                                      @RequestParam(value = "nextmarker", required = false) String nextmarker) {
         if (CommonConst.MINIO.equals(type)) {
-            return ActionResult.success(OssUtil.getMinioOss(redisUtil).listFiles(50, nextmarker, prefix));
+            return CommonResult.success(OssUtil.getMinioOss(redisUtil).listFiles(50, nextmarker, prefix));
         }
-        return ActionResult.success(new ArrayList<>());
+        return CommonResult.success(new ArrayList<>());
     }
 
     @GetMapping("downloadFile/{type}")

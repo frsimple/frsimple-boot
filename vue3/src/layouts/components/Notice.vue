@@ -1,5 +1,5 @@
 <template>
-  <t-popup expand-animation placement="bottom" :show-arrow="true" trigger="click">
+  <t-popup expand-animation placement="bottom" :showArrow="true" trigger="click">
     <template #content>
       <div class="header-msg">
         <!-- <div class="header-msg-top">
@@ -56,12 +56,11 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { useNotificationStore } from '@/store';
 import { NotificationItem } from '@/interface';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/zh-cn';
-
 dayjs.extend(relativeTime);
 
 const router = useRouter();

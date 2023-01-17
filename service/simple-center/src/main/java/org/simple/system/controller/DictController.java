@@ -19,6 +19,7 @@ import org.simple.dto.PageResult;
 import org.simple.system.dto.dict.DictQuery;
 import org.simple.system.entity.DictionaryEntity;
 import org.simple.system.service.IDictionaryService;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -93,16 +94,17 @@ public class DictController {
     @PostMapping("addDict")
     @Operation(summary = "新增字典")
     @SaCheckPermission(value = {"system:dict:add"}, mode = SaMode.OR)
-    public Boolean addDict(@RequestBody DictionaryEntity dictionaryEntity) {
+    public CommonResult addDict(@RequestBody DictionaryEntity dictionaryEntity) {
         dictionaryEntity.setId(String.valueOf(YitIdHelper.nextId()));
         dictionaryService.save(dictionaryEntity);
-        return this.refDictCache();
+        this.refDictCache();
+        return CommonResult.success();
     }
 
     @PostMapping("editDict")
     @Operation(summary = "修改字典")
     @SaCheckPermission(value = {"system:dict:edit"}, mode = SaMode.OR)
-    public Boolean editDict(@RequestBody DictionaryEntity dictionaryEntity) {
+    public CommonResult editDict(@RequestBody DictionaryEntity dictionaryEntity) {
         //清洗对象
         DictionaryEntity d = dictionaryService.getById(dictionaryEntity.getId());
         if (CommonConst.ALARM_SIGNAL.equals(d.getValue())) {
@@ -123,13 +125,14 @@ public class DictController {
             d.setValue(dictionaryEntity.getValue());
         }
         dictionaryService.updateById(d);
-        return this.refDictCache();
+        this.refDictCache();
+        return CommonResult.success();
     }
 
     @PostMapping("delDict")
     @Operation(summary = "删除字典")
     @SaCheckPermission(value = {"system:dict:del"}, mode = SaMode.OR)
-    public Boolean delDict(@RequestBody IdsModel model) {
+    public CommonResult delDict(@RequestBody IdsModel model) {
         DictionaryEntity d = dictionaryService.getById(model.getId());
         if (CommonConst.ALARM_SIGNAL.equals(d.getValue())) {
             DictionaryEntity dic = new DictionaryEntity();
@@ -138,13 +141,14 @@ public class DictController {
         } else {
             dictionaryService.removeById(model.getId());
         }
-        return this.refDictCache();
+        this.refDictCache();
+        return CommonResult.success();
     }
 
     @GetMapping("refDictCache")
     @Operation(summary = "刷新字段缓存")
     @SaCheckPermission(value = {"system:dict:query"}, mode = SaMode.OR)
-    public Boolean refDictCache() {
+    public CommonResult refDictCache() {
         DictionaryEntity dictionaryEntity = new DictionaryEntity();
         dictionaryEntity.setValue("#");
         List<DictionaryEntity> dictionaryEntityList = dictionaryService.list(Wrappers.query(dictionaryEntity));
@@ -168,6 +172,6 @@ public class DictController {
                 redisUtil.set(item.getCode(), String.valueOf(array));
             }
         }
-        return true;
+        return CommonResult.success();
     }
 }

@@ -13,6 +13,7 @@ import org.simple.exception.CustomException;
 import org.simple.system.dto.organ.OrganTreeDto;
 import org.simple.system.entity.OrganEntity;
 import org.simple.system.service.IOrganService;
+import org.simple.utils.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,35 +42,38 @@ public class OrganController {
     @PostMapping("/editOrgan")
     @Operation(summary = "修改组织机构信息")
     @SaCheckPermission(value = {"system:organ:edit"}, mode = SaMode.OR)
-    public Boolean editOrgan(@RequestBody OrganEntity organEntity) {
-        return organService.updateById(organEntity);
+    public CommonResult editOrgan(@RequestBody OrganEntity organEntity) {
+        organService.updateById(organEntity);
+        return CommonResult.success();
     }
 
     @PostMapping("addOrgan")
     @Operation(summary = "新增组织机构信息")
     @SaCheckPermission(value = {"system:organ:add"}, mode = SaMode.OR)
-    public Boolean addOrgan(@RequestBody OrganEntity organEntity) {
+    public CommonResult addOrgan(@RequestBody OrganEntity organEntity) {
         organEntity.setId(String.valueOf(YitIdHelper.nextId()));
-        return organService.save(organEntity);
+        organService.save(organEntity);
+        return CommonResult.success();
     }
 
 
     @PostMapping("delOrgan/{id}")
     @Operation(summary = "新增组织机构信息")
     @SaCheckPermission(value = {"system:organ:del"}, mode = SaMode.OR)
-    public Boolean delOrgan(@PathVariable("id") Long id) throws CustomException {
+    public CommonResult delOrgan(@PathVariable("id") Long id) throws CustomException {
         OrganEntity organEntity = new OrganEntity();
         organEntity.setParentId(id);
         if (organService.list(Wrappers.query(organEntity)).size() != 0) {
             throw new CustomException(ResultCodeEnum.DB5001.getCode());
         }
-        return organService.removeById(id);
+        organService.removeById(id);
+        return CommonResult.success();
     }
 
     @GetMapping("getOrgan/{id}")
     @Operation(summary = "查询组织机构信息")
     @SaCheckPermission(value = {"system:organ:query"}, mode = SaMode.OR)
-    public OrganEntity getOrgan(@PathVariable("id") String id) {
-        return organService.getById(id);
+    public CommonResult getOrgan(@PathVariable("id") String id) {
+        return CommonResult.success(organService.getById(id));
     }
 }

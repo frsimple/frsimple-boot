@@ -6,7 +6,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.simple.constant.CurrentConst;
 import org.simple.dto.UserDto;
 import org.simple.enums.system.IsDeletedEnum;
-import org.simple.utils.CurrentUtil;
+import org.simple.utils.AuthUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -22,8 +22,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class CustomMetaObjectHandler implements MetaObjectHandler {
 
-    private final CurrentUtil currentUtil;
-
     /**
      * 新增自动填充字段
      *
@@ -31,7 +29,7 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        UserDto userDto = currentUtil.getUserByToken();
+        UserDto userDto = AuthUtils.getUser();
         this.strictInsertFill(metaObject, CurrentConst.CREATE_TIME, Date::new, Date.class);
         this.strictInsertFill(metaObject, CurrentConst.CREATE_USER_ID, userDto::getId, String.class);
         this.strictInsertFill(metaObject, CurrentConst.CREATE_USER_NAME, userDto::getNickName, String.class);
@@ -46,7 +44,7 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        UserDto userDto = currentUtil.getUserByToken();
+        UserDto userDto = AuthUtils.getUser();
         this.strictUpdateFill(metaObject, CurrentConst.MODIFY_TIME, Date::new, Date.class);
         this.strictUpdateFill(metaObject, CurrentConst.MODIFY_USER_ID, userDto::getId, String.class);
         this.strictUpdateFill(metaObject, CurrentConst.MODIFY_USER_NAME, userDto::getNickName, String.class);

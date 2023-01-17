@@ -344,7 +344,7 @@ export function getPieChartDataSet({
         radius: ['48%', '60%'],
         avoidLabelOverlap: true,
         selectedMode: true,
-        // hoverAnimation: true,
+        //hoverAnimation: true,
         silent: true,
         itemStyle: {
           borderColor: containerColor,

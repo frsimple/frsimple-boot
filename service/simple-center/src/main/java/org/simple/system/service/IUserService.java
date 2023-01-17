@@ -1,12 +1,11 @@
 package org.simple.system.service;
 
-import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.simple.system.dto.menu.MenuTreeDto;
 import org.simple.system.dto.user.UserEntityDto;
 import org.simple.system.dto.user.UserQuery;
 import org.simple.system.entity.UserEntity;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public interface IUserService extends IService<UserEntity> {
      */
     List<String> getUserRole(String userId);
 
-    ActionResult delUser(String userId);
+    CommonResult delUser(String userId);
 
     void insertUserTenant(String id, String tenant, String user);
 
@@ -58,5 +57,5 @@ public interface IUserService extends IService<UserEntity> {
 
     List<UserEntityDto> listAll(UserQuery query);
 
-    ActionResult updateUser(UserEntityDto userDto);
+    CommonResult updateUser(UserEntityDto userDto);
 }

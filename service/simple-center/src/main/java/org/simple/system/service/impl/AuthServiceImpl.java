@@ -71,6 +71,13 @@ public class AuthServiceImpl implements IAuthService {
         StpUtil.getSession().set("userId", userEntity.getId());
         StpUtil.getSession().set("tenantId", userEntity.getTenant());
         StpUtil.getSession().set("device", loginParam.getDevice());
+        // 将权限信息放入到redis中
+        List<String>  permissionList =
+                userService.getUserMenuAuth(userEntity.getId());
+        redisUtil.setObj("sa-token-permission-"+userEntity.getId(),permissionList);
+
+        List<String> roleList = userService.getUserRole(userEntity.getId());
+        redisUtil.setObj("sa-token-role-"+userEntity.getId(),roleList);
         return token;
     }
 

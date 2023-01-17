@@ -4,6 +4,14 @@
       <t-col :span="5">
         <t-card :bordered="false" :hover-shadow="false">
           <t-tabs v-model="selectTab" :placement="'top'" @change="changeTabs">
+            <t-tab-panel :value="'ALIOSS'" label="阿里Oss" :destroy-on-hide="false">
+              <aliOss ref="ali"></aliOss>
+            </t-tab-panel>
+            <t-tab-panel :value="'TENCENTCOS'" label="腾讯Cos" :destroy-on-hide="false">
+              <template #panel>
+                <tencentOss ref="tencent" />
+              </template>
+            </t-tab-panel>
             <t-tab-panel :value="'MINIO'" label="Minio" :destroy-on-hide="false">
               <template #panel>
                 <minioOss ref="minio" />
@@ -13,14 +21,14 @@
         </t-card>
       </t-col>
       <t-col :span="7">
-        <t-card :bordered="false" :hover-shadow="false" :title="'(' + title + ')文件搜索'" header-bordered>
+        <t-card :bordered="false" :hover-shadow="false" :title="'(' + title + ')文件搜索'" headerBordered>
           <div style="padding-bottom: 10px">
             <t-row>
               <t-col :span="3"> <span style="color: red">查询最多50个文件</span> </t-col>
               <t-col :span="9">
                 <t-row :gutter="10">
                   <t-col :flex="1" :span="6" :offset="4">
-                    <t-input v-model="params.prefix" placeholder="请输入文件路径前缀" type="search" clearable></t-input>
+                    <t-input placeholder="请输入文件路径前缀" type="search" clearable v-model="params.prefix"></t-input>
                   </t-col>
                   <t-col :flex="1" :span="1">
                     <t-button theme="default" variant="outline" @click="fetchData(0)">查询</t-button>
@@ -41,7 +49,7 @@
               {{ row.size + 'b' }}
             </template>
             <template #operation="{ row }">
-              <t-button size="small" variant="outline" theme="primary" :disabled="row.size == 0" @click="download(row)"
+              <t-button size="small" variant="outline" theme="primary" @click="download(row)" :disabled="row.size == 0"
                 >下载</t-button
               >
             </template>
@@ -69,14 +77,17 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { MessagePlugin } from 'tdesign-vue-next';
-import { listFiles, downloadFileLink } from '@/api/system/oss';
+import { ref, onMounted, computed, reactive, watch, nextTick } from 'vue';
+import { MessagePlugin, DialogPlugin } from 'tdesign-vue-next';
+import { listFiles, downloadFile, downloadFileLink } from '@/api/system/oss';
+import aliOss from './ali.vue';
+import tencentOss from './tencent.vue';
 import minioOss from './minio.vue';
-
-const selectTab = ref('MINIO');
+const selectTab = ref('ALIOSS');
 const minio = ref(null);
-const title = ref('MINIO');
+const tencent = ref(null);
+const ali = ref(null);
+const title = ref('阿里Oss');
 const dataLoading = ref(false);
 const data = ref();
 const columns = [
@@ -113,7 +124,13 @@ const changeTabs = async (value) => {
     params.nextmarker = '';
     data.value = [];
   }
-  if (value === 'MINIO') {
+  if (value === 'ALIOSS') {
+    title.value = '阿里Oss';
+    ali.value.initData();
+  } else if (value === 'TENCENTCOS') {
+    title.value = '腾讯Cos';
+    tencent.value.initData();
+  } else if (value === 'MINIO') {
     title.value = 'Minio';
     minio.value.initData();
   }
@@ -124,7 +141,7 @@ const fetchData = async (index) => {
   }
   dataLoading.value = true;
   try {
-    const res = await listFiles({
+    let res = await listFiles({
       type: selectTab.value,
       prefix: params.prefix,
       nextmarker: params.nextmarker,
@@ -137,10 +154,10 @@ const fetchData = async (index) => {
       }
       data.value = res.data.fileList;
     } else {
-      MessagePlugin.error(`查询错误:${res.msg}`);
+      MessagePlugin.error('查询错误:' + res.msg);
     }
   } catch (error) {
-    MessagePlugin.error(`查询错误:${error}`);
+    MessagePlugin.error('查询错误:' + error);
   } finally {
     dataLoading.value = false;
   }
@@ -160,20 +177,22 @@ const download = async (row) => {
   // document.body.removeChild(downloadElement); //下载完成移除元素
   // window.URL.revokeObjectURL(href); //释放掉blob对象
 
-  const res = await downloadFileLink({
+  let res = await downloadFileLink({
     type: selectTab.value,
     key: row.key,
   });
   if (res.code === 0) {
-    const downloadElement = document.createElement('a');
+    let downloadElement = document.createElement('a');
     downloadElement.href = res.data;
-    downloadElement.download = row.key; // 下载后文件名
-    // downloadElement.target = '#';
+    downloadElement.download = row.key; //下载后文件名
+    downloadElement.target = '_blank';
     document.body.appendChild(downloadElement);
-    downloadElement.click(); // 点击下载
-    document.body.removeChild(downloadElement); // 下载完成移除元素
+    downloadElement.click(); //点击下载
+    document.body.removeChild(downloadElement); //下载完成移除元素
   }
 };
+//vue的api
+onMounted(async () => {});
 </script>
 
 <style lang="less" scoped>

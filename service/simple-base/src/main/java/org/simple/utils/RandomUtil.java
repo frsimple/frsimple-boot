@@ -11,6 +11,14 @@ import java.util.Date;
 
 public class RandomUtil {
 
+    public static String getTransId() {
+        String str = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        str += sdf.format(new Date());
+        str += cn.hutool.core.util.RandomUtil.randomString(5);
+        return str;
+    }
+
     /**
      * 获取应用id
      */
@@ -51,6 +59,13 @@ public class RandomUtil {
         return str;
     }
 
+
+    public static String getUuid() {
+        return new Date().getTime() + "" + cn.hutool.core.util.RandomUtil.randomString(5).toUpperCase();
+    }
+
+
+
     /**
      * 获取商户编号/机构id
      */
@@ -58,6 +73,14 @@ public class RandomUtil {
         String str = "3022";
         str += String.valueOf(System.currentTimeMillis());
         str += String.valueOf(cn.hutool.core.util.RandomUtil.randomNumbers(5));
+        return str;
+    }
+
+    public static String getFlUuid() {
+        String str = "FL";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        str += sdf.format(new Date());
+        str += cn.hutool.core.util.RandomUtil.randomString(8).toUpperCase();
         return str;
     }
 
@@ -313,4 +336,11 @@ public class RandomUtil {
         return str;
     }
 
+    public static String getProductId() {
+        String str = "PROD";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMDD");
+        str += sdf.format(new Date());
+        str += cn.hutool.core.util.RandomUtil.randomString(6).toUpperCase();
+        return str;
+    }
 }

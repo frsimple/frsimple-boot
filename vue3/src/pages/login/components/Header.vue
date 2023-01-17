@@ -2,7 +2,7 @@
   <header class="login-header">
     <div style="display: flex">
       <tLogo class="tdesign-starter-side-nav-logo-t-logo1" />
-      <h2 class="tdesign-starter-side-nav-logo-tdesign-logo1">FrSimple</h2>
+      <h2 class="tdesign-starter-side-nav-logo-tdesign-logo1">FrSimpleBoot</h2>
     </div>
     <div class="operations-container">
       <!-- <t-button theme="default" shape="square" variant="text" @click="navToGitHub">

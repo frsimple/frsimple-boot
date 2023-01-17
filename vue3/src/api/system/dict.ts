@@ -55,11 +55,11 @@ export function editDict(data) {
 }
 
 // 删除字典
-export function delDict(params) {
+export function delDict(data) {
   return request({
     url: '/center/system/dict/delDict',
     method: 'post',
-    params,
+    data:data,
   });
 }
 

@@ -15,7 +15,7 @@
             </t-col>
             <t-col :span="6">
               <t-row :gutter="10">
-                <t-col :flex="1" :span="2" :offset="1">
+                <t-col :flex="1" :span="3">
                   <t-select
                     v-model="params.status"
                     placeholder="用户状态"
@@ -894,11 +894,11 @@ const initTenant = async () => {
 
 // vue的api
 onMounted(async () => {
-  await initRoles();
-  await initDicts();
-  await fetchData();
-  await initOrganTree();
-  await initTenant();
+  initRoles();
+  initDicts();
+  fetchData();
+  initOrganTree();
+  initTenant();
 });
 </script>
 

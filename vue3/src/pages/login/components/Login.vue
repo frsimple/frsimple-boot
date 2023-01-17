@@ -107,7 +107,6 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import QrcodeVue from 'qrcode.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import CryptoJS from 'crypto-js';
 import { useCounter } from '@/hooks';
 import { useUserStore, useTabsRouterStore } from '@/store';
 import proxy from '@/config/proxy';
@@ -245,5 +244,10 @@ const onSubmit = async ({ validateResult }) => {
 }
 .t-tabs__nav-container:after {
   background-color: transparent !important;
+}
+</style>
+<style>
+.t-tabs__nav-container.t-is-top::after {
+  height: 0px !important;
 }
 </style>

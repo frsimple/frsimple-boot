@@ -53,7 +53,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           target: proxy[mode].host,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/center/, 'center'),
-        },
+        }, 
       },
     },
   };

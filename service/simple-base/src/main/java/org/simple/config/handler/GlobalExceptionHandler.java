@@ -6,7 +6,7 @@ import org.simple.enums.system.ResultCodeEnum;
 import org.simple.exception.CustomException;
 import org.simple.exception.FileException;
 import org.simple.exception.WorkFlowException;
-import org.simple.utils.ActionResult;
+import org.simple.utils.CommonResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,13 +28,11 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = WorkFlowException.class)
-    public ActionResult<?> workFlowExceptionHandler(WorkFlowException ex) {
-        ActionResult<?> actionResult;
+    public CommonResult  workFlowExceptionHandler(WorkFlowException ex) {
         if (ex != null) {
-            actionResult = ActionResult.failed(ex.getErrorCode());
-            return actionResult;
+            return CommonResult.failed(ex.getErrorMessage());
         }
-        return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+        return CommonResult.failed();
     }
 
     /**
@@ -44,13 +42,11 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = CustomException.class)
-    public ActionResult<?> customExceptionHandler(CustomException ex) {
-        ActionResult<?> actionResult;
+    public CommonResult  customExceptionHandler(CustomException ex) {
         if (ex != null) {
-            actionResult = ActionResult.failed(ex.getErrorCode());
-            return actionResult;
+            return CommonResult.failed(ex.getErrorMessage());
         }
-        return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+        return CommonResult.failed();
     }
 
     /**
@@ -60,13 +56,11 @@ public class GlobalExceptionHandler {
      * @return 统一结果
      */
     @ExceptionHandler(value = FileException.class)
-    public ActionResult<?> fileExceptionHandler(FileException ex) {
-        ActionResult<?> actionResult;
+    public CommonResult fileExceptionHandler(FileException ex) {
         if (ex != null) {
-            actionResult = ActionResult.failed(ex.getErrorCode());
-            return actionResult;
+            return CommonResult.failed(ex.getErrorMessage());
         }
-        return ActionResult.failed(ResultCodeEnum.FAILED.getCode());
+        return CommonResult.failed();
     }
 
 
@@ -78,7 +72,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NotLoginException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ActionResult<Boolean> unauthenticatedExceptionHandler(NotLoginException exception) {
+    public CommonResult<Boolean> unauthenticatedExceptionHandler(NotLoginException exception) {
         // 判断场景值，定制化异常信息
         ResultCodeEnum resultCode;
         if (exception.getType().equals(NotLoginException.NOT_TOKEN)) {
@@ -94,7 +88,7 @@ public class GlobalExceptionHandler {
         } else {
             resultCode = org.simple.enums.system.ResultCodeEnum.NOT_TOKEN_EXCEPTION;
         }
-        return ActionResult.failed(resultCode.getCode());
+        return CommonResult.failed();
     }
 
 
@@ -106,8 +100,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NotPermissionException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ActionResult<?> handleNotPermissionException(NotPermissionException exception) {
-        return ActionResult.failed(ResultCodeEnum.FORBIDDEN.getCode());
+    public CommonResult<?> handleNotPermissionException(NotPermissionException exception) {
+        return CommonResult.failed(ResultCodeEnum.FORBIDDEN.getMsg());
     }
 
     /**
@@ -118,7 +112,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ActionResult<Boolean> illegalArgumentException(IllegalArgumentException exception) {
-        return ActionResult.failed(ResultCodeEnum.ILLEGAL_ARGUMENT_EXCEPTION.getCode());
+    public CommonResult<Boolean> illegalArgumentException(IllegalArgumentException exception) {
+        return CommonResult.failed(ResultCodeEnum.ILLEGAL_ARGUMENT_EXCEPTION.getMsg());
     }
 }

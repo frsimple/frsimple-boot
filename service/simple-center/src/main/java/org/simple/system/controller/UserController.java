@@ -24,9 +24,9 @@ import org.simple.system.dto.user.UserEntityDto;
 import org.simple.system.dto.user.UserQuery;
 import org.simple.system.entity.UserEntity;
 import org.simple.system.service.IUserService;
-import org.simple.utils.ActionResult;
 import org.simple.utils.ComUtil;
-import org.simple.utils.CurrentUtil;
+import org.simple.utils.CommonResult;
+import org.simple.utils.AuthUtils;
 import org.simple.utils.RedisUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,13 +52,12 @@ import java.util.Map;
 @Tag(name = "user", description = "用户管理")
 public class UserController {
     private final IUserService userService;
-    private final CurrentUtil currentUtil;
     private final RedisUtil redisUtil;
 
     @GetMapping("info")
     @Operation(summary = "查询当前用户信息")
     public Map<String, Object> getUserInfo() {
-        String userId = currentUtil.getCurrentUserId();
+        String userId = AuthUtils.getUserId();
         UserEntity userEntity = userService.getById(userId);
         Map<String, Object> userInfo =
                 BeanUtil.beanToMap(userId);
@@ -73,7 +72,7 @@ public class UserController {
     @GetMapping("menu")
     @Operation(summary = "查询当前用户菜单")
     public List<MenuTreeDto> getUserMenu() {
-        return userService.getUserMenu(currentUtil.getCurrentUserId());
+        return userService.getUserMenu(AuthUtils.getUserId());
     }
 
     @GetMapping("list")
@@ -97,7 +96,7 @@ public class UserController {
     @PostMapping("addUser")
     @Operation(summary = "新增用户信息")
     @SaCheckPermission(value = {"system:user:add"}, mode = SaMode.OR)
-    public ActionResult addUser(@RequestBody UserEntityDto userDto) {
+    public CommonResult addUser(@RequestBody UserEntityDto userDto) {
         String userid = String.valueOf(YitIdHelper.nextId());
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userid);
@@ -117,7 +116,7 @@ public class UserController {
         for (String role : roles) {
             userService.insertRoleUser(String.valueOf(YitIdHelper.nextId()), role, userid);
         }
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @PostMapping("editUser")
@@ -130,84 +129,84 @@ public class UserController {
     @PostMapping("delUser/{id}")
     @Operation(summary = "删除用户信息")
     @SaCheckPermission(value = {"system:user:del"}, mode = SaMode.OR)
-    public ActionResult delUser(@PathVariable("id") String id) {
+    public CommonResult delUser(@PathVariable("id") String id) {
         if (CommonConst.SUPER_ADMIN.equals(id)) {
-            return ActionResult.failed("不允许删除超级管理员");
+            return CommonResult.failed("不允许删除超级管理员");
         }
-        return userService.delUser(id);
+        return CommonResult.success(userService.delUser(id));
     }
 
     @GetMapping("lock/{id}")
     @Operation(summary = "锁定用户")
-    public ActionResult lock(@PathVariable("id") String id) {
+    public CommonResult lock(@PathVariable("id") String id) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(id);
         userEntity.setStatus("1");
         userService.updateById(userEntity);
-        return ActionResult.success(ResultCodeEnum.A5203.getCode());
+        return CommonResult.success(ResultCodeEnum.A5203.getCode());
     }
 
     @GetMapping("unlock/{id}")
     @Operation(summary = "解锁用户")
-    public ActionResult unlock(@PathVariable("id") String id) {
+    public CommonResult unlock(@PathVariable("id") String id) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(id);
         userEntity.setStatus("0");
         userService.updateById(userEntity);
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @GetMapping("resetPwd/{id}")
     @Operation(summary = "重置密码")
-    public ActionResult resetPwd(@PathVariable("id") String id) {
+    public CommonResult resetPwd(@PathVariable("id") String id) {
         UserEntity userEntity = userService.getById(id);
         String md5Pwd = DigestUtil.md5Hex(userEntity.getUsername().toLowerCase() + "888888");
         userEntity.setPassword(md5Pwd);
         userService.updateById(userEntity);
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @PostMapping("updatePwd")
     @Operation(summary = "修改密码")
-    public ActionResult updatePwd(@RequestBody UserEntityDto userDto) {
+    public CommonResult updatePwd(@RequestBody UserEntityDto userDto) {
         UserEntity userEntity = new UserEntity();
         if (StrUtil.isEmpty(userDto.getId())) {
-            userDto.setId(currentUtil.getCurrentUserId());
+            userDto.setId(AuthUtils.getUserId());
         }
         userEntity.setId(userDto.getId());
         String md5Pwd = DigestUtil.md5Hex(userEntity.getUsername().toLowerCase() + userDto.getNPassword());
         userEntity.setPassword(md5Pwd);
         userService.updateById(userEntity);
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @PostMapping("checkPwd")
     @Operation(summary = "检验密码是否正确")
-    public ActionResult checkPwd(@RequestBody UserEntityDto userDto) {
+    public CommonResult checkPwd(@RequestBody UserEntityDto userDto) {
         if (StrUtil.isEmpty(userDto.getId())) {
-            userDto.setId(currentUtil.getCurrentUserId());
+            userDto.setId(AuthUtils.getUserId());
         }
         UserEntity userEntity = userService.getById(userDto.getId());
         String md5Pwd = DigestUtil.md5Hex(userDto.getUsername().toLowerCase() + userDto.getNPassword());
         if (!userEntity.getPassword().equals(md5Pwd)) {
-            return ActionResult.failed(ResultCodeEnum.A5210.getCode());
+            return CommonResult.failed(ResultCodeEnum.A5210.getMsg());
         }
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
     @PostMapping("updateAvatar")
     @Operation(summary = "更新用户头像")
-    public ActionResult updateAvatar(@RequestParam("file") MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public CommonResult updateAvatar(@RequestParam("file") MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         File file1 = ComUtil.multipartToFile(file);
         //上传图片
-        ActionResult result = OssUtil.getMinioOss(redisUtil).fileUpload(file1, false, currentUtil.getCurrentUserId());
-        if (result.getStatusCode().equals("200")) {
+        CommonResult result = OssUtil.getMinioOss(redisUtil).fileUpload(file1, false, AuthUtils.getUserId());
+        if (result.getCode() == 0) {
             //上传成功，头像用户头像
             UserEntity userEntity = new UserEntity();
             userEntity.setAvatar(result.getData().toString());
-            userEntity.setId(currentUtil.getCurrentUserId());
+            userEntity.setId(AuthUtils.getUserId());
             userService.updateById(userEntity);
-            return ActionResult.success(result.getData().toString());
+            return CommonResult.success(result.getData().toString());
         } else {
             return result;
         }
@@ -215,141 +214,141 @@ public class UserController {
 
     @GetMapping("queryUser")
     @Operation(summary = "查询当前用户")
-    public ActionResult queryUser() {
-        UserEntity userEntity = userService.getById(currentUtil.getCurrentUserId());
+    public CommonResult queryUser() {
+        UserEntity userEntity = userService.getById(AuthUtils.getUserId());
         UserEntity r = new UserEntity();
         r.setId(userEntity.getId());
         r.setEmail(StrUtil.hide(userEntity.getEmail(), 3, 5));
         r.setPhone(DesensitizedUtil.mobilePhone(userEntity.getPhone()));
         r.setNickName(userEntity.getNickName());
-        return ActionResult.success(r);
+        return CommonResult.success(r);
     }
 
     @PostMapping("updateUser")
     @Operation(summary = "更新用户信息")
-    public ActionResult updateUser(@RequestBody UserEntity userEntity) {
-        if (!userEntity.getId().equals(currentUtil.getCurrentUserId())) {
-            return ActionResult.failed("非法操作");
+    public CommonResult updateUser(@RequestBody UserEntity userEntity) {
+        if (!userEntity.getId().equals(AuthUtils.getUserId())) {
+            return CommonResult.failed("非法操作");
         }
-        return ActionResult.success(userService.updateById(userEntity));
+        return CommonResult.success(userService.updateById(userEntity));
     }
 
     @GetMapping("sendMsg")
     @Operation(summary = "发送消息")
-    public ActionResult sendMsg(@RequestParam("phone") String phone) {
+    public CommonResult sendMsg(@RequestParam("phone") String phone) {
         //判断是否和当前手机号一直
         UserEntity phoneUserEntity = new UserEntity();
         phoneUserEntity.setPhone(phone);
         if (userService.list(Wrappers.query(phoneUserEntity)).size() != 0) {
-            return ActionResult.failed("新手机号已注册，不能重复使用");
+            return CommonResult.failed("新手机号已注册，不能重复使用");
         }
 
-        String key = RedisConst.PHONE_UPDATE_CODE_STR + currentUtil.getCurrentUserId();
+        String key = RedisConst.PHONE_UPDATE_CODE_STR + AuthUtils.getUserId();
         //校验是否发送过短信以免重复发送60秒只能发送一次
         if (redisUtil.hasKey(key)) {
             Long seconds = redisUtil.getExpire(key);
             if (seconds > 0) {
-                return ActionResult.failed("已获取过短信，请等待" + seconds + "秒之后在获取");
+                return CommonResult.failed("已获取过短信，请等待" + seconds + "秒之后在获取");
             }
         }
         //获取四位随机数字
         String rom = cn.hutool.core.util.RandomUtil.randomNumbers(4);
         try {
-            redisUtil.set(RedisConst.PHONE_UPDATE_CODE_STR + currentUtil.getCurrentUserId(),
+            redisUtil.set(RedisConst.PHONE_UPDATE_CODE_STR + AuthUtils.getUserId(),
                     rom + "_" + phone, RedisConst.CODE_TIMEOUT);
         } catch (Exception e) {
-            return ActionResult.failed("发送失败：" + e.getMessage());
+            return CommonResult.failed("发送失败：" + e.getMessage());
         }
-        return ActionResult.failed("发送失败未配置相关信息");
+        return CommonResult.failed("发送失败未配置相关信息");
     }
 
     @GetMapping("updatePhone")
     @Operation(summary = "更新手机号")
-    public ActionResult updatePhone(@RequestParam("password") String password,
+    public CommonResult updatePhone(@RequestParam("password") String password,
                                     @RequestParam("code") String code) {
-        String key = RedisConst.PHONE_UPDATE_CODE_STR + currentUtil.getCurrentUserId();
+        String key = RedisConst.PHONE_UPDATE_CODE_STR + AuthUtils.getUserId();
         Object smsStr = redisUtil.get(key);
         if (null == smsStr) {
-            return ActionResult.failed("验证码错误");
+            return CommonResult.failed("验证码错误");
         }
         String smsCode = String.valueOf(smsStr).split("_")[0];
         String phone = String.valueOf(smsStr).split("_")[1];
         if (!code.equals(smsCode)) {
-            return ActionResult.failed("验证码错误");
+            return CommonResult.failed("验证码错误");
         }
-        UserEntity userEntityInfo = userService.getById(currentUtil.getCurrentUserId());
+        UserEntity userEntityInfo = userService.getById(AuthUtils.getUserId());
         String md5Pwd = DigestUtil.md5Hex(userEntityInfo.getUsername().toLowerCase() + password);
         if (!userEntityInfo.getPassword().equals(md5Pwd)) {
-            return ActionResult.failed(ResultCodeEnum.A5210.getCode());
+            return CommonResult.failed(ResultCodeEnum.A5210.getMsg());
         }
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(currentUtil.getCurrentUserId());
+        userEntity.setId(AuthUtils.getUserId());
         userEntity.setPhone(phone);
         userService.updateById(userEntity);
 
-        return ActionResult.success();
+        return CommonResult.success();
     }
 
 
     @GetMapping("sendEmail")
     @Operation(summary = "发送邮件")
-    public ActionResult sendEmail(@RequestParam("email") String email) {
+    public CommonResult sendEmail(@RequestParam("email") String email) {
         //判断是否和当前手机号一直
         UserEntity emailUserEntity = new UserEntity();
         emailUserEntity.setEmail(email);
         if (userService.list(Wrappers.query(emailUserEntity)).size() != 0) {
-            return ActionResult.failed("新邮箱已注册，不能重复使用");
+            return CommonResult.failed("新邮箱已注册，不能重复使用");
         }
 
-        String key = RedisConst.EMAIL_UPDATE_CODE_STR + currentUtil.getCurrentUserId();
+        String key = RedisConst.EMAIL_UPDATE_CODE_STR + AuthUtils.getUserId();
         //校验是否发送过短信以免重复发送60秒只能发送一次
         if (redisUtil.hasKey(key)) {
             Long seconds = redisUtil.getExpire(key);
             if (seconds > 0) {
-                return ActionResult.failed("已获取过验证码，请等待" + seconds + "秒之后在获取");
+                return CommonResult.failed("已获取过验证码，请等待" + seconds + "秒之后在获取");
             }
         }
         //获取四位随机数字
         String rom = cn.hutool.core.util.RandomUtil.randomNumbers(4);
         try {
-            ActionResult result = EmailUtil.getInstance(redisUtil)
+            CommonResult result = EmailUtil.getInstance(redisUtil)
                     .sendEmail("更换绑定邮箱地址", "验证码：" + rom,
                             new String[]{email}, true, null);
-            if (!result.getStatusCode().equals("200")) {
-                return ActionResult.failed("发送失败：" + result.getMessage());
+            if (result.getCode() == 1) {
+                return CommonResult.failed("发送失败：" + result.getMsg());
             }
         } catch (Exception e) {
-            return ActionResult.failed("发送失败：" + e.getMessage());
+            return CommonResult.failed("发送失败：" + e.getMessage());
         }
-        redisUtil.set(RedisConst.EMAIL_UPDATE_CODE_STR + currentUtil.getCurrentUserId(), rom + "_" + email, RedisConst.CODE_TIMEOUT);
-        return ActionResult.success();
+        redisUtil.set(RedisConst.EMAIL_UPDATE_CODE_STR + AuthUtils.getUserId(), rom + "_" + email, RedisConst.CODE_TIMEOUT);
+        return CommonResult.success();
     }
 
 
     @GetMapping("updateEmail")
     @Operation(summary = "更新邮箱")
-    public ActionResult updateEmail(@RequestParam("password") String password,
+    public CommonResult updateEmail(@RequestParam("password") String password,
                                     @RequestParam("code") String code) {
-        String key = RedisConst.EMAIL_UPDATE_CODE_STR + currentUtil.getCurrentUserId();
+        String key = RedisConst.EMAIL_UPDATE_CODE_STR + AuthUtils.getUserId();
         Object smsStr = redisUtil.get(key);
         if (null == smsStr) {
-            return ActionResult.failed(ResultCodeEnum.A5204.getCode());
+            return CommonResult.failed(ResultCodeEnum.A5204.getMsg());
         }
         String smsCode = String.valueOf(smsStr).split("_")[0];
         String email = String.valueOf(smsStr).split("_")[1];
         if (!code.equals(smsCode)) {
-            return ActionResult.failed(ResultCodeEnum.A5204.getCode());
+            return CommonResult.failed(ResultCodeEnum.A5204.getMsg());
         }
-        UserEntity userEntityInfo = userService.getById(currentUtil.getCurrentUserId());
+        UserEntity userEntityInfo = userService.getById(AuthUtils.getUserId());
         String md5Pwd = DigestUtil.md5Hex(userEntityInfo.getUsername().toLowerCase() + password);
         if (!userEntityInfo.getPassword().equals(md5Pwd)) {
-            return ActionResult.failed(ResultCodeEnum.A5210.getCode());
+            return CommonResult.failed(ResultCodeEnum.A5210.getMsg());
         }
         //验证成功开始更新数据
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(currentUtil.getCurrentUserId());
+        userEntity.setId(AuthUtils.getUserId());
         userEntity.setEmail(email);
         userService.updateById(userEntity);
-        return ActionResult.success();
+        return CommonResult.success();
     }
 }

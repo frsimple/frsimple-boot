@@ -10,8 +10,8 @@ import org.simple.constant.RedisConst;
 import org.simple.dto.FileDto;
 import org.simple.dto.OssDto;
 import org.simple.enums.system.ResultCodeEnum;
-import org.simple.utils.ActionResult;
 import org.simple.utils.ComUtil;
+import org.simple.utils.CommonResult;
 import org.simple.utils.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -64,7 +64,7 @@ public class MinioOss {
     }
 
 
-    public ActionResult<?> fileUpload(File file, boolean isPrivate, String userid) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public CommonResult fileUpload(File file, boolean isPrivate, String userid) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         MinioClient minioClient = getMinioClient();
         String fileName = file.getName();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,9 +87,9 @@ public class MinioOss {
         minioClient.putObject(args);
 
         if (isPrivate) {
-            return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
+            return CommonResult.success(ResultCodeEnum.SUCCESS.getCode(), path);
         } else {
-            return ActionResult.success(ResultCodeEnum.SUCCESS.getCode(), ossDto.getEndpoint() + "/" + ossDto.getWorkspace() + "/" + path);
+            return CommonResult.success(ResultCodeEnum.SUCCESS.getCode(), ossDto.getEndpoint() + "/" + ossDto.getWorkspace() + "/" + path);
         }
     }
 

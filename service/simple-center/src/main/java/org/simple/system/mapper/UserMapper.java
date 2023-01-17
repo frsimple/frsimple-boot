@@ -28,7 +28,7 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      */
     @Select("select t1.* from center_rolemenu t join center_menu t1 on t1.id = t.menu" +
             " where t.role in ( select  role from center_roleuser where  " +
-            "user  = #{userId}) and t1.type =#{menuType} order by t1.sort_index asc")
+            "user  = #{userId}) and t1.type =#{menuType} order by t1.sort asc")
     @Results({
             @Result(column = "meta", property = "meta", typeHandler = JacksonTypeHandler.class)
     })
@@ -42,9 +42,9 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      */
     @Select("select code from center_role t join center_roleuser t1 on t1.role = t.id" +
             " where t1.user= #{userId}")
-    @Results({
-            @Result(column = "meta", property = "meta", typeHandler = JacksonTypeHandler.class)
-    })
+//    @Results({
+//            @Result(column = "meta", property = "meta", typeHandler = JacksonTypeHandler.class)
+//    })
     List<String> getUserRole(@Param("userId") String userId);
 
 
