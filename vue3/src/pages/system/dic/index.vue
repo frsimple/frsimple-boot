@@ -8,6 +8,9 @@
               <t-row>
                 <t-col :span="6">
                   <t-button v-if="authAdd" @click="addRow">新增字典</t-button>
+                  <t-popconfirm content="是否确认立即刷新字典缓存 ?" @confirm="refCache">
+                    <t-button theme="default">刷新缓存</t-button>
+                  </t-popconfirm>
                 </t-col>
                 <t-col :span="6">
                   <t-row :gutter="10">
@@ -165,8 +168,10 @@ const firstFetch = async () => {
 const cacheLoad = ref(false);
 const refCache = async () => {
   cacheLoad.value = true;
+  MessagePlugin.loading('正在刷新中...');
   await refDictCache();
   cacheLoad.value = false;
+  MessagePlugin.closeAll();
   MessagePlugin.success('字典缓存刷新完成');
 };
 // 右侧菜单树形start
