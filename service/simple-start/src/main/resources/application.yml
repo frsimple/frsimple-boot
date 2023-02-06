@@ -9,15 +9,3 @@ spring:
       max-request-size: 100MB
 logging:
   config: classpath:logback.xml
-# 微信支付配置
-wxpay:
-  appid: wx20294eebb80a4135
-  appSecret: 
-  mchid: 
-  certPath: classpath:cert/apiclient_cert.pem
-  keyPath: classpath:cert/apiclient_key.pem
-  p12Path: classpath:cert/apiclient_cert.p12
-  apiv3key: 
-  mchserialno: 
-  notifyurl: https://shop.frsimple.cn/shop/wechat/open/api/jsapi
-  refnotifyurl: https://shop.frsimple.cn/shop/wechat/open/api/refjsapi
