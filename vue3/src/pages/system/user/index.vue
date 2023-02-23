@@ -729,7 +729,7 @@ const addRow = async () => {
   const res = await tenantAllList({
     searchValue: '',
   });
-  res.data.records.forEach((row1) => {
+  res.data.forEach((row1) => {
     tenantD.value.push({
       label: row1.name,
       value: row1.id,
