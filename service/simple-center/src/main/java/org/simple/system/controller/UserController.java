@@ -110,7 +110,7 @@ public class UserController {
         userEntity.setUsername(userDto.getUsername());
         userEntity.setOrgan(userDto.getOrgan());
         userService.save(userEntity);
-        userService.insertUserTenant(String.valueOf(YitIdHelper.nextId()), userEntity.getTenantId(), userid);
+        userService.insertUserTenant(String.valueOf(YitIdHelper.nextId()), userEntity.getTenant(), userid);
         //for循环插入用户角色关联关系数据
         String[] roles = userDto.getRoles().split(CommonConst.STRING_COMMA);
         for (String role : roles) {
