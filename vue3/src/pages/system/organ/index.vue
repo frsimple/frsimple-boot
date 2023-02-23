@@ -195,6 +195,7 @@ const onSubmit = async () => {
       name: tenantForm.name,
       parentId: tenantForm.parentId,
       sortIndex: tenantForm.sortIndex,
+      sort:tenantForm.sortIndex,
       tenantId: tenantForm.tenantId,
       id: null,
     };

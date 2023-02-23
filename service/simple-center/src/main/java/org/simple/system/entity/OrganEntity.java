@@ -33,4 +33,11 @@ public class OrganEntity extends BaseEntity {
     @Schema(description = "父节点id")
     @TableField("parent_id")
     private Long parentId;
+
+    /**
+     * 父节点id
+     */
+    @Schema(description = "排序")
+    @TableField("sort")
+    private Long sort;
 }
