@@ -10,17 +10,6 @@
 
 [vue3](https://gitee.com/frsimple/sview)
 
-#### simple中后台框架交流微信群 **_(获取初始化脚本)_**
-
-<div style="width:120px;text-align:center;" >扫码进入微信交流群</div>
-
-![](https://pengpengyu-test.oss-cn-zhangjiakou.aliyuncs.com/image/wx.jpg)
-
-<div style="width:120px;text-align:center;" >扫码进入QQ交流群</div>
-
-![](https://pengpengyu-test.oss-cn-zhangjiakou.aliyuncs.com/image/qq.jpg)
-
-
 
 #### 系统截图
 
