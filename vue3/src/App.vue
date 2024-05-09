@@ -1,16 +1,5 @@
-<template>
-  <t-watermark
-    :watermark-content="{
-      text: 'FrSimpleBoot',
-    }"
-    :width="120"
-    :height="60"
-    :y="120"
-    :x="80"
-    :z-index="1000"
-  >
-    <router-view :class="[mode]" />
-  </t-watermark>
+<template> 
+    <router-view :class="[mode]" /> 
 </template>
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
